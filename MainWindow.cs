@@ -23,7 +23,7 @@ namespace Pokemon_Simulator
         {
             InitializeComponent();
 
-            listBox1.Items.Add(new Alcremie());
+            PkmnList.Items.Add(new Alcremie());
 
             listForEnemy.Add(new Alcremie());
         }
@@ -39,7 +39,7 @@ namespace Pokemon_Simulator
             // What happens when u clcik the button.
 
             // FIll out our team
-            foreach(Pokemon pkmn in listBox2.Items)
+            foreach(Pokemon pkmn in PartyPkmn.Items)
             {
                 BattleData.AddPokemon(pkmn);
             }
@@ -66,25 +66,30 @@ namespace Pokemon_Simulator
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            selectedPokemon = (Pokemon) listBox1.SelectedItem;
+            selectedPokemon = (Pokemon) PkmnList.SelectedItem;
             if (partyPokemonCounter > 6)
             {
-                listBox2.SelectedItem = selectedPokemon;
+                PartyPkmn.SelectedItem = selectedPokemon;
             }
             else
             {
                 partyPokemonCounter++;
-                listBox2.Items.Add(listBox1.SelectedItem);
+                PartyPkmn.Items.Add(PkmnList.SelectedItem);
             }
         }
 
         private void listBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
             partyPokemonCounter--;
-            listBox2.Items.Remove(listBox2.SelectedItem);
+            PartyPkmn.Items.Remove(PartyPkmn.SelectedItem);
         }
 
         private void updateProfile(object sender, EventArgs e)
+        {
+
+        }
+
+        private void MainWindow_Load(object sender, EventArgs e)
         {
 
         }

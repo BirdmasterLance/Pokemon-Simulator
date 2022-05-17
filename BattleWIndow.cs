@@ -171,7 +171,7 @@ namespace Pokemon_Simulator.Properties
                 if (activeEnemyPokemon.currHealth > 0)
                 {
                     progressBar3.Value = (int) activePokemon.currHealth;
-                    PlayerHealth.Text = activePokemon.currHealth + "/" + activePokemon.health;
+                    PlayerHealth.Text = (int)activePokemon.currHealth + "/" + activePokemon.health;
                 }
                 else
                 {
