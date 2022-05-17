@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BattleWindow));
             this.progressBar2 = new System.Windows.Forms.ProgressBar();
             this.progressBar3 = new System.Windows.Forms.ProgressBar();
             this.Move1 = new System.Windows.Forms.Button();
@@ -46,7 +47,8 @@
             // 
             // progressBar2
             // 
-            this.progressBar2.Location = new System.Drawing.Point(825, 162);
+            this.progressBar2.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.progressBar2.Location = new System.Drawing.Point(818, 174);
             this.progressBar2.Name = "progressBar2";
             this.progressBar2.Size = new System.Drawing.Size(327, 28);
             this.progressBar2.TabIndex = 1;
@@ -54,7 +56,8 @@
             // 
             // progressBar3
             // 
-            this.progressBar3.Location = new System.Drawing.Point(45, 162);
+            this.progressBar3.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.progressBar3.Location = new System.Drawing.Point(38, 174);
             this.progressBar3.Name = "progressBar3";
             this.progressBar3.Size = new System.Drawing.Size(327, 28);
             this.progressBar3.TabIndex = 2;
@@ -62,9 +65,10 @@
             // 
             // Move1
             // 
+            this.Move1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.Move1.BackColor = System.Drawing.SystemColors.Control;
             this.Move1.Font = new System.Drawing.Font("Stencil", 15F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
-            this.Move1.Location = new System.Drawing.Point(3, 492);
+            this.Move1.Location = new System.Drawing.Point(7, 504);
             this.Move1.Name = "Move1";
             this.Move1.Size = new System.Drawing.Size(203, 70);
             this.Move1.TabIndex = 1;
@@ -74,8 +78,9 @@
             // 
             // Move2
             // 
+            this.Move2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.Move2.Font = new System.Drawing.Font("Stencil", 15F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
-            this.Move2.Location = new System.Drawing.Point(212, 492);
+            this.Move2.Location = new System.Drawing.Point(216, 504);
             this.Move2.Name = "Move2";
             this.Move2.Size = new System.Drawing.Size(203, 70);
             this.Move2.TabIndex = 2;
@@ -85,8 +90,9 @@
             // 
             // Move3
             // 
+            this.Move3.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.Move3.Font = new System.Drawing.Font("Stencil", 15F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
-            this.Move3.Location = new System.Drawing.Point(3, 568);
+            this.Move3.Location = new System.Drawing.Point(7, 580);
             this.Move3.Name = "Move3";
             this.Move3.Size = new System.Drawing.Size(203, 70);
             this.Move3.TabIndex = 3;
@@ -96,8 +102,9 @@
             // 
             // Move4
             // 
+            this.Move4.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.Move4.Font = new System.Drawing.Font("Stencil", 15F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
-            this.Move4.Location = new System.Drawing.Point(214, 568);
+            this.Move4.Location = new System.Drawing.Point(218, 580);
             this.Move4.Name = "Move4";
             this.Move4.Size = new System.Drawing.Size(203, 70);
             this.Move4.TabIndex = 4;
@@ -107,9 +114,10 @@
             // 
             // EnemyName
             // 
+            this.EnemyName.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.EnemyName.AutoSize = true;
             this.EnemyName.Font = new System.Drawing.Font("Stencil", 15F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
-            this.EnemyName.Location = new System.Drawing.Point(820, 129);
+            this.EnemyName.Location = new System.Drawing.Point(813, 141);
             this.EnemyName.Name = "EnemyName";
             this.EnemyName.Size = new System.Drawing.Size(232, 30);
             this.EnemyName.TabIndex = 0;
@@ -117,9 +125,11 @@
             // 
             // PlayerPokemon
             // 
+            this.PlayerPokemon.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.PlayerPokemon.AutoSize = true;
+            this.PlayerPokemon.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.PlayerPokemon.Font = new System.Drawing.Font("Stencil", 15F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
-            this.PlayerPokemon.Location = new System.Drawing.Point(40, 129);
+            this.PlayerPokemon.Location = new System.Drawing.Point(33, 141);
             this.PlayerPokemon.Name = "PlayerPokemon";
             this.PlayerPokemon.Size = new System.Drawing.Size(242, 30);
             this.PlayerPokemon.TabIndex = 0;
@@ -127,9 +137,10 @@
             // 
             // PlayerHealth
             // 
+            this.PlayerHealth.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.PlayerHealth.AutoSize = true;
             this.PlayerHealth.Font = new System.Drawing.Font("Stencil", 15F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
-            this.PlayerHealth.Location = new System.Drawing.Point(270, 193);
+            this.PlayerHealth.Location = new System.Drawing.Point(263, 205);
             this.PlayerHealth.Name = "PlayerHealth";
             this.PlayerHealth.Size = new System.Drawing.Size(111, 30);
             this.PlayerHealth.TabIndex = 9;
@@ -137,9 +148,10 @@
             // 
             // label3
             // 
+            this.label3.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F);
-            this.label3.Location = new System.Drawing.Point(615, 375);
+            this.label3.Location = new System.Drawing.Point(608, 387);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(86, 31);
             this.label3.TabIndex = 15;
@@ -147,7 +159,11 @@
             // 
             // enemyPokemonImage
             // 
-            this.enemyPokemonImage.Location = new System.Drawing.Point(1042, 217);
+            this.enemyPokemonImage.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.enemyPokemonImage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.enemyPokemonImage.Location = new System.Drawing.Point(1035, 229);
+            this.enemyPokemonImage.MaximumSize = new System.Drawing.Size(100, 160);
+            this.enemyPokemonImage.MinimumSize = new System.Drawing.Size(100, 160);
             this.enemyPokemonImage.Name = "enemyPokemonImage";
             this.enemyPokemonImage.Size = new System.Drawing.Size(100, 160);
             this.enemyPokemonImage.TabIndex = 11;
@@ -155,7 +171,9 @@
             // 
             // playerPokemonImage
             // 
-            this.playerPokemonImage.Location = new System.Drawing.Point(45, 217);
+            this.playerPokemonImage.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.playerPokemonImage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.playerPokemonImage.Location = new System.Drawing.Point(38, 229);
             this.playerPokemonImage.Name = "playerPokemonImage";
             this.playerPokemonImage.Size = new System.Drawing.Size(100, 160);
             this.playerPokemonImage.TabIndex = 10;
@@ -166,9 +184,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.BackgroundImage = global::Pokemon_Simulator.Properties.Resources.Downtown_Planeptune_RB1;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(1329, 641);
+            this.ClientSize = new System.Drawing.Size(1322, 653);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.enemyPokemonImage);
             this.Controls.Add(this.playerPokemonImage);
@@ -181,6 +199,7 @@
             this.Controls.Add(this.Move1);
             this.Controls.Add(this.progressBar3);
             this.Controls.Add(this.progressBar2);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "BattleWindow";
             this.Text = "Battle";
             this.Load += new System.EventHandler(this.BattleWindow_Load);

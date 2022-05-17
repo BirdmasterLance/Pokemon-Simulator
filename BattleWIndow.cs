@@ -55,6 +55,7 @@ namespace Pokemon_Simulator.Properties
             enemyPokemonImage.SizeMode = PictureBoxSizeMode.Zoom;
             Image enemyImage = Image.FromFile(AppDomain.CurrentDomain.BaseDirectory + activeEnemyPokemon.imageDirectory);
             enemyPokemonImage.Image = enemyImage;
+            //TODO: Event for Image Resizing.(Scaling)
         }
 
         private void Move1_Click(object sender, EventArgs e)
