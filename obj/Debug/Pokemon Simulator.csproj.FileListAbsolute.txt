@@ -1,0 +1,12 @@
+C:\Users\Huu\source\repos\Pokemon Simulator\Pokemon Simulator\bin\Debug\Pokemon Simulator.exe.config
+C:\Users\Huu\source\repos\Pokemon Simulator\Pokemon Simulator\bin\Debug\Pokemon Simulator.exe
+C:\Users\Huu\source\repos\Pokemon Simulator\Pokemon Simulator\bin\Debug\Pokemon Simulator.pdb
+C:\Users\Huu\source\repos\Pokemon Simulator\Pokemon Simulator\obj\Debug\Pokemon Simulator.csproj.AssemblyReference.cache
+C:\Users\Huu\source\repos\Pokemon Simulator\Pokemon Simulator\obj\Debug\Pokemon Simulator.csproj.SuggestedBindingRedirects.cache
+C:\Users\Huu\source\repos\Pokemon Simulator\Pokemon Simulator\obj\Debug\Pokemon_Simulator.Properties.Resources.resources
+C:\Users\Huu\source\repos\Pokemon Simulator\Pokemon Simulator\obj\Debug\Pokemon Simulator.csproj.GenerateResource.cache
+C:\Users\Huu\source\repos\Pokemon Simulator\Pokemon Simulator\obj\Debug\Pokemon Simulator.csproj.CoreCompileInputs.cache
+C:\Users\Huu\source\repos\Pokemon Simulator\Pokemon Simulator\obj\Debug\Pokemon Simulator.exe
+C:\Users\Huu\source\repos\Pokemon Simulator\Pokemon Simulator\obj\Debug\Pokemon Simulator.pdb
+C:\Users\Huu\source\repos\Pokemon Simulator\Pokemon Simulator\obj\Debug\Pokemon_Simulator.MainWindow.resources
+C:\Users\Huu\source\repos\Pokemon Simulator\Pokemon Simulator\obj\Debug\Pokemon_Simulator.Properties.BattleWindow.resources
