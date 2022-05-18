@@ -24,8 +24,12 @@ namespace Pokemon_Simulator
             InitializeComponent();
 
             PkmnList.Items.Add(new Alcremie());
+            PkmnList.Items.Add(new Garou());
+            PkmnList.Items.Add(new Kasane());
 
             listForEnemy.Add(new Alcremie());
+            listForEnemy.Add(new Garou());
+            listForEnemy.Add(new Kasane());
         }
 
 

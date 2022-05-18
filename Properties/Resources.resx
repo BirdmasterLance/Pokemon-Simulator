@@ -121,7 +121,31 @@
   <data name="3723203" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\3723203.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Alcremie_Battle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Alcremie_Battle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Braxien_Battle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Braxien_Battle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Downtown_Planeptune_RB1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\downtown_planeptune_rb1.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Garou_Battle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Garou_Battle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Gudako_Battle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Gudako_Battle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Kasane_Battle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Kasane_Battle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Kogami_Battle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Kogami_Battle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Mash_Battle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Mash_Battle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Roserade_Battle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Roserade_Battle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

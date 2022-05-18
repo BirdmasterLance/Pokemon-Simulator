@@ -8,11 +8,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Forms;
+using System.Resources;
+using System.IO;
 
 namespace Pokemon_Simulator.Properties
 {
     public partial class BattleWindow : Form
     {
+
+        ComponentResourceManager resources = new ComponentResourceManager(typeof(BattleWindow));
 
         Pokemon activePokemon;
         Pokemon activeEnemyPokemon;
@@ -33,29 +37,53 @@ namespace Pokemon_Simulator.Properties
         {
             // probs change the text of the buttons here H
             activePokemon = BattleData.pokemonList[0];
-            moves = activePokemon.moves;
-            Move1.Text = moves[0].moveName + '\n' + moves[0].pp.ToString() + "/" + moves[0].maxPP.ToString();
-            Move2.Text = moves[1].moveName + '\n' + moves[1].pp.ToString() + "/" + moves[1].maxPP.ToString();
-            Move3.Text = moves[2].moveName + '\n' + moves[2].pp.ToString() + "/" + moves[2].maxPP.ToString();
-            Move4.Text = moves[3].moveName + '\n' + moves[3].pp.ToString() + "/" + moves[3].maxPP.ToString();
-            PlayerPokemon.Text = activePokemon.name;
-            progressBar3.Maximum = (int) activePokemon.health;
-            progressBar3.Value = (int) activePokemon.currHealth;
-            PlayerHealth.Text = activePokemon.currHealth + "/" + activePokemon.health;
+            moves = activePokemon.moves;            
+            LoadPlayerPokemonIntoBattle(activePokemon); 
+
+            activeEnemyPokemon = BattleData.enemyList[0];
+            LoadEnemyPokemonIntoBattle(activeEnemyPokemon);
+            if (activePokemon.name.Equals("Alcremie")) 
+            {
+            playerPokemonName.ForeColor= System.Drawing.SystemColors.Control;
+            }
+            //TODO: Event for Image Resizing.(Scaling) Item re-placeement depenign on the screen size.
+        }
+
+        private void LoadPlayerPokemonIntoBattle(Pokemon pokemon)
+        {
+            playerPokemonName.Text = pokemon.displayName;
+            playerHealthBar.Maximum = (int)pokemon.health;
+            playerHealthBar.Value = (int)pokemon.currHealth;
+            playerHealthText.Text = activePokemon.currHealth + "/" + activePokemon.health;
 
             playerPokemonImage.SizeMode = PictureBoxSizeMode.Zoom;
-            //Since u may need pc boxes After u do stff 
-            playerPokemonImage.Load(AppDomain.CurrentDomain.BaseDirectory + activePokemon.imageDirectory);//Try this?
-            //
-            activeEnemyPokemon = BattleData.enemyList[0];
-            EnemyName.Text = activeEnemyPokemon.name;
-            progressBar2.Maximum = (int) activeEnemyPokemon.health;
-            progressBar2.Value = (int) activeEnemyPokemon.currHealth;
-            //Use any method 
+            // Get the directory of the actual project, then get the resources folder
+            playerPokemonImage.Image = Image.FromFile(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName
+                + @"\Pokemon-Simulator\Resources\" + pokemon.name + "_Battle.png");
+
+            // Load their moves too
+            LoadPlayerMoves(moves);
+        }
+
+        private void LoadPlayerMoves(List<Move> moves)
+        {
+            // If they have less than 4 moves, make sure we are not trying to access elements that don't exist
+            if(moves.Count >= 1) Move1.Text = moves[0].moveName + '\n' + moves[0].pp.ToString() + "/" + moves[0].maxPP.ToString();
+            if(moves.Count >= 2) Move2.Text = moves[1].moveName + '\n' + moves[1].pp.ToString() + "/" + moves[1].maxPP.ToString();
+            if(moves.Count >= 3) Move3.Text = moves[2].moveName + '\n' + moves[2].pp.ToString() + "/" + moves[2].maxPP.ToString();
+            if(moves.Count >= 4) Move4.Text = moves[3].moveName + '\n' + moves[3].pp.ToString() + "/" + moves[3].maxPP.ToString();
+        }
+
+        private void LoadEnemyPokemonIntoBattle(Pokemon pokemon)
+        {
+            enemyPokemonName.Text = pokemon.displayName;
+            enemyHealthBar.Maximum = (int)pokemon.health;
+            enemyHealthBar.Value = (int)pokemon.currHealth;
+
             enemyPokemonImage.SizeMode = PictureBoxSizeMode.Zoom;
-            Image enemyImage = Image.FromFile(AppDomain.CurrentDomain.BaseDirectory + activeEnemyPokemon.imageDirectory);
-            enemyPokemonImage.Image = enemyImage;
-            //TODO: Event for Image Resizing.(Scaling)
+            // Get the directory of the actual project, then get the resources folder
+            enemyPokemonImage.Image = Image.FromFile(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName
+                + @"\Pokemon-Simulator\Resources\" + pokemon.name + "_Battle.png");
         }
 
         private void Move1_Click(object sender, EventArgs e)
@@ -136,11 +164,11 @@ namespace Pokemon_Simulator.Properties
                 int damage = activePokemon.UseMove(moves[move], activeEnemyPokemon);
                 if (activeEnemyPokemon.currHealth > 0)
                 {
-                    progressBar2.Value = (int) activeEnemyPokemon.currHealth;
+                    enemyHealthBar.Value = (int) activeEnemyPokemon.currHealth;
                 }
                 else
                 {
-                    progressBar2.Value = 0;
+                    enemyHealthBar.Value = 0;
                 }
             }
             else
@@ -148,11 +176,11 @@ namespace Pokemon_Simulator.Properties
                 int damage = activePokemon.UseMove(new Struggle(activePokemon), activeEnemyPokemon);
                 if (activeEnemyPokemon.currHealth > 0)
                 {
-                    progressBar2.Value = (int) activeEnemyPokemon.currHealth;
+                    enemyHealthBar.Value = (int) activeEnemyPokemon.currHealth;
                 }
                 else
                 {
-                    progressBar2.Value = 0;
+                    enemyHealthBar.Value = 0;
                 }
             }
 
@@ -171,13 +199,13 @@ namespace Pokemon_Simulator.Properties
                 label3.Text = activeEnemyPokemon.health.ToString() + " " + activeEnemyPokemon.currHealth.ToString() + " " + damage;
                 if (activeEnemyPokemon.currHealth > 0)
                 {
-                    progressBar3.Value = (int) activePokemon.currHealth;
-                    PlayerHealth.Text = (int)activePokemon.currHealth + "/" + activePokemon.health;
+                    playerHealthBar.Value = (int) activePokemon.currHealth;
+                    playerHealthText.Text = (int)activePokemon.currHealth + "/" + activePokemon.health;
                 }
                 else
                 {
-                    progressBar3.Value = 0;
-                    PlayerHealth.Text = "0/" + activePokemon.health;
+                    playerHealthBar.Value = 0;
+                    playerHealthText.Text = "0/" + activePokemon.health;
 
                 }
             }
@@ -186,13 +214,13 @@ namespace Pokemon_Simulator.Properties
                 int damage = activeEnemyPokemon.UseMove(new Struggle(activeEnemyPokemon), activePokemon);
                 if (activeEnemyPokemon.currHealth > 0)
                 {
-                    progressBar3.Value = (int) activePokemon.currHealth;
-                    PlayerHealth.Text = activePokemon.currHealth + "/" + activePokemon.health;
+                    playerHealthBar.Value = (int) activePokemon.currHealth;
+                    playerHealthText.Text = activePokemon.currHealth + "/" + activePokemon.health;
                 }
                 else
                 {
-                    progressBar3.Value = 0;
-                    PlayerHealth.Text = "0/" + activePokemon.health;
+                    playerHealthBar.Value = 0;
+                    playerHealthText.Text = "0/" + activePokemon.health;
 
                 }
             }

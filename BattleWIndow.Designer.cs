@@ -29,15 +29,15 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BattleWindow));
-            this.progressBar2 = new System.Windows.Forms.ProgressBar();
-            this.progressBar3 = new System.Windows.Forms.ProgressBar();
+            this.enemyHealthBar = new System.Windows.Forms.ProgressBar();
+            this.playerHealthBar = new System.Windows.Forms.ProgressBar();
             this.Move1 = new System.Windows.Forms.Button();
             this.Move2 = new System.Windows.Forms.Button();
             this.Move3 = new System.Windows.Forms.Button();
             this.Move4 = new System.Windows.Forms.Button();
-            this.EnemyName = new System.Windows.Forms.Label();
-            this.PlayerPokemon = new System.Windows.Forms.Label();
-            this.PlayerHealth = new System.Windows.Forms.Label();
+            this.enemyPokemonName = new System.Windows.Forms.Label();
+            this.playerPokemonName = new System.Windows.Forms.Label();
+            this.playerHealthText = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.enemyPokemonImage = new System.Windows.Forms.PictureBox();
             this.playerPokemonImage = new System.Windows.Forms.PictureBox();
@@ -45,29 +45,29 @@
             ((System.ComponentModel.ISupportInitialize)(this.playerPokemonImage)).BeginInit();
             this.SuspendLayout();
             // 
-            // progressBar2
+            // enemyHealthBar
             // 
-            this.progressBar2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.progressBar2.Location = new System.Drawing.Point(818, 174);
-            this.progressBar2.Name = "progressBar2";
-            this.progressBar2.Size = new System.Drawing.Size(327, 28);
-            this.progressBar2.TabIndex = 1;
-            this.progressBar2.Value = 100;
+            this.enemyHealthBar.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.enemyHealthBar.Location = new System.Drawing.Point(818, 174);
+            this.enemyHealthBar.Name = "enemyHealthBar";
+            this.enemyHealthBar.Size = new System.Drawing.Size(327, 28);
+            this.enemyHealthBar.TabIndex = 1;
+            this.enemyHealthBar.Value = 100;
             // 
-            // progressBar3
+            // playerHealthBar
             // 
-            this.progressBar3.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.progressBar3.Location = new System.Drawing.Point(38, 174);
-            this.progressBar3.Name = "progressBar3";
-            this.progressBar3.Size = new System.Drawing.Size(327, 28);
-            this.progressBar3.TabIndex = 2;
-            this.progressBar3.Value = 50;
+            this.playerHealthBar.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.playerHealthBar.Location = new System.Drawing.Point(38, 174);
+            this.playerHealthBar.Name = "playerHealthBar";
+            this.playerHealthBar.Size = new System.Drawing.Size(327, 28);
+            this.playerHealthBar.TabIndex = 2;
+            this.playerHealthBar.Value = 50;
             // 
             // Move1
             // 
             this.Move1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.Move1.BackColor = System.Drawing.SystemColors.Control;
-            this.Move1.Font = new System.Drawing.Font("Stencil", 15F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
+            this.Move1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
             this.Move1.Location = new System.Drawing.Point(7, 504);
             this.Move1.Name = "Move1";
             this.Move1.Size = new System.Drawing.Size(203, 70);
@@ -79,7 +79,7 @@
             // Move2
             // 
             this.Move2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.Move2.Font = new System.Drawing.Font("Stencil", 15F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
+            this.Move2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
             this.Move2.Location = new System.Drawing.Point(216, 504);
             this.Move2.Name = "Move2";
             this.Move2.Size = new System.Drawing.Size(203, 70);
@@ -91,7 +91,7 @@
             // Move3
             // 
             this.Move3.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.Move3.Font = new System.Drawing.Font("Stencil", 15F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
+            this.Move3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
             this.Move3.Location = new System.Drawing.Point(7, 580);
             this.Move3.Name = "Move3";
             this.Move3.Size = new System.Drawing.Size(203, 70);
@@ -103,7 +103,7 @@
             // Move4
             // 
             this.Move4.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.Move4.Font = new System.Drawing.Font("Stencil", 15F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
+            this.Move4.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
             this.Move4.Location = new System.Drawing.Point(218, 580);
             this.Move4.Name = "Move4";
             this.Move4.Size = new System.Drawing.Size(203, 70);
@@ -112,39 +112,39 @@
             this.Move4.UseVisualStyleBackColor = true;
             this.Move4.Click += new System.EventHandler(this.Move4_Click);
             // 
-            // EnemyName
+            // enemyPokemonName
             // 
-            this.EnemyName.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.EnemyName.AutoSize = true;
-            this.EnemyName.Font = new System.Drawing.Font("Stencil", 15F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
-            this.EnemyName.Location = new System.Drawing.Point(813, 141);
-            this.EnemyName.Name = "EnemyName";
-            this.EnemyName.Size = new System.Drawing.Size(232, 30);
-            this.EnemyName.TabIndex = 0;
-            this.EnemyName.Text = "Enemy Pokemon";
+            this.enemyPokemonName.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.enemyPokemonName.AutoSize = true;
+            this.enemyPokemonName.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
+            this.enemyPokemonName.Location = new System.Drawing.Point(813, 141);
+            this.enemyPokemonName.Name = "enemyPokemonName";
+            this.enemyPokemonName.Size = new System.Drawing.Size(221, 29);
+            this.enemyPokemonName.TabIndex = 0;
+            this.enemyPokemonName.Text = "Enemy Pokemon";
             // 
-            // PlayerPokemon
+            // playerPokemonName
             // 
-            this.PlayerPokemon.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.PlayerPokemon.AutoSize = true;
-            this.PlayerPokemon.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.PlayerPokemon.Font = new System.Drawing.Font("Stencil", 15F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
-            this.PlayerPokemon.Location = new System.Drawing.Point(33, 141);
-            this.PlayerPokemon.Name = "PlayerPokemon";
-            this.PlayerPokemon.Size = new System.Drawing.Size(242, 30);
-            this.PlayerPokemon.TabIndex = 0;
-            this.PlayerPokemon.Text = "Player Pokemon";
+            this.playerPokemonName.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.playerPokemonName.AutoSize = true;
+            this.playerPokemonName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.playerPokemonName.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
+            this.playerPokemonName.Location = new System.Drawing.Point(33, 141);
+            this.playerPokemonName.Name = "playerPokemonName";
+            this.playerPokemonName.Size = new System.Drawing.Size(214, 29);
+            this.playerPokemonName.TabIndex = 0;
+            this.playerPokemonName.Text = "Player Pokemon";
             // 
-            // PlayerHealth
+            // playerHealthText
             // 
-            this.PlayerHealth.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.PlayerHealth.AutoSize = true;
-            this.PlayerHealth.Font = new System.Drawing.Font("Stencil", 15F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
-            this.PlayerHealth.Location = new System.Drawing.Point(263, 205);
-            this.PlayerHealth.Name = "PlayerHealth";
-            this.PlayerHealth.Size = new System.Drawing.Size(111, 30);
-            this.PlayerHealth.TabIndex = 9;
-            this.PlayerHealth.Text = "50 / 100";
+            this.playerHealthText.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.playerHealthText.AutoSize = true;
+            this.playerHealthText.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
+            this.playerHealthText.Location = new System.Drawing.Point(263, 205);
+            this.playerHealthText.Name = "playerHealthText";
+            this.playerHealthText.Size = new System.Drawing.Size(112, 29);
+            this.playerHealthText.TabIndex = 9;
+            this.playerHealthText.Text = "50 / 100";
             // 
             // label3
             // 
@@ -190,15 +190,15 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.enemyPokemonImage);
             this.Controls.Add(this.playerPokemonImage);
-            this.Controls.Add(this.PlayerHealth);
-            this.Controls.Add(this.PlayerPokemon);
-            this.Controls.Add(this.EnemyName);
+            this.Controls.Add(this.playerHealthText);
+            this.Controls.Add(this.playerPokemonName);
+            this.Controls.Add(this.enemyPokemonName);
             this.Controls.Add(this.Move4);
             this.Controls.Add(this.Move3);
             this.Controls.Add(this.Move2);
             this.Controls.Add(this.Move1);
-            this.Controls.Add(this.progressBar3);
-            this.Controls.Add(this.progressBar2);
+            this.Controls.Add(this.playerHealthBar);
+            this.Controls.Add(this.enemyHealthBar);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "BattleWindow";
             this.Text = "Battle";
@@ -211,15 +211,15 @@
         }
 
         #endregion
-        private System.Windows.Forms.ProgressBar progressBar2;
-        private System.Windows.Forms.ProgressBar progressBar3;
+        private System.Windows.Forms.ProgressBar enemyHealthBar;
+        private System.Windows.Forms.ProgressBar playerHealthBar;
         private System.Windows.Forms.Button Move1;
         private System.Windows.Forms.Button Move2;
         private System.Windows.Forms.Button Move4;
         private System.Windows.Forms.Button Move3;
-        private System.Windows.Forms.Label EnemyName;
-        private System.Windows.Forms.Label PlayerPokemon;
-        private System.Windows.Forms.Label PlayerHealth;
+        private System.Windows.Forms.Label enemyPokemonName;
+        private System.Windows.Forms.Label playerPokemonName;
+        private System.Windows.Forms.Label playerHealthText;
         private System.Windows.Forms.PictureBox playerPokemonImage;
         private System.Windows.Forms.PictureBox enemyPokemonImage;
         private System.Windows.Forms.Label label3;

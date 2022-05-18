@@ -11,6 +11,7 @@ namespace Pokemon_Simulator.PokemonClasses
         public Alcremie()
         {
             name = "Alcremie";
+            displayName = "Alcremie";
             level = 50;
             health = 125;
             attack = 58;
@@ -20,7 +21,6 @@ namespace Pokemon_Simulator.PokemonClasses
             speed = 62;
             type1 = "Fairy";
             type2 = "None";
-            imageDirectory = "\\Images\\alcremie.png";
 
             currHealth = health;
             currDefense = defense;

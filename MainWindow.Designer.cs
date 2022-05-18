@@ -49,7 +49,7 @@
             this.BTStart.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.BTStart.BackColor = System.Drawing.Color.LightSkyBlue;
             this.BTStart.Cursor = System.Windows.Forms.Cursors.Default;
-            this.BTStart.Font = new System.Drawing.Font("Stencil", 19.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BTStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BTStart.ForeColor = System.Drawing.Color.MidnightBlue;
             this.BTStart.Location = new System.Drawing.Point(991, 408);
             this.BTStart.Name = "BTStart";
@@ -61,7 +61,7 @@
             // 
             // PkmnList
             // 
-            this.PkmnList.Font = new System.Drawing.Font("Stencil", 10.2F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PkmnList.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PkmnList.FormattingEnabled = true;
             this.PkmnList.ItemHeight = 20;
             this.PkmnList.Location = new System.Drawing.Point(82, 87);
@@ -75,17 +75,17 @@
             // 
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.LightSeaGreen;
-            this.label1.Font = new System.Drawing.Font("Stencil", 19.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
             this.label1.Location = new System.Drawing.Point(58, 33);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(260, 39);
+            this.label1.Size = new System.Drawing.Size(227, 38);
             this.label1.TabIndex = 5;
             this.label1.Text = "Pokemon List";
             // 
             // PartyPkmn
             // 
             this.PartyPkmn.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.PartyPkmn.Font = new System.Drawing.Font("Stencil", 10.2F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PartyPkmn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PartyPkmn.FormattingEnabled = true;
             this.PartyPkmn.ItemHeight = 20;
             this.PartyPkmn.Location = new System.Drawing.Point(394, 87);
@@ -100,10 +100,10 @@
             // 
             this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.Color.LightSeaGreen;
-            this.label2.Font = new System.Drawing.Font("Stencil", 19.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
             this.label2.Location = new System.Drawing.Point(361, 33);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(296, 39);
+            this.label2.Size = new System.Drawing.Size(254, 38);
             this.label2.TabIndex = 7;
             this.label2.Text = "Party Pokemon";
             // 
@@ -124,11 +124,11 @@
             this.LblName.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.LblName.AutoSize = true;
             this.LblName.BackColor = System.Drawing.Color.CadetBlue;
-            this.LblName.Font = new System.Drawing.Font("Stencil", 19.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
+            this.LblName.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
             this.LblName.ForeColor = System.Drawing.Color.LightCyan;
             this.LblName.Location = new System.Drawing.Point(880, 275);
             this.LblName.Name = "LblName";
-            this.LblName.Size = new System.Drawing.Size(87, 39);
+            this.LblName.Size = new System.Drawing.Size(85, 38);
             this.LblName.TabIndex = 9;
             this.LblName.Text = "咪咪";
             // 
@@ -137,11 +137,11 @@
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label3.AutoSize = true;
             this.label3.BackColor = System.Drawing.Color.CadetBlue;
-            this.label3.Font = new System.Drawing.Font("Stencil", 19.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
             this.label3.ForeColor = System.Drawing.Color.LightCyan;
             this.label3.Location = new System.Drawing.Point(813, 315);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(257, 39);
+            this.label3.Size = new System.Drawing.Size(241, 38);
             this.label3.TabIndex = 9;
             this.label3.Text = "\"お腹が空くです“";
             // 
@@ -163,17 +163,17 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(140, 408);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(46, 17);
+            this.label5.Size = new System.Drawing.Size(44, 16);
             this.label5.TabIndex = 10;
             this.label5.Text = "label4";
             // 
             // LblHP
             // 
             this.LblHP.AutoSize = true;
-            this.LblHP.Font = new System.Drawing.Font("Stencil", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblHP.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LblHP.Location = new System.Drawing.Point(6, 44);
             this.LblHP.Name = "LblHP";
-            this.LblHP.Size = new System.Drawing.Size(54, 29);
+            this.LblHP.Size = new System.Drawing.Size(52, 29);
             this.LblHP.TabIndex = 10;
             this.LblHP.Text = "HP:";
             // 
@@ -181,7 +181,7 @@
             // 
             this.GbTats.BackColor = System.Drawing.Color.CadetBlue;
             this.GbTats.Controls.Add(this.LblHP);
-            this.GbTats.Font = new System.Drawing.Font("Stencil", 13.8F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.GbTats.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.GbTats.Location = new System.Drawing.Point(1069, 33);
             this.GbTats.Name = "GbTats";
             this.GbTats.Size = new System.Drawing.Size(320, 240);

@@ -8,7 +8,8 @@ namespace Pokemon_Simulator
 {
     internal abstract class Pokemon
     {
-        public string name;
+        public string name; // The internal name used for files
+        public string displayName; // The name to be shown in the application
         public int level;
 
         public double health;
@@ -34,7 +35,8 @@ namespace Pokemon_Simulator
 
         public List<Move> moves;
 
-        public string imageDirectory;
+        // For the main menu
+        public string slogan;
 
         public Pokemon()
         {
@@ -77,7 +79,7 @@ namespace Pokemon_Simulator
 
         public override string ToString()
         {
-            return name;
+            return displayName;
         }
     }
 }
