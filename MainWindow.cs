@@ -67,21 +67,28 @@ namespace Pokemon_Simulator
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             selectedPokemon = (Pokemon) PkmnList.SelectedItem;
-            if (partyPokemonCounter > 6)
+            if (partyPokemonCounter >= 6)
             {
                 PartyPkmn.SelectedItem = selectedPokemon;
             }
             else
             {
                 partyPokemonCounter++;
+                if(PkmnList.SelectedItem != null) { 
                 PartyPkmn.Items.Add(PkmnList.SelectedItem);
+                }
             }
+            label5.Text = partyPokemonCounter.ToString(); ;
         }
 
         private void listBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            partyPokemonCounter--;
-            PartyPkmn.Items.Remove(PartyPkmn.SelectedItem);
+            if (PartyPkmn.SelectedItem != null)
+            {
+
+                partyPokemonCounter--;
+                PartyPkmn.Items.Remove(PartyPkmn.SelectedItem);
+            }
         }
 
         private void updateProfile(object sender, EventArgs e)

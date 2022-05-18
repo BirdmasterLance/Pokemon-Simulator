@@ -78,7 +78,7 @@
             this.label1.Font = new System.Drawing.Font("Stencil", 19.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
             this.label1.Location = new System.Drawing.Point(58, 33);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(269, 40);
+            this.label1.Size = new System.Drawing.Size(260, 39);
             this.label1.TabIndex = 5;
             this.label1.Text = "Pokemon List";
             // 
@@ -103,7 +103,7 @@
             this.label2.Font = new System.Drawing.Font("Stencil", 19.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
             this.label2.Location = new System.Drawing.Point(361, 33);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(307, 40);
+            this.label2.Size = new System.Drawing.Size(296, 39);
             this.label2.TabIndex = 7;
             this.label2.Text = "Party Pokemon";
             // 
@@ -128,7 +128,7 @@
             this.LblName.ForeColor = System.Drawing.Color.LightCyan;
             this.LblName.Location = new System.Drawing.Point(880, 275);
             this.LblName.Name = "LblName";
-            this.LblName.Size = new System.Drawing.Size(91, 40);
+            this.LblName.Size = new System.Drawing.Size(87, 39);
             this.LblName.TabIndex = 9;
             this.LblName.Text = "咪咪";
             // 
@@ -141,7 +141,7 @@
             this.label3.ForeColor = System.Drawing.Color.LightCyan;
             this.label3.Location = new System.Drawing.Point(813, 315);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(268, 40);
+            this.label3.Size = new System.Drawing.Size(257, 39);
             this.label3.TabIndex = 9;
             this.label3.Text = "\"お腹が空くです“";
             // 
@@ -161,7 +161,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(677, 338);
+            this.label5.Location = new System.Drawing.Point(140, 408);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(46, 17);
             this.label5.TabIndex = 10;
