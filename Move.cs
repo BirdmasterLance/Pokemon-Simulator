@@ -9,6 +9,7 @@ namespace Pokemon_Simulator
     internal abstract class Move
     {
         public Pokemon user; // The pokemon that is using this move
+        public string description;
         public double damage;
         public double accuracy;
         public string moveName;
@@ -100,7 +101,7 @@ namespace Pokemon_Simulator
 
         public override void SpecialEffects()
         {
-            user.currHealth = user.health * 0.5;
+            user.currHealth += user.GetHealth() * 0.5;
         }
     }
 

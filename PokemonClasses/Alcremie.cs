@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
+
 
 namespace Pokemon_Simulator.PokemonClasses
 {
@@ -12,21 +14,17 @@ namespace Pokemon_Simulator.PokemonClasses
         {
             name = "Alcremie";
             displayName = "Alcremie";
+            MainColor = Color.LightPink;
+
             level = 50;
-            health = 125;
-            attack = 58;
-            defense = 72;
-            specialAttack = 103;
-            specialDefense = 113;
-            speed = 62;
+            health = 140;
+            attack = 80;
+            defense = 95;
+            specialAttack = 130;
+            specialDefense = 141;
+            speed = 84;
             type1 = "Fairy";
             type2 = "None";
-
-            currHealth = health;
-            currDefense = defense;
-            currAttack = attack;
-            currSpecialAttack = specialAttack;
-            currSpeed = speed;
 
             moves.Add(new DazzlingGleam(this));
             moves.Add(new MysticalFire(this));

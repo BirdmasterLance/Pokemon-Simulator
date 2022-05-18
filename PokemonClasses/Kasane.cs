@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
+
 
 namespace Pokemon_Simulator.PokemonClasses
 {
@@ -12,6 +14,8 @@ namespace Pokemon_Simulator.PokemonClasses
         {
             name = "Kasane";
             displayName = "Kasane Teto";
+            MainColor = Color.Pink;
+
             level = 50;
             health = 125;
             attack = 58;
@@ -20,13 +24,7 @@ namespace Pokemon_Simulator.PokemonClasses
             specialDefense = 113;
             speed = 62;
             type1 = "Fairy";
-            type2 = "None";
-
-            currHealth = health;
-            currDefense = defense;
-            currAttack = attack;
-            currSpecialAttack = specialAttack;
-            currSpeed = speed;
+            type2 = "None";          
 
             moves.Add(new DazzlingGleam(this));
             moves.Add(new MysticalFire(this));

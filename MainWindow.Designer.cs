@@ -40,8 +40,14 @@
             this.label5 = new System.Windows.Forms.Label();
             this.LblHP = new System.Windows.Forms.Label();
             this.GbTats = new System.Windows.Forms.GroupBox();
+            this.LblSpeed = new System.Windows.Forms.Label();
+            this.LblSpDefense = new System.Windows.Forms.Label();
+            this.LblSpAttack = new System.Windows.Forms.Label();
+            this.LblDefense = new System.Windows.Forms.Label();
+            this.LblAttack = new System.Windows.Forms.Label();
             this.addPokemonButton = new System.Windows.Forms.Button();
             this.removePokemonButton = new System.Windows.Forms.Button();
+            this.LblType = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.PbCharacterPic)).BeginInit();
             this.GbTats.SuspendLayout();
             this.SuspendLayout();
@@ -71,7 +77,7 @@
             this.PkmnList.ScrollAlwaysVisible = true;
             this.PkmnList.Size = new System.Drawing.Size(234, 264);
             this.PkmnList.TabIndex = 3;
-            this.PkmnList.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
+            this.PkmnList.SelectedIndexChanged += new System.EventHandler(this.PkmnList_SelectedIndexChanged);
             // 
             // label1
             // 
@@ -95,8 +101,7 @@
             this.PartyPkmn.ScrollAlwaysVisible = true;
             this.PartyPkmn.Size = new System.Drawing.Size(234, 264);
             this.PartyPkmn.TabIndex = 6;
-            this.PartyPkmn.SelectedIndexChanged += new System.EventHandler(this.listBox2_SelectedIndexChanged);
-            this.PartyPkmn.SelectedValueChanged += new System.EventHandler(this.updateProfile);
+            this.PartyPkmn.SelectedIndexChanged += new System.EventHandler(this.PartyPkmn_SelectedIndexChanged);
             // 
             // label2
             // 
@@ -179,7 +184,7 @@
             // 
             this.LblHP.AutoSize = true;
             this.LblHP.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LblHP.Location = new System.Drawing.Point(6, 44);
+            this.LblHP.Location = new System.Drawing.Point(6, 31);
             this.LblHP.Name = "LblHP";
             this.LblHP.Size = new System.Drawing.Size(52, 29);
             this.LblHP.TabIndex = 10;
@@ -188,6 +193,12 @@
             // GbTats
             // 
             this.GbTats.BackColor = System.Drawing.Color.CadetBlue;
+            this.GbTats.Controls.Add(this.LblType);
+            this.GbTats.Controls.Add(this.LblSpeed);
+            this.GbTats.Controls.Add(this.LblSpDefense);
+            this.GbTats.Controls.Add(this.LblSpAttack);
+            this.GbTats.Controls.Add(this.LblDefense);
+            this.GbTats.Controls.Add(this.LblAttack);
             this.GbTats.Controls.Add(this.LblHP);
             this.GbTats.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.GbTats.Location = new System.Drawing.Point(1069, 33);
@@ -196,6 +207,56 @@
             this.GbTats.TabIndex = 12;
             this.GbTats.TabStop = false;
             this.GbTats.Text = "Stats";
+            // 
+            // LblSpeed
+            // 
+            this.LblSpeed.AutoSize = true;
+            this.LblSpeed.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblSpeed.Location = new System.Drawing.Point(6, 176);
+            this.LblSpeed.Name = "LblSpeed";
+            this.LblSpeed.Size = new System.Drawing.Size(91, 29);
+            this.LblSpeed.TabIndex = 15;
+            this.LblSpeed.Text = "Speed:";
+            // 
+            // LblSpDefense
+            // 
+            this.LblSpDefense.AutoSize = true;
+            this.LblSpDefense.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblSpDefense.Location = new System.Drawing.Point(6, 147);
+            this.LblSpDefense.Name = "LblSpDefense";
+            this.LblSpDefense.Size = new System.Drawing.Size(98, 29);
+            this.LblSpDefense.TabIndex = 14;
+            this.LblSpDefense.Text = "Sp. Def:";
+            // 
+            // LblSpAttack
+            // 
+            this.LblSpAttack.AutoSize = true;
+            this.LblSpAttack.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblSpAttack.Location = new System.Drawing.Point(6, 118);
+            this.LblSpAttack.Name = "LblSpAttack";
+            this.LblSpAttack.Size = new System.Drawing.Size(94, 29);
+            this.LblSpAttack.TabIndex = 13;
+            this.LblSpAttack.Text = "Sp. Atk:";
+            // 
+            // LblDefense
+            // 
+            this.LblDefense.AutoSize = true;
+            this.LblDefense.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblDefense.Location = new System.Drawing.Point(6, 89);
+            this.LblDefense.Name = "LblDefense";
+            this.LblDefense.Size = new System.Drawing.Size(56, 29);
+            this.LblDefense.TabIndex = 12;
+            this.LblDefense.Text = "Def:";
+            // 
+            // LblAttack
+            // 
+            this.LblAttack.AutoSize = true;
+            this.LblAttack.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblAttack.Location = new System.Drawing.Point(6, 60);
+            this.LblAttack.Name = "LblAttack";
+            this.LblAttack.Size = new System.Drawing.Size(52, 29);
+            this.LblAttack.TabIndex = 11;
+            this.LblAttack.Text = "Atk:";
             // 
             // addPokemonButton
             // 
@@ -225,6 +286,17 @@
             this.removePokemonButton.TabIndex = 14;
             this.removePokemonButton.Text = "Remove";
             this.removePokemonButton.UseVisualStyleBackColor = false;
+            this.removePokemonButton.Click += new System.EventHandler(this.removePokemonButton_Click);
+            // 
+            // LblType
+            // 
+            this.LblType.AutoSize = true;
+            this.LblType.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblType.Location = new System.Drawing.Point(6, 204);
+            this.LblType.Name = "LblType";
+            this.LblType.Size = new System.Drawing.Size(74, 29);
+            this.LblType.TabIndex = 16;
+            this.LblType.Text = "Type:";
             // 
             // MainWindow
             // 
@@ -276,6 +348,12 @@
         private System.Windows.Forms.GroupBox GbTats;
         private System.Windows.Forms.Button addPokemonButton;
         private System.Windows.Forms.Button removePokemonButton;
+        private System.Windows.Forms.Label LblSpeed;
+        private System.Windows.Forms.Label LblSpDefense;
+        private System.Windows.Forms.Label LblSpAttack;
+        private System.Windows.Forms.Label LblDefense;
+        private System.Windows.Forms.Label LblAttack;
+        private System.Windows.Forms.Label LblType;
     }
 }
 

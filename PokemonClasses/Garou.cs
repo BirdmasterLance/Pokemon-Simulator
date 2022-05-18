@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace Pokemon_Simulator.PokemonClasses
 {
@@ -12,23 +13,18 @@ namespace Pokemon_Simulator.PokemonClasses
         {
             name = "Garou";
             displayName = "Garou";
-            level = 50;
-            health = 125;
-            attack = 58;
-            defense = 72;
-            specialAttack = 103;
-            specialDefense = 113;
-            speed = 62;
-            type1 = "Fighting";
-            type2 = "None";
-
+            MainColor = Color.PaleVioletRed;
             slogan = "The popular will win, the hated will lose.";
 
-            currHealth = health;
-            currDefense = defense;
-            currAttack = attack;
-            currSpecialAttack = specialAttack;
-            currSpeed = speed;
+            level = 50;
+            health = 125;
+            attack = 140;
+            defense = 90;
+            specialAttack = 65;
+            specialDefense = 80;
+            speed = 120;
+            type1 = "Fighting";
+            type2 = "None";
 
             moves.Add(new DazzlingGleam(this));
             moves.Add(new MysticalFire(this));

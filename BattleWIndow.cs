@@ -42,19 +42,19 @@ namespace Pokemon_Simulator.Properties
 
             activeEnemyPokemon = BattleData.enemyList[0];
             LoadEnemyPokemonIntoBattle(activeEnemyPokemon);
-            if (activePokemon.name.Equals("Alcremie")) 
-            {
-            playerPokemonName.ForeColor= System.Drawing.Color.LightPink;
-            }
+            //if (activePokemon.name.Equals("Alcremie")) 
+            //{
+            playerPokemonName.ForeColor= activePokemon.MainColor;
+            //}
             //TODO: Event for Image Resizing.(Scaling) Item re-placeement depenign on the screen size.
         }
 
         private void LoadPlayerPokemonIntoBattle(Pokemon pokemon)
         {
             playerPokemonName.Text = pokemon.displayName;
-            playerHealthBar.Maximum = (int)pokemon.health;
+            playerHealthBar.Maximum = (int)pokemon.GetHealth();
             playerHealthBar.Value = (int)pokemon.currHealth;
-            playerHealthText.Text = activePokemon.currHealth + "/" + activePokemon.health;
+            playerHealthText.Text = activePokemon.currHealth + "/" + activePokemon.GetHealth();
 
             playerPokemonImage.SizeMode = PictureBoxSizeMode.Zoom;
             // Get the directory of the actual project, then get the resources folder
@@ -77,7 +77,7 @@ namespace Pokemon_Simulator.Properties
         private void LoadEnemyPokemonIntoBattle(Pokemon pokemon)
         {
             enemyPokemonName.Text = pokemon.displayName;
-            enemyHealthBar.Maximum = (int)pokemon.health;
+            enemyHealthBar.Maximum = (int)pokemon.GetHealth();
             enemyHealthBar.Value = (int)pokemon.currHealth;
 
             enemyPokemonImage.SizeMode = PictureBoxSizeMode.Zoom;
@@ -196,16 +196,16 @@ namespace Pokemon_Simulator.Properties
             {
                 // Damage the player
                 int damage = activeEnemyPokemon.UseMove(activeEnemyPokemon.moves[move], activePokemon);
-                label3.Text = activeEnemyPokemon.health.ToString() + " " + activeEnemyPokemon.currHealth.ToString() + " " + damage;
+                label3.Text = activeEnemyPokemon.GetHealth().ToString() + " " + activeEnemyPokemon.currHealth.ToString() + " " + damage;
                 if (activeEnemyPokemon.currHealth > 0)
                 {
                     playerHealthBar.Value = (int) activePokemon.currHealth;
-                    playerHealthText.Text = (int)activePokemon.currHealth + "/" + activePokemon.health;
+                    playerHealthText.Text = (int)activePokemon.currHealth + "/" + activePokemon.GetHealth();
                 }
                 else
                 {
                     playerHealthBar.Value = 0;
-                    playerHealthText.Text = "0/" + activePokemon.health;
+                    playerHealthText.Text = "0/" + activePokemon.GetHealth();
 
                 }
             }
@@ -215,12 +215,12 @@ namespace Pokemon_Simulator.Properties
                 if (activeEnemyPokemon.currHealth > 0)
                 {
                     playerHealthBar.Value = (int) activePokemon.currHealth;
-                    playerHealthText.Text = activePokemon.currHealth + "/" + activePokemon.health;
+                    playerHealthText.Text = activePokemon.currHealth + "/" + activePokemon.GetHealth();
                 }
                 else
                 {
                     playerHealthBar.Value = 0;
-                    playerHealthText.Text = "0/" + activePokemon.health;
+                    playerHealthText.Text = "0/" + activePokemon.GetHealth();
 
                 }
             }
