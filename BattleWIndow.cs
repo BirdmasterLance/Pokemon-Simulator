@@ -44,7 +44,7 @@ namespace Pokemon_Simulator.Properties
             LoadEnemyPokemonIntoBattle(activeEnemyPokemon);
             if (activePokemon.name.Equals("Alcremie")) 
             {
-            playerPokemonName.ForeColor= System.Drawing.SystemColors.Control;
+            playerPokemonName.ForeColor= System.Drawing.Color.LightPink;
             }
             //TODO: Event for Image Resizing.(Scaling) Item re-placeement depenign on the screen size.
         }

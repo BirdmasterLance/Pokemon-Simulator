@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Pokemon_Simulator
@@ -70,26 +71,24 @@ namespace Pokemon_Simulator
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            selectedPokemon = (Pokemon) PkmnList.SelectedItem;
-            if (partyPokemonCounter >= 6)
+            // For now we gonna use the battle pic until we find actual Pfps
+            if (PkmnList.SelectedItem != null)
             {
-                PartyPkmn.SelectedItem = selectedPokemon;
+                selectedPokemon = (Pokemon)PkmnList.SelectedItem;
+                PbCharacterPic.SizeMode = PictureBoxSizeMode.Zoom;
+                PbCharacterPic.Image = Image.FromFile(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName
+                + @"\Pokemon-Simulator\Resources\" + selectedPokemon.name + "_Battle.png");
+                LblName.Text = selectedPokemon.displayName;
+                LblSlogan.Text = selectedPokemon.slogan;
+
+                LblHP.Text = "HP: " + selectedPokemon.health;
             }
-            else
-            {
-                partyPokemonCounter++;
-                if(PkmnList.SelectedItem != null) { 
-                PartyPkmn.Items.Add(PkmnList.SelectedItem);
-                }
-            }
-            label5.Text = partyPokemonCounter.ToString(); ;
         }
 
         private void listBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (PartyPkmn.SelectedItem != null)
             {
-
                 partyPokemonCounter--;
                 PartyPkmn.Items.Remove(PartyPkmn.SelectedItem);
             }
@@ -103,6 +102,23 @@ namespace Pokemon_Simulator
         private void MainWindow_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void addPokemonButton_Click(object sender, EventArgs e)
+        {
+            if (partyPokemonCounter >= 6)
+            {
+                PartyPkmn.SelectedItem = selectedPokemon;
+            }
+            else
+            {
+                partyPokemonCounter++;
+                if (PkmnList.SelectedItem != null)
+                {
+                    PartyPkmn.Items.Add(PkmnList.SelectedItem);
+                }
+            }
+            label5.Text = partyPokemonCounter.ToString(); ;
         }
 
         //When removing a button or anythign via here（In the code. And by ctrl z）It may ask u if u are sure of this decision, since it may undo some other actions as well..

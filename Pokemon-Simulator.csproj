@@ -47,13 +47,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BattleData.cs" />
-    <Compile Include="..\MainWindow.cs">
+    <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
-      <Link>MainWindow.cs</Link>
     </Compile>
-    <Compile Include="..\MainWindow.Designer.cs">
+    <Compile Include="MainWindow.designer.cs">
       <DependentUpon>MainWindow.cs</DependentUpon>
-      <Link>MainWindow.Designer.cs</Link>
     </Compile>
     <Compile Include="Move.cs" />
     <Compile Include="Pokemon.cs" />
@@ -62,12 +60,11 @@
     <Compile Include="PokemonClasses\Kasane.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="..\MainWindow.resx">
-      <DependentUpon>MainWindow.cs</DependentUpon>
-      <Link>MainWindow.resx</Link>
-    </EmbeddedResource>
     <EmbeddedResource Include="BattleWIndow.resx">
       <DependentUpon>BattleWIndow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainWindow.resx">
+      <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
