@@ -102,16 +102,31 @@
     <None Include="Resources\3723203.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Alcremie_Battle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Alcremie_Pfp.png" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Resources\Background.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Braxien_Battle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Dio_Battle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Dio_Pfp.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Downtown_Planeptune_RB1.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Alcremie_Battle.png" />
+    <None Include="Resources\Garou_Battle.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Roserade_Battle.png" />
+    <None Include="Resources\Garou_Pfp.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Gudako_Battle.png" />
@@ -123,28 +138,13 @@
     <None Include="Resources\Kogami_Battle.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Braxien_Battle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Alcremie_Pfp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Dio_Battle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Dio_Pfp.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Mash_Battle.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Mash_Pfp.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Garou_Pfp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Garou_Battle.png" />
+    <None Include="Resources\Roserade_Battle.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

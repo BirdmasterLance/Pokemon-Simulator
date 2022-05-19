@@ -118,14 +118,14 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="3723203" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\3723203.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Alcremie_Battle" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Alcremie_Battle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Alcremie_Pfp" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Alcremie_Pfp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Background" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Background.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Braxien_Battle" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Braxien_Battle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -137,7 +137,7 @@
     <value>..\Resources\Dio_Pfp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Downtown_Planeptune_RB1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\downtown_planeptune_rb1.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\Downtown_Planeptune_RB1.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Garou_Battle" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Garou_Battle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -162,5 +162,8 @@
   </data>
   <data name="Roserade_Battle" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Roserade_Battle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_3723203" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\3723203.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
