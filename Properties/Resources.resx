@@ -148,17 +148,32 @@
   <data name="Gudako_Battle" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Gudako_Battle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Gudako_Pfp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Gudako_Pfp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Kasane_Battle" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Kasane_Battle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Kasane_Pfp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Kasane_Pfp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Kogami_Battle" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Kogami_Battle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Kogami_Pfp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Kogami_Pfp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Mash_Battle" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Mash_Battle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Mash_Pfp" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Mash_Pfp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Miku_Battle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Miku_Battle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Miku_Pfp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Miku_Pfp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Roserade_Battle" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Roserade_Battle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

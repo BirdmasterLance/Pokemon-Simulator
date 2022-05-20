@@ -39,13 +39,8 @@ namespace Pokemon_Simulator
 
         // TODO: Held Item
 
-        public Pokemon()
+        protected Pokemon()
         {
-            currHealth = health;
-            currDefense = defense;
-            currAttack = attack;
-            currSpecialAttack = specialAttack;
-            currSpeed = speed;
             moves = new List<Move>();
         }
 
@@ -116,6 +111,10 @@ namespace Pokemon_Simulator
 
         }
 
+        public object Clone()
+        {
+            return MemberwiseClone();
+        }
         public override string ToString()
         {
             return displayName;

@@ -9,7 +9,7 @@ namespace Pokemon_Simulator.PokemonClasses
 {
     internal class Garou : Pokemon
     {
-        public Garou()
+        public Garou() : base()
         {
             name = "Garou";
             displayName = "Garou";
@@ -17,12 +17,12 @@ namespace Pokemon_Simulator.PokemonClasses
             slogan = "The popular will win, the hated will lose.";
 
             level = 50;
-            health = 125;
-            attack = 140;
-            defense = 90;
-            specialAttack = 65;
-            specialDefense = 80;
-            speed = 120;
+            health = currHealth = 125;
+            attack = currAttack = 140;
+            defense = currDefense = 90;
+            specialAttack = currSpecialAttack = 65;
+            specialDefense = currSpecialDefense = 80;
+            speed = currSpeed = 120;
             type1 = "Fighting";
             type2 = "None";
 

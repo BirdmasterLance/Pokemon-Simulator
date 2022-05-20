@@ -40,10 +40,6 @@ namespace Pokemon_Simulator.Properties
             moves = activePokemon.moves;            
             LoadPlayerPokemonIntoBattle(activePokemon);
 
-            playerHealthBar.Maximum = 140;
-
-            playerHealthBar.Value = 140;
-
             activeEnemyPokemon = BattleData.enemyList[0];
             LoadEnemyPokemonIntoBattle(activeEnemyPokemon);
             //if (activePokemon.name.Equals("Alcremie")) 

@@ -1,14 +1,13 @@
 ﻿using System.Drawing;
 
-
 namespace Pokemon_Simulator.PokemonClasses
 {
-    internal class Kasane : Pokemon
+    class Mash : Pokemon
     {
-        public Kasane() : base()
+        public Mash() : base()
         {
-            name = "Kasane";
-            displayName = "Kasane Teto";
+            name = "Mash";
+            displayName = "Mash Kyrielight";
             MainColor = Color.Pink;
 
             level = 50;
@@ -18,8 +17,8 @@ namespace Pokemon_Simulator.PokemonClasses
             specialAttack = currSpecialAttack = 103;
             specialDefense = currSpecialDefense = 113;
             speed = currSpeed = 62;
-            type1 = "Fairy";
-            type2 = "None";          
+            type1 = "Steel";
+            type2 = "None";
 
             moves.Add(new DazzlingGleam(this));
             moves.Add(new MysticalFire(this));

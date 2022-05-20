@@ -56,8 +56,15 @@
     <Compile Include="Move.cs" />
     <Compile Include="Pokemon.cs" />
     <Compile Include="PokemonClasses\Alcremie.cs" />
+    <Compile Include="PokemonClasses\Braixen.cs" />
+    <Compile Include="PokemonClasses\Dio.cs" />
     <Compile Include="PokemonClasses\Garou.cs" />
+    <Compile Include="PokemonClasses\Gudako.cs" />
     <Compile Include="PokemonClasses\Kasane.cs" />
+    <Compile Include="PokemonClasses\Kogami.cs" />
+    <Compile Include="PokemonClasses\Mash.cs" />
+    <Compile Include="PokemonClasses\Miku.cs" />
+    <Compile Include="PokemonClasses\Roserade.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="BattleWIndow.resx">
@@ -129,15 +136,6 @@
     <None Include="Resources\Garou_Pfp.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Gudako_Battle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Kasane_Battle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Kogami_Battle.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Mash_Battle.png" />
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +143,30 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Roserade_Battle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Gudako_Pfp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Gudako_Battle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Kasane_Pfp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Kasane_Battle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Kogami_Pfp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Kogami_Battle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Miku_Pfp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Miku_Battle.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

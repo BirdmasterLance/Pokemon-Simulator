@@ -11,25 +11,30 @@ namespace Pokemon_Simulator
     public partial class MainWindow : Form
     {
         int partyPokemonCounter = 0;
+        bool isPlayerSelecting = true;
 
-        List<Pokemon> listForEnemy = new List<Pokemon>();
+        List<Pokemon> playerPokemonParty = new List<Pokemon>();
+        List<Pokemon> enemyPokemonParty = new List<Pokemon>();
 
         public MainWindow()
         {
             InitializeComponent();
-
-            PkmnList.Items.Add(new Alcremie());
-            PkmnList.Items.Add(new Garou());
-            PkmnList.Items.Add(new Kasane());
-
-            listForEnemy.Add(new Alcremie());
-            listForEnemy.Add(new Garou());
-            listForEnemy.Add(new Kasane());
         }
 
         private void MainWindow_Load(object sender, EventArgs e)
         {
+            PkmnList.Items.Add(new Alcremie());
+            PkmnList.Items.Add(new Braixen());
+            PkmnList.Items.Add(new Dio());
+            PkmnList.Items.Add(new Garou());
+            PkmnList.Items.Add(new Gudako());
+            PkmnList.Items.Add(new Kasane());
+            PkmnList.Items.Add(new Kogami());
+            PkmnList.Items.Add(new Mash());
+            PkmnList.Items.Add(new Miku());
+            PkmnList.Items.Add(new Roserade());
 
+            BtnBack.Hide();
         }
 
 
@@ -40,23 +45,59 @@ namespace Pokemon_Simulator
         // ..Don't forget to use the hide and show in the click method.
         private void button1_Click(object sender, EventArgs e)
         {
-            // What happens when u clcik the button.
-
-            // FIll out our team
-            foreach (Pokemon pkmn in PartyPkmn.Items)
+            // What happens when u clcik the button.              
+            if (!isPlayerSelecting && enemyPokemonParty.Count > 0)
             {
-                BattleData.AddPokemon(pkmn);
+                // Fill out enemy team
+                BattleData.SetEnemyPokemon(enemyPokemonParty);
+               
+                BattleWindow battleWindow = new BattleWindow();
+                battleWindow.Show();
+                Hide();// Hide goes alone since it attempting to hide This form (form 1) jump to form 2
+                //works cool 
             }
-
-            // Create enemy Team
-            for (int i = 0; i < 6; i++)
+            
+            if(isPlayerSelecting && playerPokemonParty.Count > 0)
             {
-                Random rand = new Random();
-                int randInt = rand.Next(0, listForEnemy.Count - 1);
-                BattleData.AddEnemyPokemon((Pokemon)listForEnemy[randInt]);
+                // FIll out our team
+                BattleData.SetPokemon(playerPokemonParty);
+                SwitchToEnemySelect();
             }
+        }
+        // When u remoing a method by just any other way, except by ctr z,  u may generate an error, cause, in this case, it being referenced by the main code
+
+        private void SwitchToPlayerSelect()
+        {
+            isPlayerSelecting = true;
+            this.LblName.BackColor = Color.LightSeaGreen;
+            this.LblSlogan.BackColor = Color.LightSeaGreen;
+            this.CharacterArea.BackColor = Color.LightSeaGreen;
+            this.label2.Text = "Player Party";
+            this.BackColor = Color.LightSeaGreen;
+            this.GbTats.BackColor = Color.LightSeaGreen;
+
+            // Repopulate the list
+            PartyPkmn.Items.Clear();
+            foreach(Pokemon pkmn in playerPokemonParty)
+            {
+                PartyPkmn.Items.Add(pkmn);
+            }    
+        }
+
+        private void SwitchToEnemySelect()
+        {
+            // Create enemy Team randomly
+            //for (int i = 0; i < 6; i++)
+            //{
+            //    Random rand = new Random();
+            //    int randInt = rand.Next(0, enemyPokemonParty.Count - 1);
+            //    BattleData.AddEnemyPokemon((Pokemon)enemyPokemonParty[randInt]);
+            //}
             //for (int j= 0; j < this.Controls.Count; j++)
             //{
+
+            isPlayerSelecting = false;
+            BtnBack.Show();
 
             this.LblName.BackColor = Color.DarkRed;
             this.LblSlogan.BackColor = Color.DarkRed;
@@ -65,6 +106,14 @@ namespace Pokemon_Simulator
             //this.Controls.Clear();
             this.BackColor = Color.IndianRed;
             this.GbTats.BackColor = Color.DarkRed;
+
+            // Repopulate the list
+            PartyPkmn.Items.Clear();
+            foreach (Pokemon pkmn in enemyPokemonParty)
+            {
+                PartyPkmn.Items.Add(pkmn);
+            }
+
             //CharacterArea.Hide();
             //Splitter dock = new Splitter();
             //dock.Show();
@@ -83,14 +132,7 @@ namespace Pokemon_Simulator
 
 
             //}
-
-
-            BattleWindow battleWindow = new BattleWindow();
-            ////battleWindow.Show();
-            ////Hide();// Hide goes alone since it attempting to hide This form (form 1) jump to form 2
-            //works cool 
         }
-        // When u remoing a method by just any other way, except by ctr z,  u may generate an error, cause, in this case, it being referenced by the main code
 
         private void label1_Click(object sender, EventArgs e)
         {
@@ -149,6 +191,15 @@ namespace Pokemon_Simulator
             if (partyPokemonCounter < 6 && PkmnList.SelectedItem != null)
             {
                 partyPokemonCounter++;
+                if(isPlayerSelecting)
+                {
+                    playerPokemonParty.Add((Pokemon)PkmnList.SelectedItem);
+                }
+                else
+                {
+                    Pokemon pkmnToAdd = (Pokemon)PkmnList.SelectedItem;
+                    enemyPokemonParty.Add((Pokemon)pkmnToAdd.Clone());
+                }
                 PartyPkmn.Items.Add(PkmnList.SelectedItem);
             }
             label5.Text = partyPokemonCounter.ToString(); ;
@@ -159,8 +210,23 @@ namespace Pokemon_Simulator
             if (partyPokemonCounter > 0 && PartyPkmn.SelectedItem != null)
             {
                 partyPokemonCounter--;
+                if (isPlayerSelecting)
+                {
+                    playerPokemonParty.Add((Pokemon)PkmnList.SelectedItem);
+                }
+                else
+                {
+                    Pokemon pkmnToAdd = (Pokemon) PkmnList.SelectedItem;
+                    enemyPokemonParty.Add((Pokemon) pkmnToAdd.Clone());
+                }
                 PartyPkmn.Items.Remove(PartyPkmn.SelectedItem);
             }
+        }
+
+        private void BtnBack_Click(object sender, EventArgs e)
+        {
+            BattleData.SetEnemyPokemon(enemyPokemonParty);
+            SwitchToPlayerSelect();
         }
 
         //When removing a button or anythign via here（In the code. And by ctrl z）It may ask u if u are sure of this decision, since it may undo some other actions as well..

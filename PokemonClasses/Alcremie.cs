@@ -10,19 +10,19 @@ namespace Pokemon_Simulator.PokemonClasses
 {
     internal class Alcremie : Pokemon
     {
-        public Alcremie()
+        public Alcremie() : base()
         {
             name = "Alcremie";
             displayName = "Alcremie";
             MainColor = Color.LightPink;
 
-            level = 50;
-            health = 140;
-            attack = 80;
-            defense = 95;
-            specialAttack = 130;
-            specialDefense = 141;
-            speed = 84;
+            level  = 50;
+            health = currHealth = 140;
+            attack = currAttack = 80;
+            defense = currDefense = 95;
+            specialAttack = currSpecialAttack = 130;
+            specialDefense = currSpecialDefense = 141;
+            speed = currSpeed = 84;
             type1 = "Fairy";
             type2 = "None";
 

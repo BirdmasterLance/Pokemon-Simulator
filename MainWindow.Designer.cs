@@ -48,6 +48,7 @@
             this.LblAttack = new System.Windows.Forms.Label();
             this.addPokemonButton = new System.Windows.Forms.Button();
             this.removePokemonButton = new System.Windows.Forms.Button();
+            this.BtnBack = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.PbCharacterPic)).BeginInit();
             this.GbTats.SuspendLayout();
             this.SuspendLayout();
@@ -107,10 +108,10 @@
             // 
             this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.label2.Font = new System.Drawing.Font("Algerian", 19.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(361, 33);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(300, 38);
+            this.label2.Size = new System.Drawing.Size(254, 38);
             this.label2.TabIndex = 7;
             this.label2.Text = "Party Pokemon";
             // 
@@ -297,12 +298,28 @@
             this.removePokemonButton.UseVisualStyleBackColor = false;
             this.removePokemonButton.Click += new System.EventHandler(this.removePokemonButton_Click);
             // 
+            // BtnBack
+            // 
+            this.BtnBack.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.BtnBack.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.BtnBack.Cursor = System.Windows.Forms.Cursors.Default;
+            this.BtnBack.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnBack.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.BtnBack.Location = new System.Drawing.Point(811, 415);
+            this.BtnBack.Name = "BtnBack";
+            this.BtnBack.Size = new System.Drawing.Size(123, 57);
+            this.BtnBack.TabIndex = 15;
+            this.BtnBack.Text = "Back";
+            this.BtnBack.UseVisualStyleBackColor = false;
+            this.BtnBack.Click += new System.EventHandler(this.BtnBack_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightSeaGreen;
             this.ClientSize = new System.Drawing.Size(1398, 519);
+            this.Controls.Add(this.BtnBack);
             this.Controls.Add(this.removePokemonButton);
             this.Controls.Add(this.addPokemonButton);
             this.Controls.Add(this.label5);
@@ -353,6 +370,7 @@
         private System.Windows.Forms.Label LblAttack;
         private System.Windows.Forms.Label LblType;
         private System.Windows.Forms.Label LblSlogan;
+        private System.Windows.Forms.Button BtnBack;
     }
 }
 

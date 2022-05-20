@@ -173,6 +173,16 @@ namespace Pokemon_Simulator.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Gudako_Pfp {
+            get {
+                object obj = ResourceManager.GetObject("Gudako_Pfp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Kasane_Battle {
             get {
                 object obj = ResourceManager.GetObject("Kasane_Battle", resourceCulture);
@@ -183,9 +193,29 @@ namespace Pokemon_Simulator.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Kasane_Pfp {
+            get {
+                object obj = ResourceManager.GetObject("Kasane_Pfp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Kogami_Battle {
             get {
                 object obj = ResourceManager.GetObject("Kogami_Battle", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Kogami_Pfp {
+            get {
+                object obj = ResourceManager.GetObject("Kogami_Pfp", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -206,6 +236,26 @@ namespace Pokemon_Simulator.Properties {
         internal static System.Drawing.Bitmap Mash_Pfp {
             get {
                 object obj = ResourceManager.GetObject("Mash_Pfp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Miku_Battle {
+            get {
+                object obj = ResourceManager.GetObject("Miku_Battle", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Miku_Pfp {
+            get {
+                object obj = ResourceManager.GetObject("Miku_Pfp", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
