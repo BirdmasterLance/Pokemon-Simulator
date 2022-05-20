@@ -2,12 +2,7 @@
 using Pokemon_Simulator.Properties;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using System.Windows.Forms;
 
@@ -48,22 +43,51 @@ namespace Pokemon_Simulator
             // What happens when u clcik the button.
 
             // FIll out our team
-            foreach(Pokemon pkmn in PartyPkmn.Items)
+            foreach (Pokemon pkmn in PartyPkmn.Items)
             {
                 BattleData.AddPokemon(pkmn);
             }
-            
+
             // Create enemy Team
-            for(int i = 0; i < 6; i++)
+            for (int i = 0; i < 6; i++)
             {
                 Random rand = new Random();
-                int randInt = rand.Next(0, listForEnemy.Count-1);
-                BattleData.AddEnemyPokemon((Pokemon) listForEnemy[randInt]);
+                int randInt = rand.Next(0, listForEnemy.Count - 1);
+                BattleData.AddEnemyPokemon((Pokemon)listForEnemy[randInt]);
             }
+            //for (int j= 0; j < this.Controls.Count; j++)
+            //{
+
+            this.LblName.BackColor = Color.DarkRed;
+            this.LblSlogan.BackColor = Color.DarkRed;
+            CharacterArea.BackColor = Color.DarkRed;
+            this.label2.Text = "Enemy Party";
+            //this.Controls.Clear();
+            this.BackColor = Color.IndianRed;
+            this.GbTats.BackColor = Color.DarkRed;
+            //CharacterArea.Hide();
+            //Splitter dock = new Splitter();
+            //dock.Show();
+            //dock.Location = new Point(770);
+            //dock.Dock = DockStyle.Right;
+            //PkmnList.Location = new Point(1341, PkmnList.Location.Y);
+            //GbTats.Location = new Point(80, LblAttack.Location.Y);
+            //LblAttack.Location = new Point(80, LblAttack.Location.Y);
+            //LblDefense.Location = new Point(80, LblDefense.Location.Y);
+
+            //}
+            //foreach(Control control in this)
+            //{
+
+
+
+
+            //}
+
 
             BattleWindow battleWindow = new BattleWindow();
-            battleWindow.Show();
-            Hide();// Hide goes alone since it attempting to hide This form (form 1) jump to form 2
+            ////battleWindow.Show();
+            ////Hide();// Hide goes alone since it attempting to hide This form (form 1) jump to form 2
             //works cool 
         }
         // When u remoing a method by just any other way, except by ctr z,  u may generate an error, cause, in this case, it being referenced by the main code
@@ -98,6 +122,14 @@ namespace Pokemon_Simulator
             LblName.ForeColor = selectedPokemon.MainColor;
             LblName.Text = selectedPokemon.displayName;
             LblSlogan.Text = "\"" + selectedPokemon.slogan + "\"";
+            //if (LblSlogan.Text.Length < 44)
+            //{
+            //    label5.Text = "Size" + LblSlogan.Text.Length;
+            //    LblSlogan.Width = 400;
+            //    LblSlogan.Height = 121;
+
+
+            //}
 
             LblHP.Text = "HP: " + selectedPokemon.GetHealth();
             LblAttack.Text = "Atk: " + selectedPokemon.GetAttack();
@@ -106,7 +138,7 @@ namespace Pokemon_Simulator
             LblSpDefense.Text = "Sp. Def: " + selectedPokemon.GetSpecialDefense();
             LblSpeed.Text = "Speed: " + selectedPokemon.GetSpeed();
             LblType.Text = "Type: " + selectedPokemon.type1;
-            if(selectedPokemon.type2 != "None")
+            if (selectedPokemon.type2 != "None")
             {
                 LblType.Text += ", " + selectedPokemon.type2;
             }

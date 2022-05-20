@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Drawing;
 
 namespace Pokemon_Simulator
@@ -62,7 +58,7 @@ namespace Pokemon_Simulator
 
         public virtual int UseMove(Move move, Pokemon target)
         {
-            if(!move.actualAttack)
+            if (!move.actualAttack)
             {
                 move.SpecialEffects();
                 return -1;
@@ -79,14 +75,45 @@ namespace Pokemon_Simulator
             double damage = ((levelModifier * move.damage * defenseModifier / 50) + 2) * stabModifier;
 
             target.currHealth -= damage;
-            
-            if(move.recoil)
+
+            if (move.recoil)
             {
                 this.currHealth -= damage / 2;
             }
 
             // Return how much damage it did (as a percent compared to the target's total health)
-            return (int) damage;
+            return (int)damage;
+        }
+        public /*override*/ void AICPU(Move move, Pokemon pkmn)
+        {
+            List<Move> knownMoves = new List<Move>();
+
+            List<Pokemon> knownPokemons = new List<Pokemon>();
+
+            knownMoves.Add(move);
+
+            knownPokemons.Add(pkmn);
+
+            if (move.damage >= this.currHealth)
+            {
+                for (int i = 0; i < this.moves.Count; i++)
+                {
+
+                    if (this.moves[i].canHeal)
+                    {
+                        this.UseMove(this.moves[i], this);
+
+                    }
+
+
+                }
+
+
+            }
+
+
+
+
         }
 
         public override string ToString()

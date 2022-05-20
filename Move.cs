@@ -19,6 +19,8 @@ namespace Pokemon_Simulator
         public string type;
         public int pp;
         public int maxPP;
+        public bool canHeal = false;
+        public bool raisesDef = false;
     
         public Move(Pokemon user)
         {
@@ -65,6 +67,8 @@ namespace Pokemon_Simulator
             type = "Fairy";
             pp = 10;
             maxPP = pp;
+            canHeal = true;
+            raisesDef = false;
         }
     }
 

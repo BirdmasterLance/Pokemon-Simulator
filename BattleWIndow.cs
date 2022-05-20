@@ -38,7 +38,11 @@ namespace Pokemon_Simulator.Properties
             // probs change the text of the buttons here H
             activePokemon = BattleData.pokemonList[0];
             moves = activePokemon.moves;            
-            LoadPlayerPokemonIntoBattle(activePokemon); 
+            LoadPlayerPokemonIntoBattle(activePokemon);
+
+            playerHealthBar.Maximum = 140;
+
+            playerHealthBar.Value = 140;
 
             activeEnemyPokemon = BattleData.enemyList[0];
             LoadEnemyPokemonIntoBattle(activeEnemyPokemon);
@@ -183,6 +187,7 @@ namespace Pokemon_Simulator.Properties
                     enemyHealthBar.Value = 0;
                 }
             }
+            activeEnemyPokemon.AICPU(activePokemon.moves[move], activePokemon);
 
             // TODO: item check here
 

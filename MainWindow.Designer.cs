@@ -40,6 +40,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.LblHP = new System.Windows.Forms.Label();
             this.GbTats = new System.Windows.Forms.GroupBox();
+            this.LblType = new System.Windows.Forms.Label();
             this.LblSpeed = new System.Windows.Forms.Label();
             this.LblSpDefense = new System.Windows.Forms.Label();
             this.LblSpAttack = new System.Windows.Forms.Label();
@@ -47,7 +48,6 @@
             this.LblAttack = new System.Windows.Forms.Label();
             this.addPokemonButton = new System.Windows.Forms.Button();
             this.removePokemonButton = new System.Windows.Forms.Button();
-            this.LblType = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.PbCharacterPic)).BeginInit();
             this.GbTats.SuspendLayout();
             this.SuspendLayout();
@@ -59,7 +59,7 @@
             this.BTStart.Cursor = System.Windows.Forms.Cursors.Default;
             this.BTStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BTStart.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.BTStart.Location = new System.Drawing.Point(991, 408);
+            this.BTStart.Location = new System.Drawing.Point(988, 408);
             this.BTStart.Name = "BTStart";
             this.BTStart.Size = new System.Drawing.Size(210, 80);
             this.BTStart.TabIndex = 0;
@@ -82,7 +82,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.LightSeaGreen;
+            this.label1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
             this.label1.Location = new System.Drawing.Point(58, 33);
             this.label1.Name = "label1";
@@ -106,23 +106,22 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.BackColor = System.Drawing.Color.LightSeaGreen;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
+            this.label2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.label2.Font = new System.Drawing.Font("Algerian", 19.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(361, 33);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(254, 38);
+            this.label2.Size = new System.Drawing.Size(300, 38);
             this.label2.TabIndex = 7;
             this.label2.Text = "Party Pokemon";
             // 
             // PbCharacterPic
             // 
-            this.PbCharacterPic.BackgroundImage = global::Pokemon_Simulator.Properties.Resources._3723203;
             this.PbCharacterPic.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.PbCharacterPic.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.PbCharacterPic.Cursor = System.Windows.Forms.Cursors.Default;
-            this.PbCharacterPic.Location = new System.Drawing.Point(811, 43);
+            this.PbCharacterPic.Location = new System.Drawing.Point(811, 10);
             this.PbCharacterPic.Name = "PbCharacterPic";
-            this.PbCharacterPic.Size = new System.Drawing.Size(240, 230);
+            this.PbCharacterPic.Size = new System.Drawing.Size(240, 240);
             this.PbCharacterPic.TabIndex = 8;
             this.PbCharacterPic.TabStop = false;
             // 
@@ -135,11 +134,11 @@
             this.LblName.BackColor = System.Drawing.Color.CadetBlue;
             this.LblName.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
             this.LblName.ForeColor = System.Drawing.Color.LightCyan;
-            this.LblName.Location = new System.Drawing.Point(880, 275);
+            this.LblName.Location = new System.Drawing.Point(880, 270);
             this.LblName.Name = "LblName";
             this.LblName.Size = new System.Drawing.Size(85, 38);
             this.LblName.TabIndex = 9;
-            this.LblName.Text = "咪咪";
+            this.LblName.Text = "名字";
             this.LblName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // LblSlogan
@@ -147,13 +146,12 @@
             this.LblSlogan.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.LblSlogan.AutoSize = true;
             this.LblSlogan.BackColor = System.Drawing.Color.CadetBlue;
             this.LblSlogan.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
             this.LblSlogan.ForeColor = System.Drawing.Color.LightCyan;
-            this.LblSlogan.Location = new System.Drawing.Point(813, 315);
+            this.LblSlogan.Location = new System.Drawing.Point(813, 320);
             this.LblSlogan.Name = "LblSlogan";
-            this.LblSlogan.Size = new System.Drawing.Size(241, 38);
+            this.LblSlogan.Size = new System.Drawing.Size(576, 85);
             this.LblSlogan.TabIndex = 9;
             this.LblSlogan.Text = "\"お腹が空くです“";
             this.LblSlogan.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -165,18 +163,19 @@
             this.CharacterArea.Cursor = System.Windows.Forms.Cursors.Default;
             this.CharacterArea.Dock = System.Windows.Forms.DockStyle.Right;
             this.CharacterArea.Enabled = false;
-            this.CharacterArea.Location = new System.Drawing.Point(770, 0);
+            this.CharacterArea.Location = new System.Drawing.Point(767, 0);
             this.CharacterArea.Name = "CharacterArea";
-            this.CharacterArea.Size = new System.Drawing.Size(631, 518);
+            this.CharacterArea.Size = new System.Drawing.Size(631, 519);
             this.CharacterArea.TabIndex = 0;
             this.CharacterArea.TabStop = false;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(322, 293);
+            this.label5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.label5.Location = new System.Drawing.Point(702, 388);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(44, 16);
+            this.label5.Size = new System.Drawing.Size(46, 17);
             this.label5.TabIndex = 10;
             this.label5.Text = "label4";
             // 
@@ -201,12 +200,22 @@
             this.GbTats.Controls.Add(this.LblAttack);
             this.GbTats.Controls.Add(this.LblHP);
             this.GbTats.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.GbTats.Location = new System.Drawing.Point(1069, 33);
+            this.GbTats.Location = new System.Drawing.Point(1069, 10);
             this.GbTats.Name = "GbTats";
             this.GbTats.Size = new System.Drawing.Size(320, 240);
             this.GbTats.TabIndex = 12;
             this.GbTats.TabStop = false;
             this.GbTats.Text = "Stats";
+            // 
+            // LblType
+            // 
+            this.LblType.AutoSize = true;
+            this.LblType.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblType.Location = new System.Drawing.Point(6, 204);
+            this.LblType.Name = "LblType";
+            this.LblType.Size = new System.Drawing.Size(74, 29);
+            this.LblType.TabIndex = 16;
+            this.LblType.Text = "Type:";
             // 
             // LblSpeed
             // 
@@ -265,7 +274,7 @@
             this.addPokemonButton.Cursor = System.Windows.Forms.Cursors.Default;
             this.addPokemonButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.addPokemonButton.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.addPokemonButton.Location = new System.Drawing.Point(106, 392);
+            this.addPokemonButton.Location = new System.Drawing.Point(103, 392);
             this.addPokemonButton.Name = "addPokemonButton";
             this.addPokemonButton.Size = new System.Drawing.Size(210, 80);
             this.addPokemonButton.TabIndex = 13;
@@ -280,7 +289,7 @@
             this.removePokemonButton.Cursor = System.Windows.Forms.Cursors.Default;
             this.removePokemonButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.removePokemonButton.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.removePokemonButton.Location = new System.Drawing.Point(394, 392);
+            this.removePokemonButton.Location = new System.Drawing.Point(391, 392);
             this.removePokemonButton.Name = "removePokemonButton";
             this.removePokemonButton.Size = new System.Drawing.Size(210, 80);
             this.removePokemonButton.TabIndex = 14;
@@ -288,22 +297,12 @@
             this.removePokemonButton.UseVisualStyleBackColor = false;
             this.removePokemonButton.Click += new System.EventHandler(this.removePokemonButton_Click);
             // 
-            // LblType
-            // 
-            this.LblType.AutoSize = true;
-            this.LblType.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LblType.Location = new System.Drawing.Point(6, 204);
-            this.LblType.Name = "LblType";
-            this.LblType.Size = new System.Drawing.Size(74, 29);
-            this.LblType.TabIndex = 16;
-            this.LblType.Text = "Type:";
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightSeaGreen;
-            this.ClientSize = new System.Drawing.Size(1401, 518);
+            this.ClientSize = new System.Drawing.Size(1398, 519);
             this.Controls.Add(this.removePokemonButton);
             this.Controls.Add(this.addPokemonButton);
             this.Controls.Add(this.label5);
@@ -341,7 +340,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.PictureBox PbCharacterPic;
         private System.Windows.Forms.Label LblName;
-        private System.Windows.Forms.Label LblSlogan;
         private System.Windows.Forms.Splitter CharacterArea;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label LblHP;
@@ -354,6 +352,7 @@
         private System.Windows.Forms.Label LblDefense;
         private System.Windows.Forms.Label LblAttack;
         private System.Windows.Forms.Label LblType;
+        private System.Windows.Forms.Label LblSlogan;
     }
 }
 
