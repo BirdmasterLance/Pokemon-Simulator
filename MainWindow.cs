@@ -180,7 +180,7 @@ namespace Pokemon_Simulator
             LblSpDefense.Text = "Sp. Def: " + selectedPokemon.GetSpecialDefense();
             LblSpeed.Text = "Speed: " + selectedPokemon.GetSpeed();
             LblType.Text = "Type: " + selectedPokemon.type1;
-            if (selectedPokemon.type2 != "None")
+            if (selectedPokemon.type2 != Type.None)
             {
                 LblType.Text += ", " + selectedPokemon.type2;
             }

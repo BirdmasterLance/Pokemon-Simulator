@@ -23,8 +23,7 @@ namespace Pokemon_Simulator.PokemonClasses
             specialAttack = currSpecialAttack = 130;
             specialDefense = currSpecialDefense = 141;
             speed = currSpeed = 84;
-            type1 = "Fairy";
-            type2 = "None";
+            type1 = Type.Fairy;
 
             moves.Add(new DazzlingGleam(this));
             moves.Add(new MysticalFire(this));

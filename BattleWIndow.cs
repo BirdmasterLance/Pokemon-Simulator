@@ -71,6 +71,7 @@ namespace Pokemon_Simulator.Properties
             // Get the directory of the actual project, then get the resources folder
             playerPokemonImage.Image = Image.FromFile(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName
                 + @"\Pokemon-Simulator\Resources\" + pokemon.name + "_Battle.png");
+            playerPokemonImage.Image.RotateFlip(RotateFlipType.RotateNoneFlipX);
 
             // Load their moves too
             LoadPlayerMoves(moves);

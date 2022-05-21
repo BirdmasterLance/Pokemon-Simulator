@@ -32,8 +32,8 @@ namespace Pokemon_Simulator
         protected double speed;
         public double currSpeed;
 
-        public string type1;
-        public string type2;
+        public Type type1 = Type.None;
+        public Type type2 = Type.None;
 
         public List<Move> moves;
 
@@ -70,8 +70,9 @@ namespace Pokemon_Simulator
             double defenseModifier = move.physical ? currAttack / target.currDefense : currSpecialAttack / target.currSpecialDefense;
             double stabModifier = (type1 == move.type || type2 == move.type) ? 1.5 : 1;
             // TODO: supereffective and not very effective
+            double effectiveModifier = TypeData.CalculateEffectiveness(type1, move.type) * TypeData.CalculateEffectiveness(type2, move.type);
 
-            double damage = ((levelModifier * move.damage * defenseModifier / 50) + 2) * stabModifier;
+            double damage = ((levelModifier * move.damage * defenseModifier / 50) + 2) * stabModifier * effectiveModifier;
 
             target.currHealth -= damage;
 

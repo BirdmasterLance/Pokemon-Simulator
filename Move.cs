@@ -16,7 +16,7 @@ namespace Pokemon_Simulator
         public bool physical;
         public bool actualAttack;
         public bool recoil = false;
-        public string type;
+        public Type type;
         public int pp;
         public int maxPP;
         public bool canHealOneSelf = false;
@@ -53,7 +53,7 @@ namespace Pokemon_Simulator
             moveName = "Struggle";
             physical = true;
             actualAttack = true;
-            type = "None";
+            type = Type.None;
             pp = 10;
             maxPP = pp;
             recoil = true;
@@ -70,7 +70,7 @@ namespace Pokemon_Simulator
             moveName = "Dazzling Gleam";
             physical = false;
             actualAttack = true;
-            type = "Fairy";
+            type = Type.Fairy;
             pp = 10;
             maxPP = pp;
             canHealOneSelf = true;
@@ -87,7 +87,7 @@ namespace Pokemon_Simulator
             moveName = "Mystical Fire";
             physical = false;
             actualAttack = true;
-            type = "Fire";
+            type = Type.Fire;
             pp = 10;
             maxPP = pp;
             lowersEspAtk = true;
@@ -105,7 +105,7 @@ namespace Pokemon_Simulator
         {
             moveName = "Recover";
             actualAttack = false;
-            type = "Normal";
+            type = Type.Normal;
             pp = 5;
             maxPP = pp;
             canHealOneSelf = true;
@@ -123,7 +123,7 @@ namespace Pokemon_Simulator
         {
             moveName = "Calm Mind";
             actualAttack = false;
-            type = "Psychic";
+            type = Type.Psychic;
             pp = 20;
             maxPP = pp;
             raisesEspAtk = true;

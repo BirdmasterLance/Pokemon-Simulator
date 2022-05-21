@@ -67,6 +67,7 @@
     <Compile Include="PokemonClasses\Roserade.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Type.cs" />
     <EmbeddedResource Include="BattleWIndow.resx">
       <DependentUpon>BattleWIndow.cs</DependentUpon>
     </EmbeddedResource>
@@ -130,9 +131,6 @@
     <None Include="Resources\Downtown_Planeptune_RB1.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Garou_Battle.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Garou_Pfp.png" />
   </ItemGroup>
   <ItemGroup>
@@ -146,9 +144,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Gudako_Pfp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Gudako_Battle.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Kasane_Pfp.png" />
@@ -167,6 +162,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Miku_Battle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Gudako_Battle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Garou_Battle.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
