@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.BTStart = new System.Windows.Forms.Button();
             this.PkmnList = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -49,6 +50,7 @@
             this.addPokemonButton = new System.Windows.Forms.Button();
             this.removePokemonButton = new System.Windows.Forms.Button();
             this.BtnBack = new System.Windows.Forms.Button();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.PbCharacterPic)).BeginInit();
             this.GbTats.SuspendLayout();
             this.SuspendLayout();
@@ -371,6 +373,7 @@
         private System.Windows.Forms.Label LblType;
         private System.Windows.Forms.Label LblSlogan;
         private System.Windows.Forms.Button BtnBack;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 
