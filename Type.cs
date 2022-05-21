@@ -1,4 +1,6 @@
-﻿namespace Pokemon_Simulator
+﻿using System.Drawing;
+
+namespace Pokemon_Simulator
 {
     public enum Type
     {
@@ -190,6 +192,50 @@
                     return 1;
             }
             return 1;
+        }
+
+        public static Color GetTypeColor(Type type)
+        {
+            switch(type)
+            {
+                case Type.Normal:
+                    return Color.FromArgb(168, 168, 120);
+                case Type.Fighting:
+                    return Color.FromArgb(192, 48, 40);
+                case Type.Flying:
+                    return Color.FromArgb(168, 144, 240);
+                case Type.Poison:
+                    return Color.FromArgb(160, 64, 160);
+                case Type.Ground:
+                    return Color.FromArgb(224, 192, 104);
+                case Type.Rock:
+                    return Color.FromArgb(184, 160, 56);
+                case Type.Bug:
+                    return Color.FromArgb(168, 184, 32);
+                case Type.Ghost:
+                    return Color.FromArgb(112, 88, 152);
+                case Type.Steel:
+                    return Color.FromArgb(85, 85, 85);
+                case Type.Fire:
+                    return Color.FromArgb(240, 128, 48);
+                case Type.Water:
+                    return Color.FromArgb(104, 144, 240);
+                case Type.Grass:
+                    return Color.FromArgb(120, 200, 80);
+                case Type.Electric:
+                    return Color.FromArgb(248, 208, 48);
+                case Type.Psychic:
+                    return Color.FromArgb(248, 88, 136);
+                case Type.Ice:
+                    return Color.FromArgb(152, 216, 216);
+                case Type.Dragon:
+                    return Color.FromArgb(112, 56, 248);
+                case Type.Dark:
+                    return Color.FromArgb(112, 88, 72);
+                case Type.Fairy:
+                    return Color.FromArgb(255, 101, 213);
+            }
+            return Color.FromArgb(104, 160, 144);
         }
     }
 }

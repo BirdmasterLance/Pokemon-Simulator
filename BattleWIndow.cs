@@ -80,10 +80,26 @@ namespace Pokemon_Simulator.Properties
         private void LoadPlayerMoves(List<Move> moves)
         {
             // If they have less than 4 moves, make sure we are not trying to access elements that don't exist
-            if(moves.Count >= 1) Move1.Text = moves[0].moveName + '\n' + moves[0].pp.ToString() + "/" + moves[0].maxPP.ToString();
-            if(moves.Count >= 2) Move2.Text = moves[1].moveName + '\n' + moves[1].pp.ToString() + "/" + moves[1].maxPP.ToString();
-            if(moves.Count >= 3) Move3.Text = moves[2].moveName + '\n' + moves[2].pp.ToString() + "/" + moves[2].maxPP.ToString();
-            if(moves.Count >= 4) Move4.Text = moves[3].moveName + '\n' + moves[3].pp.ToString() + "/" + moves[3].maxPP.ToString();
+            if (moves.Count >= 1)
+            {
+                Move1.Text = moves[0].moveName + '\n' + moves[0].pp.ToString() + "/" + moves[0].maxPP.ToString();
+                Move1.BackColor = TypeData.GetTypeColor(moves[0].type);
+            }
+            if (moves.Count >= 2)
+            {
+                Move2.Text = moves[1].moveName + '\n' + moves[1].pp.ToString() + "/" + moves[1].maxPP.ToString();
+                Move2.BackColor = TypeData.GetTypeColor(moves[1].type);
+            }
+            if (moves.Count >= 3)
+            {
+                Move3.Text = moves[2].moveName + '\n' + moves[2].pp.ToString() + "/" + moves[2].maxPP.ToString();
+                Move3.BackColor = TypeData.GetTypeColor(moves[2].type);
+            }
+            if (moves.Count >= 4)
+            {
+                Move4.Text = moves[3].moveName + '\n' + moves[3].pp.ToString() + "/" + moves[3].maxPP.ToString();
+                Move4.BackColor = TypeData.GetTypeColor(moves[3].type);
+            }
         }
 
         private void LoadEnemyPokemonIntoBattle(Pokemon pokemon)

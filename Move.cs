@@ -124,8 +124,7 @@ namespace Pokemon_Simulator
             moveName = "Calm Mind";
             actualAttack = false;
             type = Type.Psychic;
-            pp = 20;
-            maxPP = pp;
+            maxPP = pp = 20;
             raisesEspAtk = true;
             raisesEspDef = true;
         }
@@ -134,6 +133,44 @@ namespace Pokemon_Simulator
         {
             user.currSpecialAttack *= 1.5;
             user.currSpecialDefense *= 1.5;
+        }
+    }
+
+    internal class CloseCombat : Move
+    {
+        public CloseCombat(Pokemon user) : base(user)
+        {
+            moveName = "Close Combat";
+            damage = 120;
+            accuracy = 100;
+            actualAttack = true;
+            type = Type.Fighting;
+            maxPP = pp = 8;
+            lowersDef = true;
+        }
+
+        public override void SpecialEffects()
+        {
+            user.currDefense *= 0.75;
+            user.currSpecialDefense *= 0.75;
+        }
+    }
+
+    internal class IronHead : Move
+    {
+        public IronHead(Pokemon user) : base(user)
+        {
+            moveName = "Iron Head";
+            damage = 80;
+            accuracy = 100;
+            actualAttack = true;
+            type = Type.Steel;
+            maxPP = pp = 15;
+        }
+
+        public override void SpecialTargetEffects(Pokemon target)
+        {
+            // TODO: add 30% to flinch
         }
     }
 }
