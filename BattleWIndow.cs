@@ -21,6 +21,8 @@ namespace Pokemon_Simulator.Properties
         Pokemon activePokemon;
         Pokemon activeEnemyPokemon;
 
+        Label lblMCX = new Label();
+        Label lblMCY = new Label();
         List<Move> moves = new List<Move>();
 
         int turnCounter = 0;
@@ -40,12 +42,21 @@ namespace Pokemon_Simulator.Properties
             moves = activePokemon.moves;            
             LoadPlayerPokemonIntoBattle(activePokemon);
 
+            
+            
+            lblMCY.Show();
+
+
+            lblMCY.Location = new Point(500, 50);
+
+           
+            lblMCX.Show();
+
+
+            lblMCX.Location = new Point(500, 20);
             activeEnemyPokemon = BattleData.enemyList[0];
             LoadEnemyPokemonIntoBattle(activeEnemyPokemon);
-            //if (activePokemon.name.Equals("Alcremie")) 
-            //{
             playerPokemonName.ForeColor= activePokemon.MainColor;
-            //}
             //TODO: Event for Image Resizing.(Scaling) Item re-placeement depenign on the screen size.
         }
 
@@ -183,7 +194,7 @@ namespace Pokemon_Simulator.Properties
                     enemyHealthBar.Value = 0;
                 }
             }
-            activeEnemyPokemon.AICPU(activePokemon.moves[move], activePokemon);
+            activeEnemyPokemon.knownMoves.Add(activePokemon.moves[move]);
 
             // TODO: item check here
 
@@ -243,6 +254,19 @@ namespace Pokemon_Simulator.Properties
         {
             List<Move> moves = pkmn.moves;
             return moves[0].pp == 0 && moves[1].pp == 0 && moves[2].pp == 0 && moves[3].pp == 0;
+        }
+        void ResizeScreen(Object source, EventArgs e)
+        {
+            enemyHealthBar.Location = new Point(this.Location.X+700, this.Location.Y+20);
+
+        }
+        void MouseCoord(Object source, MouseEventArgs e)
+        {
+           label3.Text= "Xpos: "+e.X.ToString() + "Ypos: "+e.Y.ToString();
+
+            lblMCY.Text = e.Y.ToString();
+
+
         }
 
     }

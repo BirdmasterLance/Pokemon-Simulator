@@ -19,9 +19,15 @@ namespace Pokemon_Simulator
         public string type;
         public int pp;
         public int maxPP;
-        public bool canHeal = false;
+        public bool canHealOneSelf = false;
         public bool raisesDef = false;
-    
+        public bool lowersDef = false;
+        public bool raisesEspDef = false;
+        public bool lowersEspDef = false;
+        public bool raisesAtk = false;
+        public bool raisesEspAtk = false;
+        public bool lowersAtk = false;
+        public bool lowersEspAtk = false;
         public Move(Pokemon user)
         {
             this.user = user;
@@ -67,8 +73,8 @@ namespace Pokemon_Simulator
             type = "Fairy";
             pp = 10;
             maxPP = pp;
-            canHeal = true;
-            raisesDef = false;
+            canHealOneSelf = true;
+            
         }
     }
 
@@ -84,6 +90,7 @@ namespace Pokemon_Simulator
             type = "Fire";
             pp = 10;
             maxPP = pp;
+            lowersEspAtk = true;
         }
 
         public override void SpecialTargetEffects(Pokemon target)
@@ -101,6 +108,7 @@ namespace Pokemon_Simulator
             type = "Normal";
             pp = 5;
             maxPP = pp;
+            canHealOneSelf = true;
         }
 
         public override void SpecialEffects()
@@ -118,6 +126,8 @@ namespace Pokemon_Simulator
             type = "Psychic";
             pp = 20;
             maxPP = pp;
+            raisesEspAtk = true;
+            raisesEspDef = true;
         }
 
         public override void SpecialEffects()

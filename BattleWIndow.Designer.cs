@@ -52,7 +52,7 @@
             this.enemyHealthBar.Name = "enemyHealthBar";
             this.enemyHealthBar.Size = new System.Drawing.Size(327, 28);
             this.enemyHealthBar.TabIndex = 1;
-            this.enemyHealthBar.Value = 100;
+            this.enemyHealthBar.Value = 100;            
             // 
             // playerHealthBar
             // 
@@ -162,10 +162,8 @@
             this.enemyPokemonImage.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.enemyPokemonImage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.enemyPokemonImage.Location = new System.Drawing.Point(1035, 229);
-            this.enemyPokemonImage.MaximumSize = new System.Drawing.Size(100, 160);
-            this.enemyPokemonImage.MinimumSize = new System.Drawing.Size(100, 160);
             this.enemyPokemonImage.Name = "enemyPokemonImage";
-            this.enemyPokemonImage.Size = new System.Drawing.Size(100, 160);
+            this.enemyPokemonImage.Size = new System.Drawing.Size(209, 269);
             this.enemyPokemonImage.TabIndex = 11;
             this.enemyPokemonImage.TabStop = false;
             // 
@@ -175,7 +173,7 @@
             this.playerPokemonImage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.playerPokemonImage.Location = new System.Drawing.Point(38, 229);
             this.playerPokemonImage.Name = "playerPokemonImage";
-            this.playerPokemonImage.Size = new System.Drawing.Size(100, 160);
+            this.playerPokemonImage.Size = new System.Drawing.Size(209, 269);
             this.playerPokemonImage.TabIndex = 10;
             this.playerPokemonImage.TabStop = false;
             // 
@@ -203,6 +201,8 @@
             this.Name = "BattleWindow";
             this.Text = "Battle";
             this.Load += new System.EventHandler(this.BattleWindow_Load);
+            this.ResizeEnd +=new System.EventHandler(this.ResizeScreen);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MouseCoord);
             ((System.ComponentModel.ISupportInitialize)(this.enemyPokemonImage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.playerPokemonImage)).EndInit();
             this.ResumeLayout(false);

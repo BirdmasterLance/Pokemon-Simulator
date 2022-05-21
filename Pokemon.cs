@@ -37,6 +37,10 @@ namespace Pokemon_Simulator
 
         public List<Move> moves;
 
+        public List<Move> knownMoves = new List<Move>();
+
+        public List<Pokemon> knownPokemons = new List<Pokemon>();
+
         // TODO: Held Item
 
         protected Pokemon()
@@ -79,35 +83,36 @@ namespace Pokemon_Simulator
             // Return how much damage it did (as a percent compared to the target's total health)
             return (int)damage;
         }
-        public /*override*/ void AICPU(Move move, Pokemon pkmn)
+        public /*override*/ void AICPU(bool PlayerFirstw)
         {
-            List<Move> knownMoves = new List<Move>();
 
-            List<Pokemon> knownPokemons = new List<Pokemon>();
+            //knownMoves.Add(move);
 
-            knownMoves.Add(move);
-
-            knownPokemons.Add(pkmn);
-
-            if (move.damage >= this.currHealth)
+            //knownPokemons.Add(pkmn);
+            //rival losing,
+            if (PlayerFirstw)
             {
-                for (int i = 0; i < this.moves.Count; i++)
+                for (int j = 0; j < this.moves.Count; j++)
                 {
-
-                    if (this.moves[i].canHeal)
+                    if (knownMoves[j].damage >= this.currHealth)
                     {
-                        this.UseMove(this.moves[i], this);
+                        for (int i = 0; i < this.moves.Count; i++)
+                        {
 
+                            if (this.moves[i].canHealOneSelf)
+                            {
+                                this.UseMove(this.moves[i], this);
+
+                            }
+                            //else if (moves[i] /*.protects*/)
+                            //{
+
+
+                            //}
+                        }
                     }
-
-
                 }
-
-
             }
-
-
-
 
         }
 
