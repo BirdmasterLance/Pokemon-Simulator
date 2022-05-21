@@ -9,10 +9,10 @@ namespace Pokemon_Simulator
     internal abstract class Move
     {
         public Pokemon user; // The pokemon that is using this move
+        public string moveName;
         public string description;
         public double damage;
         public double accuracy;
-        public string moveName;
         public bool physical;
         public bool actualAttack;
         public bool recoil = false;
@@ -82,9 +82,10 @@ namespace Pokemon_Simulator
     {
         public MysticalFire(Pokemon user) : base(user)
         {
+            moveName = "Mystical Fire";
+            description = "Damages and lowers the target's Special Attack by one stage";
             damage = 75;
             accuracy = 100;
-            moveName = "Mystical Fire";
             physical = false;
             actualAttack = true;
             type = Type.Fire;
@@ -95,7 +96,7 @@ namespace Pokemon_Simulator
 
         public override void SpecialTargetEffects(Pokemon target)
         {
-            target.currSpecialAttack *= 0.8;
+            target.ChangeStat(ref target.currSpecialAttack, ref target.specialAttackStage, -1);
         }
     }
 
@@ -104,6 +105,7 @@ namespace Pokemon_Simulator
         public Recover(Pokemon user) : base(user)
         {
             moveName = "Recover";
+            description = "Restores up to 50% of the user's maximum HP";
             actualAttack = false;
             type = Type.Normal;
             pp = 5;
@@ -122,6 +124,7 @@ namespace Pokemon_Simulator
         public CalmMind(Pokemon user) : base(user)
         {
             moveName = "Calm Mind";
+            description = "Raises the user's Special Attack and Special Defense by one stage";
             actualAttack = false;
             type = Type.Psychic;
             maxPP = pp = 20;
@@ -131,8 +134,8 @@ namespace Pokemon_Simulator
 
         public override void SpecialEffects()
         {
-            user.currSpecialAttack *= 1.5;
-            user.currSpecialDefense *= 1.5;
+            user.ChangeStat(ref user.currSpecialAttack, ref user.specialAttackStage, 1);
+            user.ChangeStat(ref user.currSpecialDefense, ref user.specialDefenseStage, 1);
         }
     }
 
@@ -141,6 +144,7 @@ namespace Pokemon_Simulator
         public CloseCombat(Pokemon user) : base(user)
         {
             moveName = "Close Combat";
+            description = "Inflicts damage and lowers the user's defensive stats";
             damage = 120;
             accuracy = 100;
             actualAttack = true;
@@ -151,8 +155,8 @@ namespace Pokemon_Simulator
 
         public override void SpecialEffects()
         {
-            user.currDefense *= 0.75;
-            user.currSpecialDefense *= 0.75;
+            user.ChangeStat(ref user.currDefense, ref user.defenseStage, -1);
+            user.ChangeStat(ref user.currSpecialDefense, ref user.specialDefenseStage, -1);
         }
     }
 
@@ -161,6 +165,7 @@ namespace Pokemon_Simulator
         public IronHead(Pokemon user) : base(user)
         {
             moveName = "Iron Head";
+            description = "Inflicts damage and has a 30% to flinch the target";
             damage = 80;
             accuracy = 100;
             actualAttack = true;

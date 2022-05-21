@@ -19,18 +19,32 @@ namespace Pokemon_Simulator
 
         protected double attack;
         public double currAttack;
+        public int attackStage;
 
         protected double defense;
         public double currDefense;
+        public int defenseStage;
 
         protected double specialAttack;
         public double currSpecialAttack;
+        public int specialAttackStage;
 
         protected double specialDefense;
         public double currSpecialDefense;
+        public int specialDefenseStage;
 
         protected double speed;
         public double currSpeed;
+        public int speedStage;
+
+        protected double accuracy;
+        public double currAccuracy;
+        public int accuracyStage;
+
+        protected double evasion;
+        public double currEvasion;
+        public int evasionStage;
+
 
         public Type type1 = Type.None;
         public Type type2 = Type.None;
@@ -45,6 +59,9 @@ namespace Pokemon_Simulator
 
         protected Pokemon()
         {
+            attackStage = defenseStage = specialAttackStage = specialDefenseStage = speedStage = 0;
+            accuracy = currAccuracy = 100;
+            evasion = currEvasion = 1; // idk wat to put here lol
             moves = new List<Move>();
         }
 
@@ -54,6 +71,46 @@ namespace Pokemon_Simulator
         public double GetSpecialAttack() { return specialAttack; }
         public double GetSpecialDefense() { return specialDefense; }
         public double GetSpeed() { return speed; }
+
+        public virtual int ChangeStat(ref double stat, ref int statStage, int stageIncrease)
+        {
+            if (statStage == 6) return 0;
+
+            statStage += stageIncrease;
+            if (statStage > 6) statStage = 6;
+            
+            if (statStage > 0)
+            {
+                int modifier = (int) statStage + 2;
+                stat *= modifier / 2;
+            }
+            if(statStage < 0)
+            {
+                int modifier = (int)-statStage + 2;
+                stat *= 2 / modifier;
+            }
+            return statStage;
+        }
+
+        public virtual int ChangeAccuracyOrEvasion(ref double stat, ref int statStage, int stageIncrease)
+        {
+            if (statStage == 6) return 0;
+
+            statStage += stageIncrease;
+            if (statStage > 6) statStage = 6;
+
+            if (statStage > 0)
+            {
+                int modifier = (int)statStage + 3;
+                stat *= modifier / 3;
+            }
+            if (statStage < 0)
+            {
+                int modifier = (int)-statStage + 3;
+                stat *= 3 / modifier;
+            }
+            return statStage;
+        }
 
         public virtual int UseMove(Move move, Pokemon target)
         {
