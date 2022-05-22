@@ -315,6 +315,10 @@
             this.BtnBack.UseVisualStyleBackColor = false;
             this.BtnBack.Click += new System.EventHandler(this.BtnBack_Click);
             // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.BattleRun);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -328,6 +332,8 @@
             this.Controls.Add(this.LblSlogan);
             this.Controls.Add(this.LblName);
             this.Controls.Add(this.PbCharacterPic);
+            this.Controls.Add(this.picture1v1);
+
             this.Controls.Add(this.label2);
             this.Controls.Add(this.PartyPkmn);
             this.Controls.Add(this.label1);
@@ -358,6 +364,7 @@
         private System.Windows.Forms.ListBox PartyPkmn;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.PictureBox PbCharacterPic;
+        //private System.Windows.Forms.PictureBox picture1v1;
         private System.Windows.Forms.Label LblName;
         private System.Windows.Forms.Splitter CharacterArea;
         private System.Windows.Forms.Label label5;

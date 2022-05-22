@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 namespace Pokemon_Simulator
 {
@@ -45,6 +47,11 @@ namespace Pokemon_Simulator
         public double currEvasion;
         public int evasionStage;
 
+        protected int damage;
+
+
+        Random rand = new Random();
+
 
         public Type type1 = Type.None;
         public Type type2 = Type.None;
@@ -54,6 +61,9 @@ namespace Pokemon_Simulator
         public List<Move> knownMoves = new List<Move>();
 
         public List<Pokemon> knownPokemons = new List<Pokemon>();
+        public Pokemon rivalPkmn;
+
+        protected int[] MaxDamage = new int[4];
 
         // TODO: Held Item
 
@@ -71,6 +81,7 @@ namespace Pokemon_Simulator
         public double GetSpecialAttack() { return specialAttack; }
         public double GetSpecialDefense() { return specialDefense; }
         public double GetSpeed() { return speed; }
+        public double GetDamage() { return damage; }
 
         public virtual int ChangeStat(ref double stat, ref int statStage, int stageIncrease)
         {
@@ -78,13 +89,13 @@ namespace Pokemon_Simulator
 
             statStage += stageIncrease;
             if (statStage > 6) statStage = 6;
-            
+
             if (statStage > 0)
             {
-                int modifier = (int) statStage + 2;
+                int modifier = (int)statStage + 2;
                 stat *= modifier / 2;
             }
-            if(statStage < 0)
+            if (statStage < 0)
             {
                 int modifier = (int)-statStage + 2;
                 stat *= 2 / modifier;
@@ -144,33 +155,175 @@ namespace Pokemon_Simulator
         public /*override*/ void AICPU(bool PlayerFirstw)
         {
 
+
+            for (int h = 0; h < this.moves.Count; h++)
+            {
+
+                MaxDamage[h] = (int)moves[h].damage;
+            }
+
+            //rival losing,
+            if (currHealth < health * 50 / 100)
+            {
+
+                HealingMode();
+            }
+            else {
+
+
+                AttackMode();
+            
+            }
+
+        }
+
+        private void HealingMode() {
+            for (int j = 0; j < this.moves.Count; j++)
+            {
+                if (moves[j].damage >= this.currHealth)
+                {
+                    for (int i = 0; i < this.moves.Count; i++)
+                    {
+
+                        if (this.moves[i].canHealOneSelf)
+                        {
+                            damage = this.UseMove(this.moves[i], this);
+
+                        }
+                        //else if (moves[i] /*.protects*/)
+                        //{
+
+
+                        //}
+                    }
+                }
+                else {
+                    AttackMode();
+                }
+            }
+        }
+        private void AttackMode()
+        {
+
+            
             //knownMoves.Add(move);
 
             //knownPokemons.Add(pkmn);
-            //rival losing,
-            if (PlayerFirstw)
+            for (int f = 0; f < knownPokemons.Count; f++)
             {
-                for (int j = 0; j < this.moves.Count; j++)
+                if (knownPokemons[f].type1 == Type.Rock)
                 {
-                    if (knownMoves[j].damage >= this.currHealth)
-                    {
-                        for (int i = 0; i < this.moves.Count; i++)
-                        {
 
-                            if (this.moves[i].canHealOneSelf)
+                    for (int j = 0; j < this.moves.Count; j++)
+                    {
+                        if (this.moves[j].type == Type.Grass || this.moves[j].type == Type.Grass || this.moves[j].type == Type.Steel || this.moves[j].type == Type.Bug)
+                        {
+                            for (int i = 0; i < this.moves.Count; i++)
                             {
-                                this.UseMove(this.moves[i], this);
+
+                                //if (this.moves[i]./*AbsobrsEnergy*/)
+                                //{
+                                //    damage = this.UseMove(this.moves[i], this);
+
+                                //}
+                                damage = this.UseMove(this.moves[i], rivalPkmn);
 
                             }
-                            //else if (moves[i] /*.protects*/)
-                            //{
+                        }
+                    }
 
 
-                            //}
+
+                }
+
+                else if (knownPokemons[f].type1 == Type.Normal)
+                {
+
+                    for (int j = 0; j < this.moves.Count; j++)
+                    {
+                        if (this.moves[j].type == Type.Fighting)//Check if this attack can raise user's stats
+                        {
+
+                            if (rand.Next(0, 7) == 5)
+                            {
+                                for (int i = 0; i < this.moves.Count; i++)
+                                {
+
+                                    if (this.moves[i].raisesAtk == true/*AbsobrsEnergy*/)
+                                    {
+                                        damage = this.UseMove(this.moves[i], rivalPkmn);
+
+                                    }
+
+                                }
+                            }
+                            damage = this.UseMove(this.moves[j], rivalPkmn);
+
                         }
                     }
                 }
+                else if (knownPokemons[f].type1 == Type.Fighting)
+                {
+
+                    for (int j = 0; j < this.moves.Count; j++)
+                    {
+                        if (this.moves[j].type == Type.Fairy)//Check if this attack can raise user's stats
+                        {
+
+                            if (rand.Next(0, 7) == 5)
+                            {
+                                for (int i = 0; i < this.moves.Count; i++)
+                                {
+
+                                    if (this.moves[i].raisesAtk == true/*AbsobrsEnergy*/)
+                                    {
+                                        damage = this.UseMove(this.moves[i], rivalPkmn);
+
+                                    }
+
+                                }
+                            }
+                            damage = this.UseMove(this.moves[j], rivalPkmn);
+
+                        }
+                    }
+                }
+                else
+                {
+
+
+
+                }
             }
+
+        }
+
+        public void NoSuperEffectiveness()
+        {
+
+
+
+            for (int j = 0; j < this.moves.Count; j++)
+            {
+                if (this.moves[j].damage == MaxDamage.Max())
+                {
+                    //for (int i = 0; i < this.moves.Count; i++)
+                    //{
+
+                    //if (this.moves[i]./*AbsobrsEnergy*/)
+                    //{
+                    //    damage = this.UseMove(this.moves[i], this);
+
+                    //}
+                    damage = this.UseMove(this.moves[j], rivalPkmn);
+
+                    //}
+                }
+            }
+        
+
+
+
 
         }
 

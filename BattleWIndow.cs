@@ -57,6 +57,8 @@ namespace Pokemon_Simulator.Properties
             activeEnemyPokemon = BattleData.enemyList[0];
             LoadEnemyPokemonIntoBattle(activeEnemyPokemon);
             playerPokemonName.ForeColor= activePokemon.MainColor;
+            activeEnemyPokemon.knownPokemons.Add(activePokemon);
+
             //TODO: Event for Image Resizing.(Scaling) Item re-placeement depenign on the screen size.
         }
 
@@ -75,6 +77,7 @@ namespace Pokemon_Simulator.Properties
 
             // Load their moves too
             LoadPlayerMoves(moves);
+
         }
 
         private void LoadPlayerMoves(List<Move> moves)
@@ -220,12 +223,13 @@ namespace Pokemon_Simulator.Properties
 
         private void EnemyTurn(int move)
         {
-            //AttackAnimation(playerPokemonImage, -1);
+            //AttackAnimation(playerPokemonImage, -1);h
             if (!NoMoreMoves(activeEnemyPokemon))
             {
+                activeEnemyPokemon.AICPU(playerFirst);
                 // Damage the player
-                int damage = activeEnemyPokemon.UseMove(activeEnemyPokemon.moves[move], activePokemon);
-                label3.Text = activeEnemyPokemon.GetHealth().ToString() + " " + activeEnemyPokemon.currHealth.ToString() + " " + damage;
+                //int damage = activeEnemyPokemon.UseMove(activeEnemyPokemon.moves[move], activePokemon);
+                label3.Text = activeEnemyPokemon.GetHealth().ToString() + " " + activeEnemyPokemon.currHealth.ToString() + " " + activeEnemyPokemon.GetDamage();
                 if (activeEnemyPokemon.currHealth > 0)
                 {
                     playerHealthBar.Value = (int) activePokemon.currHealth;
@@ -240,7 +244,7 @@ namespace Pokemon_Simulator.Properties
             }
             else
             {
-                int damage = activeEnemyPokemon.UseMove(new Struggle(activeEnemyPokemon), activePokemon);
+                //int damage = activeEnemyPokemon.UseMove(new Struggle(activeEnemyPokemon), activePokemon);
                 if (activeEnemyPokemon.currHealth > 0)
                 {
                     playerHealthBar.Value = (int) activePokemon.currHealth;

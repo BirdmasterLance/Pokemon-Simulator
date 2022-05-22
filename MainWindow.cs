@@ -16,6 +16,9 @@ namespace Pokemon_Simulator
         List<Pokemon> playerPokemonParty = new List<Pokemon>();
         List<Pokemon> enemyPokemonParty = new List<Pokemon>();
 
+        PictureBox picture1v1 = new System.Windows.Forms.PictureBox();
+
+
 
         public MainWindow()
         {
@@ -50,23 +53,24 @@ namespace Pokemon_Simulator
             if (!isPlayerSelecting && enemyPokemonParty.Count > 0)
             {
                 timer1.Start();
-                Pfp_1v1((Pokemon)PkmnList.SelectedItem);
+                for (int i= enemyPokemonParty.Count-1; i>=0; i--) {
+                    if (enemyPokemonParty[i] != null) { 
+                    Pfp_1v1((Pokemon)enemyPokemonParty[i]);
+                        label5.Text = "R";
+                    }
+                }
                 // Fill out enemy team
                 BattleData.SetEnemyPokemon(enemyPokemonParty);
 
-                BattleWindow battleWindow = new BattleWindow();
+                
                 this.Controls.Remove(PkmnList);
                 PartyPkmn.Hide();
                 addPokemonButton.Hide();
                 removePokemonButton.Hide();
                 GbTats.Hide();
                 CharacterArea.Hide();
-                if (secs >= 5)
-                {
-                    battleWindow.Show();
-                    timer1.Stop();
-                    Hide();
-                }
+                BtnBack.Hide();
+              
                 // Hide goes alone since it attempting to hide This form (form 1) jump to form 2
                 //works cool 
             }
@@ -244,30 +248,32 @@ namespace Pokemon_Simulator
         }
 
 
-        private void timer1_Tick_1(object sender, EventArgs e)
+        private void BattleRun(object sender, EventArgs e)
         {
             secs++;
-            label5.Text = "Time= " + secs;
+            if (secs >= 50)
+            {
+                BattleWindow battleWindow = new BattleWindow();
+                battleWindow.Show();
+                timer1.Stop();
+                Hide();
+            }
+            //label5.Text = "Time= " + secs;
         }
         private void Pfp_1v1(Pokemon pkmn)
         {
             // For now we gonna use the battle pic until we find actual Pfps
             if (PkmnList.SelectedItem != null)
             {
-
-
-                //PbCharacterPic.Image = Image.FromFile(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName
-                // + @"\Pokemon-Simulator\Resources\" + (Pokemon)PkmnList.SelectedItem + "_Pfp.png");
                 PbCharacterPic.Size = new Size(this.Size.Width / 2, this.Size.Height);
                 PbCharacterPic.Location = new Point(0, 0);
-                PictureBox picture1v1 = new System.Windows.Forms.PictureBox();
 
 
                 LblName.ForeColor = pkmn.MainColor;
                 LblName.Text = pkmn.displayName;
                 LblName.Location = new Point(this.Size.Width / 4, this.Size.Height / 4 + 100);
                 LblName.BackColor = Color.Transparent;
-
+                picture1v1.SizeMode = PictureBoxSizeMode.StretchImage;
                 picture1v1.Visible = true;
                 picture1v1.Enabled = true;
                 picture1v1.Size = new Size(this.Size.Width / 2, this.Size.Height);
@@ -275,12 +281,10 @@ namespace Pokemon_Simulator
                 picture1v1.Image = Image.FromFile(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName
                 + @"\Pokemon-Simulator\Resources\" + pkmn.name + "_Pfp.png");
                 picture1v1.Show();
-
-
             }
         }
 
-
+       
         //When removing a button or anythign via here（In the code. And by ctrl z）It may ask u if u are sure of this decision, since it may undo some other actions as well..
     }
 }
