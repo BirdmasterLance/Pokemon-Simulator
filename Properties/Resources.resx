@@ -127,8 +127,11 @@
   <data name="Background" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Background.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Braxien_Battle" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Braxien_Battle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Braixen_Battle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Braixen_Battle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Braixen_Pfp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Braixen_Pfp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Dio_Battle" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Dio_Battle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -175,8 +178,17 @@
   <data name="Miku_Pfp" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Miku_Pfp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Milotic_Battle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Milotic_Battle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Milotic_Pfp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Milotic_Pfp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Roserade_Battle" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Roserade_Battle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Roserade_Pfp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Roserade_Pfp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="_3723203" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\3723203.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

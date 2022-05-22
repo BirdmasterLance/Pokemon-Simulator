@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BattleData.cs" />
+    <Compile Include="BattleEventHandler.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -64,6 +65,7 @@
     <Compile Include="PokemonClasses\Kogami.cs" />
     <Compile Include="PokemonClasses\Mash.cs" />
     <Compile Include="PokemonClasses\Miku.cs" />
+    <Compile Include="PokemonClasses\Milotic.cs" />
     <Compile Include="PokemonClasses\Roserade.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -119,9 +121,6 @@
     <None Include="Resources\Background.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Braxien_Battle.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Dio_Battle.png" />
   </ItemGroup>
   <ItemGroup>
@@ -138,9 +137,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Mash_Pfp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Roserade_Battle.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Gudako_Pfp.png" />
@@ -168,6 +164,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Garou_Battle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Roserade_Battle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Roserade_Pfp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Braixen_Pfp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Braixen_Battle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Milotic_Battle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Milotic_Pfp.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

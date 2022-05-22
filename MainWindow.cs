@@ -36,6 +36,7 @@ namespace Pokemon_Simulator
             PkmnList.Items.Add(new Kogami());
             PkmnList.Items.Add(new Mash());
             PkmnList.Items.Add(new Miku());
+            PkmnList.Items.Add(new Milotic());
             PkmnList.Items.Add(new Roserade());
 
             BtnBack.Hide();
@@ -209,13 +210,13 @@ namespace Pokemon_Simulator
             if (partyPokemonCounter < 6 && PkmnList.SelectedItem != null)
             {
                 partyPokemonCounter++;
+                Pokemon pkmnToAdd = (Pokemon)PkmnList.SelectedItem;
                 if (isPlayerSelecting)
                 {
-                    playerPokemonParty.Add((Pokemon)PkmnList.SelectedItem);
+                    playerPokemonParty.Add((Pokemon)pkmnToAdd.Clone());
                 }
                 else
                 {
-                    Pokemon pkmnToAdd = (Pokemon)PkmnList.SelectedItem;
                     enemyPokemonParty.Add((Pokemon)pkmnToAdd.Clone());
                 }
                 PartyPkmn.Items.Add(PkmnList.SelectedItem);

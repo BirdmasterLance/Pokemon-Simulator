@@ -215,7 +215,7 @@ namespace Pokemon_Simulator
                 case Type.Ghost:
                     return Color.FromArgb(112, 88, 152);
                 case Type.Steel:
-                    return Color.FromArgb(85, 85, 85);
+                    return Color.FromArgb(184, 184, 208);
                 case Type.Fire:
                     return Color.FromArgb(240, 128, 48);
                 case Type.Water:

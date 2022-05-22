@@ -19,7 +19,7 @@ namespace Pokemon_Simulator.PokemonClasses
             speed = currSpeed = 62;
             type1 = Type.Steel;
 
-            moves.Add(new DazzlingGleam(this));
+            moves.Add(new IronHead(this));
             moves.Add(new MysticalFire(this));
             moves.Add(new Recover(this));
             moves.Add(new CalmMind(this));

@@ -25,7 +25,7 @@ namespace Pokemon_Simulator.PokemonClasses
             speed = currSpeed = 120;
             type1 = Type.Fighting;
 
-            moves.Add(new DazzlingGleam(this));
+            moves.Add(new CloseCombat(this));
             moves.Add(new MysticalFire(this));
             moves.Add(new Recover(this));
             moves.Add(new CalmMind(this));

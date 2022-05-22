@@ -19,10 +19,10 @@ namespace Pokemon_Simulator.PokemonClasses
             speed = currSpeed = 93;
             type1 =Type.Fire;
 
-            moves.Add(new DazzlingGleam(this));
-            moves.Add(new MysticalFire(this));
-            moves.Add(new Recover(this));
             moves.Add(new CalmMind(this));
+            moves.Add(new FireBlast(this));
+            moves.Add(new Psychic(this));
+            moves.Add(new GrassKnot(this));
         }
     }
 }

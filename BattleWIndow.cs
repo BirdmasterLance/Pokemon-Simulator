@@ -230,7 +230,7 @@ namespace Pokemon_Simulator.Properties
                 // Damage the player
                 //int damage = activeEnemyPokemon.UseMove(activeEnemyPokemon.moves[move], activePokemon);
                 label3.Text = activeEnemyPokemon.GetHealth().ToString() + " " + activeEnemyPokemon.currHealth.ToString() + " " + activeEnemyPokemon.GetDamage();
-                if (activeEnemyPokemon.currHealth > 0)
+                if (activePokemon.currHealth > 0)
                 {
                     playerHealthBar.Value = (int) activePokemon.currHealth;
                     playerHealthText.Text = (int)activePokemon.currHealth + "/" + activePokemon.GetHealth();
@@ -245,7 +245,7 @@ namespace Pokemon_Simulator.Properties
             else
             {
                 //int damage = activeEnemyPokemon.UseMove(new Struggle(activeEnemyPokemon), activePokemon);
-                if (activeEnemyPokemon.currHealth > 0)
+                if (activePokemon.currHealth > 0)
                 {
                     playerHealthBar.Value = (int) activePokemon.currHealth;
                     playerHealthText.Text = activePokemon.currHealth + "/" + activePokemon.GetHealth();

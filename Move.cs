@@ -116,6 +116,10 @@ namespace Pokemon_Simulator
         public override void SpecialEffects()
         {
             user.currHealth += user.GetHealth() * 0.5;
+            if(user.currHealth > user.GetHealth())
+            {
+                user.currHealth = user.GetHealth();
+            }
         }
     }
 
@@ -147,6 +151,7 @@ namespace Pokemon_Simulator
             description = "Inflicts damage and lowers the user's defensive stats";
             damage = 120;
             accuracy = 100;
+            physical = true;
             actualAttack = true;
             type = Type.Fighting;
             maxPP = pp = 8;
@@ -168,6 +173,7 @@ namespace Pokemon_Simulator
             description = "Inflicts damage and has a 30% to flinch the target";
             damage = 80;
             accuracy = 100;
+            physical = true;
             actualAttack = true;
             type = Type.Steel;
             maxPP = pp = 15;
@@ -176,6 +182,202 @@ namespace Pokemon_Simulator
         public override void SpecialTargetEffects(Pokemon target)
         {
             // TODO: add 30% to flinch
+        }
+    }
+
+    internal class SludgeBomb : Move
+    {
+        public SludgeBomb(Pokemon user) : base(user)
+        {
+            moveName = "Sludge Bomb";
+            description = "Inflicts damage and has a 30% to poison the target";
+            damage = 90;
+            accuracy = 100;
+            physical = false;
+            actualAttack = true;
+            type = Type.Poison;
+            maxPP = pp = 16;
+        }
+
+        public override void SpecialTargetEffects(Pokemon target)
+        {
+            // TODO: add 30% to poison
+        }
+    }
+
+    internal class LeafStorm : Move
+    {
+        public LeafStorm(Pokemon user) : base(user)
+        {
+            moveName = "Leaf Storm";
+            description = "Inflicts damage and lowers the user's Special Attack by 2 stages";
+            damage = 130;
+            accuracy = 90;
+            physical = false;
+            actualAttack = true;
+            type = Type.Grass;
+            maxPP = pp = 16;
+        }
+
+        public override void SpecialEffects()
+        {
+            user.ChangeStat(ref user.currSpecialAttack, ref user.specialAttackStage, -2);
+        }
+    }
+
+    internal class Synthesis : Move
+    {
+        public Synthesis(Pokemon user) : base(user)
+        {
+            moveName = "Synthesis";
+            description = "Heals the user by a weather dependent amount";
+            actualAttack = false;
+            type = Type.Grass;
+            maxPP = pp = 8;
+        }
+
+        public override void SpecialEffects()
+        {
+            // TODO: it heals more in sun 2/3 and less in other weathers 1/4
+            user.currHealth += user.GetHealth() * 0.5;
+            if (user.currHealth > user.GetHealth())
+            {
+                user.currHealth = user.GetHealth();
+            }
+        }
+    }
+
+    internal class HiddenPower : Move
+    {
+        public HiddenPower(Pokemon user, Type actualType) : base(user)
+        {
+            moveName = "Hidden Power";
+            description = "Inflicts damage";
+            damage = 60;
+            accuracy = 100;
+            physical = false;
+            actualAttack = true;
+            type = actualType;
+            maxPP = pp = 24;
+        }
+    }
+
+    internal class FireBlast : Move
+    {
+        public FireBlast(Pokemon user) : base(user)
+        {
+            moveName = "Fire Blast";
+            description = "Inflicts damage and has a 10% to burn the target";
+            damage = 110;
+            accuracy = 85;
+            physical = false;
+            actualAttack = true;
+            type = Type.Fire;
+            maxPP = pp = 8;
+        }
+
+        public override void SpecialTargetEffects(Pokemon target)
+        {
+            // TODO: add 10% to burn
+        }
+    }
+
+    internal class Psychic : Move
+    {
+        public Psychic(Pokemon user) : base(user)
+        {
+            moveName = "Psychic";
+            description = "Inflicts damage and has a 10% to lower the target's Special Defense by 1 stage";
+            damage = 90;
+            accuracy = 100;
+            physical = false;
+            actualAttack = true;
+            type = Type.Psychic;
+            maxPP = pp = 16;
+        }
+        public override void SpecialTargetEffects(Pokemon target)
+        {
+            Random rand = new Random();
+            int randInt = rand.Next(1, 10);
+            if(randInt == 1)
+            {
+                target.ChangeStat(ref target.currSpecialDefense, ref target.specialDefenseStage, -1);
+            }
+        }
+    }
+
+    internal class GrassKnot : Move
+    {
+        public GrassKnot(Pokemon user) : base(user)
+        {
+            moveName = "Grass Knot";
+            description = "Inflicts damage based on the target's weight";
+            damage = 70;
+            accuracy = 100;
+            physical = false;
+            actualAttack = true;
+            type = Type.Grass;
+            maxPP = pp = 32;
+        }
+        public override void SpecialTargetEffects(Pokemon target)
+        {
+            // TODO: weight.
+        }
+    }
+
+    internal class Scald : Move
+    {
+        public Scald(Pokemon user) : base(user)
+        {
+            moveName = "Scald";
+            description = "Inflicts damage and has a 30% chance to burn the target. Also thaws them";
+            damage = 80;
+            accuracy = 100;
+            physical = false;
+            actualAttack = true;
+            type = Type.Water;
+            maxPP = pp = 24;
+        }
+        public override void SpecialTargetEffects(Pokemon target)
+        {
+            // TODO: 30% burn chance
+        }
+    }
+
+    internal class IceBeam : Move
+    {
+        public IceBeam(Pokemon user) : base(user)
+        {
+            moveName = "Ice Beam";
+            description = "Inflicts damage and has a 10% chance to freeze the target";
+            damage = 90;
+            accuracy = 100;
+            physical = false;
+            actualAttack = true;
+            type = Type.Ice;
+            maxPP = pp = 16;
+        }
+        public override void SpecialTargetEffects(Pokemon target)
+        {
+            // TODO: 10% freeze
+        }
+    }
+
+    internal class Toxic : Move
+    {
+        public Toxic(Pokemon user) : base(user)
+        {
+            moveName = "Toxic";
+            description = "Poisons the target harshly. Poison Types don't miss";
+            accuracy = 90;
+            physical = false;
+            actualAttack = false;
+            type = Type.Poison;
+            maxPP = pp = 16;
+        }
+        public override void SpecialTargetEffects(Pokemon target)
+        {
+            // TODO: poison the target
         }
     }
 }

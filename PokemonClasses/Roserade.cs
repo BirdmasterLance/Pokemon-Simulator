@@ -20,10 +20,10 @@ namespace Pokemon_Simulator.PokemonClasses
             type1 = Type.Grass;
             type2 = Type.Poison;
 
-            moves.Add(new DazzlingGleam(this));
-            moves.Add(new MysticalFire(this));
-            moves.Add(new Recover(this));
-            moves.Add(new CalmMind(this));
+            moves.Add(new Synthesis(this));
+            moves.Add(new SludgeBomb(this));
+            moves.Add(new LeafStorm(this));
+            moves.Add(new HiddenPower(this, Type.Fire));
         }
     }
 }

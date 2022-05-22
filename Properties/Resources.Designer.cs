@@ -103,9 +103,19 @@ namespace Pokemon_Simulator.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Braxien_Battle {
+        internal static System.Drawing.Bitmap Braixen_Battle {
             get {
-                object obj = ResourceManager.GetObject("Braxien_Battle", resourceCulture);
+                object obj = ResourceManager.GetObject("Braixen_Battle", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Braixen_Pfp {
+            get {
+                object obj = ResourceManager.GetObject("Braixen_Pfp", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -263,9 +273,39 @@ namespace Pokemon_Simulator.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Milotic_Battle {
+            get {
+                object obj = ResourceManager.GetObject("Milotic_Battle", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Milotic_Pfp {
+            get {
+                object obj = ResourceManager.GetObject("Milotic_Pfp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Roserade_Battle {
             get {
                 object obj = ResourceManager.GetObject("Roserade_Battle", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Roserade_Pfp {
+            get {
+                object obj = ResourceManager.GetObject("Roserade_Pfp", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
