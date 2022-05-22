@@ -130,13 +130,7 @@
     <None Include="Resources\Downtown_Planeptune_RB1.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Garou_Pfp.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Mash_Battle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Mash_Pfp.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Gudako_Pfp.png" />
@@ -148,13 +142,7 @@
     <None Include="Resources\Kasane_Battle.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Kogami_Pfp.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Kogami_Battle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Miku_Pfp.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Miku_Battle.png" />
@@ -169,12 +157,6 @@
     <None Include="Resources\Roserade_Battle.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Roserade_Pfp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Braixen_Pfp.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Braixen_Battle.png" />
   </ItemGroup>
   <ItemGroup>
@@ -182,6 +164,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Milotic_Pfp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Braixen_Pfp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Garou_Pfp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Mash_Pfp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Kogami_Pfp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Miku_Pfp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Roserade_Pfp.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

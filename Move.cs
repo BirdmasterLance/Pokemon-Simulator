@@ -12,22 +12,47 @@ namespace Pokemon_Simulator
         public string moveName;
         public string description;
         public double damage;
-        public double accuracy;
+        public double accuracy = 100;
         public bool physical;
         public bool actualAttack;
         public bool recoil = false;
         public Type type;
         public int pp;
         public int maxPP;
+
+        // Info about what the move does
         public bool canHealOneSelf = false;
+        public bool canAbsorb = false;
+
+        public bool canFlinch;
+        public bool causesStatus;
+
+        public bool raisesAtk = false;
+        public bool lowersAtk = false;
+        public bool lowersAtkSelf = false;
+
         public bool raisesDef = false;
         public bool lowersDef = false;
+        public bool lowersDefSelf = false;
+        
+        public bool raisesEspAtk = false;
+        public bool lowersEspAtk = false;
+        public bool lowersEspAtkSelf = false;
+
         public bool raisesEspDef = false;
         public bool lowersEspDef = false;
-        public bool raisesAtk = false;
-        public bool raisesEspAtk = false;
-        public bool lowersAtk = false;
-        public bool lowersEspAtk = false;
+        public bool lowersEspDefSelf = false;
+
+        public bool raisesSpeed = false;
+        public bool lowersSpeed = false;
+        public bool lowersSpeedSelf = false;
+
+        public bool raisesAccuracy = false;
+        public bool lowersAccuracy = false;
+
+        public bool raisesEvasion = false;
+        public bool lowersEvasion = false;
+
         public Move(Pokemon user)
         {
             this.user = user;
@@ -37,7 +62,7 @@ namespace Pokemon_Simulator
         {
         }
 
-        public virtual void SpecialTargetEffects(Pokemon target)
+        public virtual void SpecialTargetEffects(ref Pokemon target)
         {
 
         }
@@ -94,7 +119,7 @@ namespace Pokemon_Simulator
             lowersEspAtk = true;
         }
 
-        public override void SpecialTargetEffects(Pokemon target)
+        public override void SpecialTargetEffects(ref Pokemon target)
         {
             target.ChangeStat(ref target.currSpecialAttack, ref target.specialAttackStage, -1);
         }
@@ -108,7 +133,7 @@ namespace Pokemon_Simulator
             description = "Restores up to 50% of the user's maximum HP";
             actualAttack = false;
             type = Type.Normal;
-            pp = 5;
+            pp = 16;
             maxPP = pp;
             canHealOneSelf = true;
         }
@@ -155,7 +180,8 @@ namespace Pokemon_Simulator
             actualAttack = true;
             type = Type.Fighting;
             maxPP = pp = 8;
-            lowersDef = true;
+            lowersDefSelf = true;
+            lowersEspDefSelf = true;
         }
 
         public override void SpecialEffects()
@@ -177,9 +203,10 @@ namespace Pokemon_Simulator
             actualAttack = true;
             type = Type.Steel;
             maxPP = pp = 15;
+            canFlinch = true;
         }
 
-        public override void SpecialTargetEffects(Pokemon target)
+        public override void SpecialTargetEffects(ref Pokemon target)
         {
             // TODO: add 30% to flinch
         }
@@ -197,9 +224,10 @@ namespace Pokemon_Simulator
             actualAttack = true;
             type = Type.Poison;
             maxPP = pp = 16;
+            causesStatus = true;
         }
 
-        public override void SpecialTargetEffects(Pokemon target)
+        public override void SpecialTargetEffects(ref Pokemon target)
         {
             // TODO: add 30% to poison
         }
@@ -217,6 +245,7 @@ namespace Pokemon_Simulator
             actualAttack = true;
             type = Type.Grass;
             maxPP = pp = 16;
+            lowersEspAtkSelf = true;
         }
 
         public override void SpecialEffects()
@@ -234,6 +263,7 @@ namespace Pokemon_Simulator
             actualAttack = false;
             type = Type.Grass;
             maxPP = pp = 8;
+            canHealOneSelf = true;
         }
 
         public override void SpecialEffects()
@@ -274,9 +304,10 @@ namespace Pokemon_Simulator
             actualAttack = true;
             type = Type.Fire;
             maxPP = pp = 8;
+            causesStatus = true;
         }
 
-        public override void SpecialTargetEffects(Pokemon target)
+        public override void SpecialTargetEffects(ref Pokemon target)
         {
             // TODO: add 10% to burn
         }
@@ -294,8 +325,9 @@ namespace Pokemon_Simulator
             actualAttack = true;
             type = Type.Psychic;
             maxPP = pp = 16;
+            lowersEspDef = true;
         }
-        public override void SpecialTargetEffects(Pokemon target)
+        public override void SpecialTargetEffects(ref Pokemon target)
         {
             Random rand = new Random();
             int randInt = rand.Next(1, 10);
@@ -319,7 +351,7 @@ namespace Pokemon_Simulator
             type = Type.Grass;
             maxPP = pp = 32;
         }
-        public override void SpecialTargetEffects(Pokemon target)
+        public override void SpecialTargetEffects(ref Pokemon target)
         {
             // TODO: weight.
         }
@@ -337,8 +369,9 @@ namespace Pokemon_Simulator
             actualAttack = true;
             type = Type.Water;
             maxPP = pp = 24;
+            causesStatus = true;
         }
-        public override void SpecialTargetEffects(Pokemon target)
+        public override void SpecialTargetEffects(ref Pokemon target)
         {
             // TODO: 30% burn chance
         }
@@ -356,8 +389,9 @@ namespace Pokemon_Simulator
             actualAttack = true;
             type = Type.Ice;
             maxPP = pp = 16;
+            causesStatus = true;
         }
-        public override void SpecialTargetEffects(Pokemon target)
+        public override void SpecialTargetEffects(ref Pokemon target)
         {
             // TODO: 10% freeze
         }
@@ -374,10 +408,27 @@ namespace Pokemon_Simulator
             actualAttack = false;
             type = Type.Poison;
             maxPP = pp = 16;
+            causesStatus = true;
         }
-        public override void SpecialTargetEffects(Pokemon target)
+        public override void SpecialTargetEffects(ref Pokemon target)
         {
             // TODO: poison the target
+        }
+    }
+    internal class IronDefense : Move
+    {
+        public IronDefense(Pokemon user) : base(user)
+        {
+            moveName = "Iron Defense";
+            description = "Raises the user's defense by 2 stages";
+            actualAttack = false;
+            type = Type.Steel;
+            maxPP = pp = 24;
+            raisesDef = true;
+        }
+        public override void SpecialEffects()
+        {
+            user.ChangeStat(ref user.currDefense, ref user.defenseStage, 2);
         }
     }
 }

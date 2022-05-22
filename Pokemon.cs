@@ -61,10 +61,11 @@ namespace Pokemon_Simulator
         public List<Move> knownMoves = new List<Move>();
 
         public List<Pokemon> knownPokemons = new List<Pokemon>();
-        public Pokemon rivalPkmn;
+        private Pokemon rivalPkmn;
 
         protected int[] MaxDamage = new int[4];
 
+        public Move lastUsedMove;
         // TODO: Held Item
 
         protected Pokemon()
@@ -82,24 +83,28 @@ namespace Pokemon_Simulator
         public double GetSpecialDefense() { return specialDefense; }
         public double GetSpeed() { return speed; }
         public double GetDamage() { return damage; }
+        public ref Pokemon GetRivalPokemon() { return ref rivalPkmn; }
+        public void SetRivalPokemon(ref Pokemon pkmn) { rivalPkmn = pkmn; }
 
         public virtual int ChangeStat(ref double stat, ref int statStage, int stageIncrease)
         {
+            Console.WriteLine(stat + " " + statStage);
             if (statStage == 6) return 0;
 
             statStage += stageIncrease;
             if (statStage > 6) statStage = 6;
 
-            if (statStage > 0)
+            if (statStage >= 0)
             {
-                int modifier = (int)statStage + 2;
+                double modifier = statStage + 2;
                 stat *= modifier / 2;
             }
             if (statStage < 0)
             {
-                int modifier = (int)-statStage + 2;
+                double modifier = -statStage + 2;
                 stat *= 2 / modifier;
             }
+            Console.WriteLine(stat + " " + statStage);
             return statStage;
         }
 
@@ -110,38 +115,44 @@ namespace Pokemon_Simulator
             statStage += stageIncrease;
             if (statStage > 6) statStage = 6;
 
-            if (statStage > 0)
+            if (statStage >= 0)
             {
-                int modifier = (int)statStage + 3;
+                double modifier = statStage + 3;
                 stat *= modifier / 3;
             }
             if (statStage < 0)
             {
-                int modifier = (int)-statStage + 3;
+                double modifier = -statStage + 3;
                 stat *= 3 / modifier;
             }
             return statStage;
         }
 
-        public virtual int UseMove(Move move, Pokemon target)
+        public virtual int UseMove(Move move, ref Pokemon target)
         {
-            if (!move.actualAttack)
+
+            double accuracyModifier = (move.accuracy / 100 * this.currAccuracy / 100 * target.currEvasion / 100);
+            Random accuracyRand = new Random();
+            if (accuracyModifier > accuracyRand.Next(1, 100))
             {
-                move.SpecialEffects();
                 return -1;
             }
 
-            move.SpecialEffects();
-            move.SpecialTargetEffects(target);
+            if (!move.actualAttack)
+            {
+                move.SpecialEffects();
+                move.SpecialTargetEffects(ref target);
+                return -2;
+            }
 
             double levelModifier = (2 * level / 5) + 2;
             double defenseModifier = move.physical ? currAttack / target.currDefense : currSpecialAttack / target.currSpecialDefense;
+            //Console.WriteLine(currAttack + "/" + target.currDefense + " " + currSpecialAttack + "/" + target.currSpecialDefense);
             double stabModifier = (type1 == move.type || type2 == move.type) ? 1.5 : 1;
-            // TODO: supereffective and not very effective
-            double effectiveModifier = TypeData.CalculateEffectiveness(type1, move.type) * TypeData.CalculateEffectiveness(type2, move.type);
-
+            double effectiveModifier = TypeData.CalculateEffectiveness(move.type, target.type1) * TypeData.CalculateEffectiveness(move.type, target.type2);
+            //Console.WriteLine(levelModifier + " " + defenseModifier + " " + stabModifier + " " + effectiveModifier);
             double damage = ((levelModifier * move.damage * defenseModifier / 50) + 2) * stabModifier * effectiveModifier;
-
+            //Console.WriteLine();
             target.currHealth -= damage;
 
             if (move.recoil)
@@ -150,6 +161,10 @@ namespace Pokemon_Simulator
             }
 
             // Return how much damage it did (as a percent compared to the target's total health)
+
+            move.SpecialEffects();
+            move.SpecialTargetEffects(ref target);
+
             return (int)damage;
         }
         public /*override*/ void AICPU(bool PlayerFirstw)
@@ -193,8 +208,9 @@ namespace Pokemon_Simulator
 
                         if (this.moves[i].canHealOneSelf)
                         {
-                            damage = this.UseMove(this.moves[i], this);
-
+                            lastUsedMove = this.moves[i];
+                            damage = this.UseMove(this.moves[i], ref rivalPkmn);
+                            return;
                         }
                         //else if (moves[i] /*.protects*/)
                         //{
@@ -203,11 +219,8 @@ namespace Pokemon_Simulator
                         //}
                     }
                 }
-                else
-                {
-                    AttackMode();
-                }
             }
+            AttackMode();
         }
         private void AttackMode()
         {
@@ -220,20 +233,15 @@ namespace Pokemon_Simulator
             {
                 for (int j = 0; j < this.moves.Count; j++)
                 {
-                    if (TypeData.CalculateEffectiveness(rivalPkmn.type1, this.moves[j].type) == 2 || (TypeData.CalculateEffectiveness(rivalPkmn.type1, this.moves[j].type) == 1))//Check if this attack can raise user's stats
+                    if (TypeData.CalculateEffectiveness(this.moves[j].type, rivalPkmn.type1) == 2 || (TypeData.CalculateEffectiveness(this.moves[j].type, rivalPkmn.type1) == 2))//Check if this attack can raise user's stats
                     {
-
-                       
-
-                        damage = this.UseMove(this.moves[j], rivalPkmn);
-
-                    }
-                    else
-                    {
-                        NoSuperEffectiveness();
+                        lastUsedMove = this.moves[j];
+                        damage = this.UseMove(this.moves[j], ref rivalPkmn);
+                        return;
                     }
                 }
             }
+            NoSuperEffectiveness();
         }
         private void AttackPlus()
         {
@@ -243,15 +251,11 @@ namespace Pokemon_Simulator
 
                 if (this.moves[i].raisesAtk == true/*AbsobrsEnergy*/)
                 {
-                    damage = this.UseMove(this.moves[i], rivalPkmn);
+                    lastUsedMove = this.moves[i];
+                    damage = this.UseMove(this.moves[i], ref rivalPkmn);
 
-                }
-                else
-                {
-                    AttackMode();
                 }
             }
-
         }
 
         private void NoSuperEffectiveness()
@@ -268,7 +272,8 @@ namespace Pokemon_Simulator
                     //    damage = this.UseMove(this.moves[i], this);
 
                     //}
-                    damage = this.UseMove(this.moves[j], rivalPkmn);
+                    lastUsedMove = this.moves[j];
+                    damage = this.UseMove(this.moves[j], ref rivalPkmn);
 
                     //}
                 }

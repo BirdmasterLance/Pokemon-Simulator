@@ -110,11 +110,14 @@ namespace Pokemon_Simulator.Properties
             enemyPokemonName.Text = pokemon.displayName;
             enemyHealthBar.Maximum = (int)pokemon.GetHealth();
             enemyHealthBar.Value = (int)pokemon.currHealth;
+            label2.Text = pokemon.currHealth + "/" + pokemon.GetHealth();
 
             enemyPokemonImage.SizeMode = PictureBoxSizeMode.Zoom;
             // Get the directory of the actual project, then get the resources folder
             enemyPokemonImage.Image = Image.FromFile(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName
                 + @"\Pokemon-Simulator\Resources\" + pokemon.name + "_Battle.png");
+
+            pokemon.SetRivalPokemon(ref activePokemon);
         }
 
         private void Move1_Click(object sender, EventArgs e)
@@ -188,30 +191,35 @@ namespace Pokemon_Simulator.Properties
             //attackTimer.Elapsed += PlayerAttackAnimation;
 
             //playerPokemonImage.Location = Point.;//This sets the location of the Left top corner of the item in estion, the image, in this case
-
+            Console.WriteLine(activePokemon.currAttack + " " + activePokemon.currDefense + " " + activePokemon.currSpecialAttack + " " + activePokemon.currSpecialDefense + " " + activePokemon.currSpeed);
             if (move != -1)
             {
                 // Damage the enemy
-                int damage = activePokemon.UseMove(moves[move], activeEnemyPokemon);
+                int damage = activePokemon.UseMove(moves[move], ref activeEnemyPokemon);
+                label1.Text = activePokemon.name + " used " + moves[move].moveName + " dealing " + damage + " damage!"; 
                 if (activeEnemyPokemon.currHealth > 0)
                 {
                     enemyHealthBar.Value = (int) activeEnemyPokemon.currHealth;
+                    label2.Text = (int)activeEnemyPokemon.currHealth + "/" + activeEnemyPokemon.GetHealth();
                 }
                 else
                 {
                     enemyHealthBar.Value = 0;
+                    label2.Text = "0/" + activeEnemyPokemon.GetHealth();
                 }
             }
             else
             {
-                int damage = activePokemon.UseMove(new Struggle(activePokemon), activeEnemyPokemon);
+                int damage = activePokemon.UseMove(new Struggle(ref activePokemon), ref activeEnemyPokemon);
                 if (activeEnemyPokemon.currHealth > 0)
                 {
                     enemyHealthBar.Value = (int) activeEnemyPokemon.currHealth;
+                    label2.Text = (int)activeEnemyPokemon.currHealth + "/" + activeEnemyPokemon.GetHealth();
                 }
                 else
                 {
                     enemyHealthBar.Value = 0;
+                    label2.Text = "0/" + activeEnemyPokemon.GetHealth();
                 }
             }
             activeEnemyPokemon.knownMoves.Add(activePokemon.moves[move]);
@@ -229,7 +237,8 @@ namespace Pokemon_Simulator.Properties
                 activeEnemyPokemon.AICPU(playerFirst);
                 // Damage the player
                 //int damage = activeEnemyPokemon.UseMove(activeEnemyPokemon.moves[move], activePokemon);
-                label3.Text = activeEnemyPokemon.GetHealth().ToString() + " " + activeEnemyPokemon.currHealth.ToString() + " " + activeEnemyPokemon.GetDamage();
+                //label3.Text = activeEnemyPokemon.GetHealth().ToString() + " " + activeEnemyPokemon.currHealth.ToString() + " " + activeEnemyPokemon.GetDamage();
+                label3.Text = activeEnemyPokemon.name + " used " + activeEnemyPokemon.lastUsedMove.moveName + " dealing " + activeEnemyPokemon.GetDamage() + " damage!";
                 if (activePokemon.currHealth > 0)
                 {
                     playerHealthBar.Value = (int) activePokemon.currHealth;
@@ -283,12 +292,11 @@ namespace Pokemon_Simulator.Properties
         }
         void MouseCoord(Object source, MouseEventArgs e)
         {
-           label3.Text= "Xpos: "+e.X.ToString() + "Ypos: "+e.Y.ToString();
+           //label3.Text= "Xpos: "+e.X.ToString() + "Ypos: "+e.Y.ToString();
 
             lblMCY.Text = e.Y.ToString();
 
 
         }
-
     }
 }

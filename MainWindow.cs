@@ -268,6 +268,9 @@ namespace Pokemon_Simulator
             {
                 PbCharacterPic.Size = new Size(this.Size.Width / 2, this.Size.Height);
                 PbCharacterPic.Location = new Point(0, 0);
+                PbCharacterPic.Image = Image.FromFile(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName
+                + @"\Pokemon-Simulator\Resources\" + playerPokemonParty[0].name + "_Pfp.png");
+                PbCharacterPic.Image.RotateFlip(RotateFlipType.RotateNoneFlipX);
 
 
                 LblName.ForeColor = pkmn.MainColor;
