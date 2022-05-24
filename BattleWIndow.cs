@@ -23,9 +23,6 @@ namespace Pokemon_Simulator.Properties
         int turnCounter = 0;
         int secs = 0;
         bool playerFirst;
-        Pen Gpen = new Pen(Color.PapayaWhip, 1);
-
-
 
         Random rand = new Random();
         public BattleWindow()
@@ -33,32 +30,23 @@ namespace Pokemon_Simulator.Properties
             InitializeComponent();
         }
 
-
         //Am assuming this where battle begins, so add buttons and such, might as well say that u can experiment
         private void BattleWindow_Load(object sender, EventArgs e)
         {
-            // probs change the text of the buttons here H
             activePokemon = BattleData.pokemonList[0];
             moves = activePokemon.moves;
             LoadPlayerPokemonIntoBattle(activePokemon);
-
-
-
+            
             lblMCY.Show();
-
-
             lblMCY.Location = new Point(500, 50);
 
-
             lblMCX.Show();
-
-
             lblMCX.Location = new Point(500, 20);
+
             activeEnemyPokemon = BattleData.enemyList[0];
             LoadEnemyPokemonIntoBattle(activeEnemyPokemon);
             playerPokemonName.ForeColor = activePokemon.MainColor;
             activeEnemyPokemon.knownPokemons.Add(activePokemon);
-
             //TODO: Event for Image Resizing.(Scaling) Item re-placeement depenign on the screen size.
             timer1.Start();
 
@@ -235,20 +223,14 @@ namespace Pokemon_Simulator.Properties
         private void EnemyTurn(int move)
         {
             secs = 0;
-
-
-
-
             Comment.Show();
             Comment.Location = new Point(enemyPokemonImage.Location.X - 100, enemyPokemonImage.Location.Y);
             Comment.Text= activeEnemyPokemon.GetComment()[rand.Next(0, 5)]; 
 
             if (activeEnemyPokemon.currHealth < activeEnemyPokemon.GetHealth() * 20 / 100  && rand.Next(0, 5) == 1)
-            {
-                
+            {                
                 Comment.Text = activeEnemyPokemon.GetComment()[3];
-            }
-           
+            }           
             //AttackAnimation(playerPokemonImage, -1);h
             if (!NoMoreMoves(activeEnemyPokemon))
             {
@@ -315,32 +297,10 @@ namespace Pokemon_Simulator.Properties
             lblMCY.Text = e.Y.ToString();
 
 
-        }
-        void Graphs()
-        {
-
-
-            Comment.AutoSize = true;
-
-
-
-
-        }
-
-        private void BTDebug_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("Name: " + activePokemon.name + " HP : " + activePokemon.currHealth + "\nAtk :" + activePokemon.currAttack + " / " + activePokemon.GetAttack());
-
-        }
-
+        }    
         private void timer1_Tick(object sender, EventArgs e)
         {
             secs++;
-
-
-          
-
-
 
             if (secs == 50)
             {
