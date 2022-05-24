@@ -220,6 +220,8 @@ namespace Pokemon_Simulator
                         {
                             lastUsedMove = this.moves[i];
                             damage = this.UseMove(this.moves[i], ref rivalPkmn);
+                            Console.WriteLine(name + " used " + moves[i].moveName + " dealing " + damage + " damage!");
+
                             return;
                         }
                         else
@@ -253,6 +255,8 @@ namespace Pokemon_Simulator
                     {
                         lastUsedMove = this.moves[j];
                         damage = this.UseMove(this.moves[j], ref rivalPkmn);
+                        Console.WriteLine(name + " used " + moves[j].moveName + " dealing " + damage + " damage!");
+
                         return;
                     }
                 }

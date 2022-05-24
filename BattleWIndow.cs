@@ -24,6 +24,11 @@ namespace Pokemon_Simulator.Properties
         int secs = 0;
         bool playerFirst;
 
+        bool coolDown;
+
+
+        bool EcoolDown;
+
         Random rand = new Random();
         public BattleWindow()
         {
@@ -36,7 +41,7 @@ namespace Pokemon_Simulator.Properties
             activePokemon = BattleData.pokemonList[0];
             moves = activePokemon.moves;
             LoadPlayerPokemonIntoBattle(activePokemon);
-            
+
             lblMCY.Show();
             lblMCY.Location = new Point(500, 50);
 
@@ -48,7 +53,6 @@ namespace Pokemon_Simulator.Properties
             playerPokemonName.ForeColor = activePokemon.MainColor;
             activeEnemyPokemon.knownPokemons.Add(activePokemon);
             //TODO: Event for Image Resizing.(Scaling) Item re-placeement depenign on the screen size.
-            timer1.Start();
 
             Comment.Hide();
         }
@@ -113,7 +117,7 @@ namespace Pokemon_Simulator.Properties
 
         private void Move1_Click(object sender, EventArgs e)
         {
-            if (moves[0].pp > 0)
+            if (moves[0].pp > 0 && !coolDown)
             {
                 moves[0].pp--;
                 Move1.Text = moves[0].moveName + '\n' + moves[0].pp.ToString() + "/" + moves[0].maxPP.ToString();
@@ -126,7 +130,7 @@ namespace Pokemon_Simulator.Properties
 
         private void Move2_Click(object sender, EventArgs e)
         {
-            if (moves[1].pp > 0)
+            if (moves[1].pp > 0 && !coolDown)
             {
                 moves[1].pp--;
                 Move2.Text = moves[1].moveName + '\n' + moves[1].pp.ToString() + "/" + moves[1].maxPP.ToString();
@@ -138,7 +142,7 @@ namespace Pokemon_Simulator.Properties
 
         private void Move3_Click(object sender, EventArgs e)
         {
-            if (moves[2].pp > 0)
+            if (moves[2].pp > 0 && !coolDown)
             {
                 moves[2].pp--;
                 Move3.Text = moves[2].moveName + '\n' + moves[2].pp.ToString() + "/" + moves[2].maxPP.ToString();
@@ -150,7 +154,7 @@ namespace Pokemon_Simulator.Properties
 
         private void Move4_Click(object sender, EventArgs e)
         {
-            if (moves[3].pp > 0)
+            if (moves[3].pp > 0 && !coolDown)
             {
                 moves[3].pp--;
                 Move4.Text = moves[3].moveName + '\n' + moves[3].pp.ToString() + "/" + moves[3].maxPP.ToString();
@@ -172,7 +176,7 @@ namespace Pokemon_Simulator.Properties
             else
             {
                 playerFirst = false;
-                EnemyTurn(move);
+                //EnemyTurn(move);
             }
         }
 
@@ -217,57 +221,77 @@ namespace Pokemon_Simulator.Properties
 
             // TODO: item check here
 
-            if (playerFirst) EnemyTurn(move);
+            //if (playerFirst) EnemyTurn(move);
+            timer1.Start();
+            coolDown = true;
+            Commentary_Battle();
         }
 
-        private void EnemyTurn(int move)
+        private void Commentary_Battle()
         {
-            secs = 0;
+
+
+
             Comment.Show();
             Comment.Location = new Point(enemyPokemonImage.Location.X - 100, enemyPokemonImage.Location.Y);
-            Comment.Text= activeEnemyPokemon.GetComment()[rand.Next(0, 5)]; 
+            Comment.Text = activeEnemyPokemon.GetComment()[rand.Next(0, 4)];
 
-            if (activeEnemyPokemon.currHealth < activeEnemyPokemon.GetHealth() * 20 / 100  && rand.Next(0, 5) == 1)
-            {                
-                Comment.Text = activeEnemyPokemon.GetComment()[3];
-            }           
-            //AttackAnimation(playerPokemonImage, -1);h
-            if (!NoMoreMoves(activeEnemyPokemon))
+
+        }
+        private void EnemyTurn(int move)
+        {
+            //timer1.Start();
+
+            //secs = 0;
+
+            if (!EcoolDown)
             {
                 activeEnemyPokemon.AICPU(playerFirst);
-                // Damage the player
-                //int damage = activeEnemyPokemon.UseMove(activeEnemyPokemon.moves[move], activePokemon);
-                //label3.Text = activeEnemyPokemon.GetHealth().ToString() + " " + activeEnemyPokemon.currHealth.ToString() + " " + activeEnemyPokemon.GetDamage();
-                label3.Text = activeEnemyPokemon.name + " used " + activeEnemyPokemon.lastUsedMove.moveName + " dealing " + activeEnemyPokemon.GetDamage() + " damage!";
-                if (activePokemon.currHealth > 0)
+
+
+
+                if (activeEnemyPokemon.currHealth < activeEnemyPokemon.GetHealth() * 20 / 100 && rand.Next(0, 5) == 1)
                 {
-                    playerHealthBar.Value = (int)activePokemon.currHealth;
-                    playerHealthText.Text = (int)activePokemon.currHealth + "/" + activePokemon.GetHealth();
+                    Comment.Text = activeEnemyPokemon.GetComment()[4];
+                }
+                //AttackAnimation(playerPokemonImage, -1);h
+                if (!NoMoreMoves(activeEnemyPokemon))
+                {
+                    // Damage the player
+                    //int damage = activeEnemyPokemon.UseMove(activeEnemyPokemon.moves[move], activePokemon);
+                    //label3.Text = activeEnemyPokemon.GetHealth().ToString() + " " + activeEnemyPokemon.currHealth.ToString() + " " + activeEnemyPokemon.GetDamage();
+                    label3.Text = activeEnemyPokemon.name + " used " + activeEnemyPokemon.lastUsedMove.moveName + " dealing " + activeEnemyPokemon.GetDamage() + " damage!";
+                    if (activePokemon.currHealth > 0)
+                    {
+                        playerHealthBar.Value = (int)activePokemon.currHealth;
+                        playerHealthText.Text = (int)activePokemon.currHealth + "/" + activePokemon.GetHealth();
+                    }
+                    else
+                    {
+                        playerHealthBar.Value = 0;
+                        playerHealthText.Text = "0/" + activePokemon.GetHealth();
+
+                    }
                 }
                 else
                 {
-                    playerHealthBar.Value = 0;
-                    playerHealthText.Text = "0/" + activePokemon.GetHealth();
+                    //int damage = activeEnemyPokemon.UseMove(new Struggle(activeEnemyPokemon), activePokemon);
+                    if (activePokemon.currHealth > 0)
+                    {
+                        playerHealthBar.Value = (int)activePokemon.currHealth;
+                        playerHealthText.Text = activePokemon.currHealth + "/" + activePokemon.GetHealth();
+                    }
+                    else
+                    {
+                        playerHealthBar.Value = 0;
+                        playerHealthText.Text = "0/" + activePokemon.GetHealth();
 
+                    }
                 }
             }
-            else
-            {
-                //int damage = activeEnemyPokemon.UseMove(new Struggle(activeEnemyPokemon), activePokemon);
-                if (activePokemon.currHealth > 0)
-                {
-                    playerHealthBar.Value = (int)activePokemon.currHealth;
-                    playerHealthText.Text = activePokemon.currHealth + "/" + activePokemon.GetHealth();
-                }
-                else
-                {
-                    playerHealthBar.Value = 0;
-                    playerHealthText.Text = "0/" + activePokemon.GetHealth();
+            EcoolDown = true;
 
-                }
-            }
-
-            if (!playerFirst) PlayerTurn(move);
+            //if (!playerFirst) PlayerTurn(move);
         }
 
         private void PlayerAttackAnimation(Object source, ElapsedEventArgs e)
@@ -297,14 +321,25 @@ namespace Pokemon_Simulator.Properties
             lblMCY.Text = e.Y.ToString();
 
 
-        }    
+        }
         private void timer1_Tick(object sender, EventArgs e)
         {
             secs++;
+            Console.WriteLine(secs);
+         
 
             if (secs == 50)
             {
                 Comment.Hide();
+
+                EcoolDown = false;
+                EnemyTurn(1);
+            }
+            if (secs == 100)
+            {
+                coolDown = false;
+                secs = 0;
+                timer1.Stop();
             }
 
         }

@@ -52,10 +52,10 @@
             // 
             // enemyHealthBar
             // 
-            this.enemyHealthBar.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.enemyHealthBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.enemyHealthBar.Location = new System.Drawing.Point(818, 44);
+            this.enemyHealthBar.Location = new System.Drawing.Point(818, 40);
+            this.enemyHealthBar.MaximumSize = new System.Drawing.Size(327, 28);
             this.enemyHealthBar.MinimumSize = new System.Drawing.Size(327, 28);
             this.enemyHealthBar.Name = "enemyHealthBar";
             this.enemyHealthBar.Size = new System.Drawing.Size(327, 28);
@@ -67,7 +67,8 @@
             this.playerHealthBar.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.playerHealthBar.Location = new System.Drawing.Point(38, 44);
+            this.playerHealthBar.Location = new System.Drawing.Point(38, 40);
+            this.playerHealthBar.MaximumSize = new System.Drawing.Size(327, 28);
             this.playerHealthBar.MinimumSize = new System.Drawing.Size(327, 28);
             this.playerHealthBar.Name = "playerHealthBar";
             this.playerHealthBar.Size = new System.Drawing.Size(327, 28);
@@ -76,12 +77,11 @@
             // 
             // Move1
             // 
-            this.Move1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.Move1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.Move1.BackColor = System.Drawing.SystemColors.Control;
             this.Move1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
             this.Move1.Location = new System.Drawing.Point(7, 374);
+            this.Move1.MaximumSize = new System.Drawing.Size(203, 70);
             this.Move1.MinimumSize = new System.Drawing.Size(203, 70);
             this.Move1.Name = "Move1";
             this.Move1.Size = new System.Drawing.Size(203, 70);
@@ -92,11 +92,10 @@
             // 
             // Move2
             // 
-            this.Move2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.Move2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.Move2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
             this.Move2.Location = new System.Drawing.Point(216, 374);
+            this.Move2.MaximumSize = new System.Drawing.Size(203, 70);
             this.Move2.MinimumSize = new System.Drawing.Size(203, 70);
             this.Move2.Name = "Move2";
             this.Move2.Size = new System.Drawing.Size(203, 70);
@@ -107,11 +106,10 @@
             // 
             // Move3
             // 
-            this.Move3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.Move3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.Move3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
             this.Move3.Location = new System.Drawing.Point(7, 450);
+            this.Move3.MaximumSize = new System.Drawing.Size(203, 70);
             this.Move3.MinimumSize = new System.Drawing.Size(203, 70);
             this.Move3.Name = "Move3";
             this.Move3.Size = new System.Drawing.Size(203, 70);
@@ -122,11 +120,10 @@
             // 
             // Move4
             // 
-            this.Move4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.Move4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.Move4.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
             this.Move4.Location = new System.Drawing.Point(218, 450);
+            this.Move4.MaximumSize = new System.Drawing.Size(203, 70);
             this.Move4.MinimumSize = new System.Drawing.Size(203, 70);
             this.Move4.Name = "Move4";
             this.Move4.Size = new System.Drawing.Size(203, 70);
@@ -137,12 +134,12 @@
             // 
             // enemyPokemonName
             // 
-            this.enemyPokemonName.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.enemyPokemonName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.enemyPokemonName.AutoSize = true;
             this.enemyPokemonName.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
             this.enemyPokemonName.Location = new System.Drawing.Point(813, 11);
+            this.enemyPokemonName.MaximumSize = new System.Drawing.Size(321, 129);
             this.enemyPokemonName.MinimumSize = new System.Drawing.Size(221, 29);
             this.enemyPokemonName.Name = "enemyPokemonName";
             this.enemyPokemonName.Size = new System.Drawing.Size(221, 29);
@@ -158,6 +155,7 @@
             this.playerPokemonName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.playerPokemonName.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
             this.playerPokemonName.Location = new System.Drawing.Point(33, 11);
+            this.playerPokemonName.MaximumSize = new System.Drawing.Size(314, 129);
             this.playerPokemonName.MinimumSize = new System.Drawing.Size(214, 29);
             this.playerPokemonName.Name = "playerPokemonName";
             this.playerPokemonName.Size = new System.Drawing.Size(214, 29);
@@ -171,7 +169,8 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.playerHealthText.AutoSize = true;
             this.playerHealthText.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
-            this.playerHealthText.Location = new System.Drawing.Point(263, 75);
+            this.playerHealthText.Location = new System.Drawing.Point(263, 71);
+            this.playerHealthText.MaximumSize = new System.Drawing.Size(212, 129);
             this.playerHealthText.MinimumSize = new System.Drawing.Size(112, 29);
             this.playerHealthText.Name = "playerHealthText";
             this.playerHealthText.Size = new System.Drawing.Size(112, 29);
@@ -194,11 +193,11 @@
             // 
             // enemyPokemonImage
             // 
-            this.enemyPokemonImage.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.enemyPokemonImage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.enemyPokemonImage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.enemyPokemonImage.Location = new System.Drawing.Point(1035, 99);
+            this.enemyPokemonImage.MaximumSize = new System.Drawing.Size(309, 369);
             this.enemyPokemonImage.MinimumSize = new System.Drawing.Size(209, 269);
             this.enemyPokemonImage.Name = "enemyPokemonImage";
             this.enemyPokemonImage.Size = new System.Drawing.Size(209, 269);
@@ -212,6 +211,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.playerPokemonImage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.playerPokemonImage.Location = new System.Drawing.Point(38, 99);
+            this.playerPokemonImage.MaximumSize = new System.Drawing.Size(309, 369);
             this.playerPokemonImage.MinimumSize = new System.Drawing.Size(209, 269);
             this.playerPokemonImage.Name = "playerPokemonImage";
             this.playerPokemonImage.Size = new System.Drawing.Size(209, 269);
@@ -234,12 +234,12 @@
             // 
             // label2
             // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
-            this.label2.Location = new System.Drawing.Point(813, 75);
+            this.label2.Location = new System.Drawing.Point(813, 71);
+            this.label2.MaximumSize = new System.Drawing.Size(212, 129);
             this.label2.MinimumSize = new System.Drawing.Size(112, 29);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(112, 29);
@@ -248,12 +248,12 @@
             // 
             // timer1
             // 
+            this.timer1.Interval = 1;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // Comment
             // 
-            this.Comment.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.Comment.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Comment.AutoSize = true;
             this.Comment.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F);

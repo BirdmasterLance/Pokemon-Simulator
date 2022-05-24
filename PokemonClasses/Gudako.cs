@@ -13,8 +13,8 @@ namespace Pokemon_Simulator.PokemonClasses
             comments[0] = "Take That!";
             comments[1] = "Great！";
             comments[2] = "How Come?!";
-            comments[3] = "It Aint Overr.. yet.";
-            comments[4] = "How Dare You!?";
+            comments[3] = "How Dare You!?";
+            comments[4] = "It Aint Overr.. yet.";
             level = 50;
             health = currHealth = 135;
             attack = currAttack = 90;
