@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Timers;
 using System.Windows.Forms;
-using System.Resources;
-using System.IO;
 
 namespace Pokemon_Simulator.Properties
 {
@@ -26,8 +21,13 @@ namespace Pokemon_Simulator.Properties
         List<Move> moves = new List<Move>();
 
         int turnCounter = 0;
+        int secs = 0;
         bool playerFirst;
+        Pen Gpen = new Pen(Color.PapayaWhip, 1);
 
+
+
+        Random rand = new Random();
         public BattleWindow()
         {
             InitializeComponent();
@@ -39,27 +39,30 @@ namespace Pokemon_Simulator.Properties
         {
             // probs change the text of the buttons here H
             activePokemon = BattleData.pokemonList[0];
-            moves = activePokemon.moves;            
+            moves = activePokemon.moves;
             LoadPlayerPokemonIntoBattle(activePokemon);
 
-            
-            
+
+
             lblMCY.Show();
 
 
             lblMCY.Location = new Point(500, 50);
 
-           
+
             lblMCX.Show();
 
 
             lblMCX.Location = new Point(500, 20);
             activeEnemyPokemon = BattleData.enemyList[0];
             LoadEnemyPokemonIntoBattle(activeEnemyPokemon);
-            playerPokemonName.ForeColor= activePokemon.MainColor;
+            playerPokemonName.ForeColor = activePokemon.MainColor;
             activeEnemyPokemon.knownPokemons.Add(activePokemon);
 
             //TODO: Event for Image Resizing.(Scaling) Item re-placeement depenign on the screen size.
+            timer1.Start();
+
+            Comment.Hide();
         }
 
         private void LoadPlayerPokemonIntoBattle(Pokemon pokemon)
@@ -122,7 +125,7 @@ namespace Pokemon_Simulator.Properties
 
         private void Move1_Click(object sender, EventArgs e)
         {
-            if(moves[0].pp > 0)
+            if (moves[0].pp > 0)
             {
                 moves[0].pp--;
                 Move1.Text = moves[0].moveName + '\n' + moves[0].pp.ToString() + "/" + moves[0].maxPP.ToString();
@@ -135,7 +138,7 @@ namespace Pokemon_Simulator.Properties
 
         private void Move2_Click(object sender, EventArgs e)
         {
-            if(moves[1].pp > 0)
+            if (moves[1].pp > 0)
             {
                 moves[1].pp--;
                 Move2.Text = moves[1].moveName + '\n' + moves[1].pp.ToString() + "/" + moves[1].maxPP.ToString();
@@ -147,7 +150,7 @@ namespace Pokemon_Simulator.Properties
 
         private void Move3_Click(object sender, EventArgs e)
         {
-            if(moves[2].pp > 0)
+            if (moves[2].pp > 0)
             {
                 moves[2].pp--;
                 Move3.Text = moves[2].moveName + '\n' + moves[2].pp.ToString() + "/" + moves[2].maxPP.ToString();
@@ -159,7 +162,7 @@ namespace Pokemon_Simulator.Properties
 
         private void Move4_Click(object sender, EventArgs e)
         {
-            if(moves[3].pp > 0)
+            if (moves[3].pp > 0)
             {
                 moves[3].pp--;
                 Move4.Text = moves[3].moveName + '\n' + moves[3].pp.ToString() + "/" + moves[3].maxPP.ToString();
@@ -173,7 +176,7 @@ namespace Pokemon_Simulator.Properties
         {
             turnCounter++; // We are in the "next" turn
 
-            if(activePokemon.currSpeed >= activeEnemyPokemon.currSpeed)
+            if (activePokemon.currSpeed >= activeEnemyPokemon.currSpeed)
             {
                 playerFirst = true;
                 PlayerTurn(move);
@@ -196,10 +199,10 @@ namespace Pokemon_Simulator.Properties
             {
                 // Damage the enemy
                 int damage = activePokemon.UseMove(moves[move], ref activeEnemyPokemon);
-                label1.Text = activePokemon.name + " used " + moves[move].moveName + " dealing " + damage + " damage!"; 
+                label1.Text = activePokemon.name + " used " + moves[move].moveName + " dealing " + damage + " damage!";
                 if (activeEnemyPokemon.currHealth > 0)
                 {
-                    enemyHealthBar.Value = (int) activeEnemyPokemon.currHealth;
+                    enemyHealthBar.Value = (int)activeEnemyPokemon.currHealth;
                     label2.Text = (int)activeEnemyPokemon.currHealth + "/" + activeEnemyPokemon.GetHealth();
                 }
                 else
@@ -210,10 +213,10 @@ namespace Pokemon_Simulator.Properties
             }
             else
             {
-                int damage = activePokemon.UseMove(new Struggle(ref activePokemon), ref activeEnemyPokemon);
+                int damage = activePokemon.UseMove(new Struggle(/*ref*/ activePokemon), ref activeEnemyPokemon);
                 if (activeEnemyPokemon.currHealth > 0)
                 {
-                    enemyHealthBar.Value = (int) activeEnemyPokemon.currHealth;
+                    enemyHealthBar.Value = (int)activeEnemyPokemon.currHealth;
                     label2.Text = (int)activeEnemyPokemon.currHealth + "/" + activeEnemyPokemon.GetHealth();
                 }
                 else
@@ -226,11 +229,26 @@ namespace Pokemon_Simulator.Properties
 
             // TODO: item check here
 
-            if(playerFirst) EnemyTurn(move);
+            if (playerFirst) EnemyTurn(move);
         }
 
         private void EnemyTurn(int move)
         {
+            secs = 0;
+
+
+
+
+            Comment.Show();
+            Comment.Location = new Point(enemyPokemonImage.Location.X - 100, enemyPokemonImage.Location.Y);
+            Comment.Text= activeEnemyPokemon.GetComment()[rand.Next(0, 5)]; 
+
+            if (activeEnemyPokemon.currHealth < activeEnemyPokemon.GetHealth() * 20 / 100  && rand.Next(0, 5) == 1)
+            {
+                
+                Comment.Text = activeEnemyPokemon.GetComment()[3];
+            }
+           
             //AttackAnimation(playerPokemonImage, -1);h
             if (!NoMoreMoves(activeEnemyPokemon))
             {
@@ -241,7 +259,7 @@ namespace Pokemon_Simulator.Properties
                 label3.Text = activeEnemyPokemon.name + " used " + activeEnemyPokemon.lastUsedMove.moveName + " dealing " + activeEnemyPokemon.GetDamage() + " damage!";
                 if (activePokemon.currHealth > 0)
                 {
-                    playerHealthBar.Value = (int) activePokemon.currHealth;
+                    playerHealthBar.Value = (int)activePokemon.currHealth;
                     playerHealthText.Text = (int)activePokemon.currHealth + "/" + activePokemon.GetHealth();
                 }
                 else
@@ -256,7 +274,7 @@ namespace Pokemon_Simulator.Properties
                 //int damage = activeEnemyPokemon.UseMove(new Struggle(activeEnemyPokemon), activePokemon);
                 if (activePokemon.currHealth > 0)
                 {
-                    playerHealthBar.Value = (int) activePokemon.currHealth;
+                    playerHealthBar.Value = (int)activePokemon.currHealth;
                     playerHealthText.Text = activePokemon.currHealth + "/" + activePokemon.GetHealth();
                 }
                 else
@@ -267,7 +285,7 @@ namespace Pokemon_Simulator.Properties
                 }
             }
 
-            if(!playerFirst) PlayerTurn(move);
+            if (!playerFirst) PlayerTurn(move);
         }
 
         private void PlayerAttackAnimation(Object source, ElapsedEventArgs e)
@@ -287,15 +305,47 @@ namespace Pokemon_Simulator.Properties
         }
         void ResizeScreen(Object source, EventArgs e)
         {
-            enemyHealthBar.Location = new Point(this.Location.X+700, this.Location.Y+20);
+            //enemyHealthBar.Location = new Point(this.Location.X+700, this.Location.Y+20);
 
         }
         void MouseCoord(Object source, MouseEventArgs e)
         {
-           //label3.Text= "Xpos: "+e.X.ToString() + "Ypos: "+e.Y.ToString();
+            //label3.Text= "Xpos: "+e.X.ToString() + "Ypos: "+e.Y.ToString();
 
             lblMCY.Text = e.Y.ToString();
 
+
+        }
+        void Graphs()
+        {
+
+
+            Comment.AutoSize = true;
+
+
+
+
+        }
+
+        private void BTDebug_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Name: " + activePokemon.name + " HP : " + activePokemon.currHealth + "\nAtk :" + activePokemon.currAttack + " / " + activePokemon.GetAttack());
+
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            secs++;
+
+
+          
+
+
+
+            if (secs == 50)
+            {
+                Comment.Hide();
+            }
 
         }
     }

@@ -180,6 +180,7 @@ namespace Pokemon_Simulator
             PbCharacterPic.SizeMode = PictureBoxSizeMode.StretchImage;
             PbCharacterPic.Image = Image.FromFile(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName
             + @"\Pokemon-Simulator\Resources\" + selectedPokemon.name + "_Pfp.png");
+            //LblName.Font = selectedPokemon.font;
             LblName.ForeColor = selectedPokemon.MainColor;
             LblName.Text = selectedPokemon.displayName;
             LblSlogan.Text = "\"" + selectedPokemon.slogan + "\"";

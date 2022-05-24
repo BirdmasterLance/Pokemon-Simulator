@@ -9,6 +9,7 @@ namespace Pokemon_Simulator.PokemonClasses
             name = "Milotic";
             displayName = "Milotic";
             MainColor = Color.RoyalBlue;
+            slogan = "このワルドは。。";
 
             level = 50;
             health = currHealth = 170;

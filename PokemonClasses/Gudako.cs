@@ -10,6 +10,11 @@ namespace Pokemon_Simulator.PokemonClasses
             displayName = "Gudako";
             MainColor = Color.Orange;
 
+            comments[0] = "Take That!";
+            comments[1] = "Great！";
+            comments[2] = "How Come?!";
+            comments[3] = "It Aint Overr.. yet.";
+            comments[4] = "How Dare You!?";
             level = 50;
             health = currHealth = 135;
             attack = currAttack = 90;

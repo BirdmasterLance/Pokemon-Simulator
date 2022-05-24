@@ -9,6 +9,8 @@ namespace Pokemon_Simulator.PokemonClasses
             name = "Dio";
             displayName = "DIO";
             MainColor = Color.Gold;
+            slogan = "How many slices of bread?";
+            font = new Font("Arial",10);
 
             level = 50;
             health = currHealth = 135;

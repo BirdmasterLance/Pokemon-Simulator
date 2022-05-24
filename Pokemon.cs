@@ -13,6 +13,9 @@ namespace Pokemon_Simulator
         public Color MainColor;
         public string slogan;
 
+        public Font font;
+        protected string[] comments= new string [5];
+
 
         public int level;
 
@@ -48,6 +51,8 @@ namespace Pokemon_Simulator
         public int evasionStage;
 
         protected int damage;
+
+        protected string comment;
 
 
         Random rand = new Random();
@@ -85,6 +90,8 @@ namespace Pokemon_Simulator
         public double GetDamage() { return damage; }
         public ref Pokemon GetRivalPokemon() { return ref rivalPkmn; }
         public void SetRivalPokemon(ref Pokemon pkmn) { rivalPkmn = pkmn; }
+        public string[] GetComment() { return comments; }
+
 
         public virtual int ChangeStat(ref double stat, ref int statStage, int stageIncrease)
         {
@@ -181,6 +188,8 @@ namespace Pokemon_Simulator
             if (currHealth < health * 50 / 100)
             {
 
+                comment = "Ow, ;m;";
+
                 HealingMode();
             }
             else
@@ -199,18 +208,25 @@ namespace Pokemon_Simulator
 
         private void HealingMode()
         {
-            for (int j = 0; j < this.moves.Count; j++)
+            for (int j = 0; j < this.moves.Count; j++)//Scan "Known", or used moves by player.
             {
-                if (moves[j].damage >= this.currHealth)
+                if (knownMoves[j].damage >= this.currHealth && (knownMoves[j].pp != 0))//If there's chance that *player* is gonna do an "one shot". Try ealing, protecting
                 {
-                    for (int i = 0; i < this.moves.Count; i++)
+                    for (int i = 0; i < this.moves.Count; i++)// Scan own moves, looking for healng 
                     {
+                        ;
 
-                        if (this.moves[i].canHealOneSelf)
+                        if (this.moves[i].canHealOneSelf && this.moves[i].pp != 0 && rand.Next(0, 2) == 1)
                         {
                             lastUsedMove = this.moves[i];
                             damage = this.UseMove(this.moves[i], ref rivalPkmn);
                             return;
+                        }
+                        else
+                        {
+
+                            AttackMode();
+
                         }
                         //else if (moves[i] /*.protects*/)
                         //{
