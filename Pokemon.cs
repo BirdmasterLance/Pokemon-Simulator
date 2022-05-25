@@ -155,10 +155,12 @@ namespace Pokemon_Simulator
             double levelModifier = (2 * level / 5) + 2;
             double defenseModifier = move.physical ? currAttack / target.currDefense : currSpecialAttack / target.currSpecialDefense;
             //Console.WriteLine(currAttack + "/" + target.currDefense + " " + currSpecialAttack + "/" + target.currSpecialDefense);
+            Random rand = new Random();
+            double randomModifier = (double) rand.Next(85, 100) / 100;
             double stabModifier = (type1 == move.type || type2 == move.type) ? 1.5 : 1;
-            double effectiveModifier = TypeData.CalculateEffectiveness(move.type, target.type1) * TypeData.CalculateEffectiveness(move.type, target.type2);
+            double typeModifier = TypeData.CalculateEffectiveness(move.type, target.type1) * TypeData.CalculateEffectiveness(move.type, target.type2);
             //Console.WriteLine(levelModifier + " " + defenseModifier + " " + stabModifier + " " + effectiveModifier);
-            double damage = ((levelModifier * move.damage * defenseModifier / 50) + 2) * stabModifier * effectiveModifier;
+            double damage = ((levelModifier * move.damage * defenseModifier / 50) + 2) * randomModifier * stabModifier * typeModifier;
             //Console.WriteLine();
             target.currHealth -= damage;
 

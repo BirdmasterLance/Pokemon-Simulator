@@ -176,6 +176,10 @@ namespace Pokemon_Simulator.Properties
             else
             {
                 playerFirst = false;
+                timer1.Start();
+                coolDown = true;
+                Commentary_Battle();
+                PlayerTurn(move);
                 //EnemyTurn(move);
             }
         }
