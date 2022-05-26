@@ -8,34 +8,66 @@ namespace Pokemon_Simulator
 {
     public class BattleEventHandler
     {
-        public static event Action OnPlayerSwitch; 
-        public static void StartPlayerSwitch()
+
+        public event EventHandler OnStartTurn;
+        public void StartTurn()
         {
-            OnPlayerSwitch?.Invoke();
+            OnStartTurn?.Invoke(this, EventArgs.Empty);
         }
 
-        public static event Action OnEnemySwitch;
-        public static void StartEnemySwitch()
+        public event EventHandler OnEndTurn;
+        public  void EndTurn()
         {
-            OnEnemySwitch?.Invoke();
+            OnEndTurn?.Invoke(this, EventArgs.Empty);
         }
 
-        public static event Action OnPlayerTurn;
-        public static void StartPlayerTurn()
+        public event EventHandler OnStartPlayerTurn;
+        public void StartPlayerTurn()
         {
-            OnPlayerTurn?.Invoke();
+            OnStartPlayerTurn?.Invoke(this, EventArgs.Empty);
         }
 
-        public static event Action OnEnemyTurn;
-        public static void StartEnemyTurn()
+        public event EventHandler OnEndPlayerTurn;
+        public void EndPlayerTurn()
         {
-            OnEnemyTurn?.Invoke();
+            OnEndPlayerTurn?.Invoke(this, EventArgs.Empty);
         }
 
-        public static event Action OnEndTurn;
-        public static void EndTurn()
+        public event EventHandler OnStartEnemyTurn;
+        public void StartEnemyTurn()
         {
-            OnEndTurn?.Invoke();
+            OnStartEnemyTurn?.Invoke(this, EventArgs.Empty);
+        }
+
+        public event EventHandler OnEndEnemyTurn;
+        public void EndEnemyTurn()
+        {
+            OnEndEnemyTurn?.Invoke(this, EventArgs.Empty);
+        }
+
+        public event EventHandler OnPlayerSwitch;
+        public void StartPlayerSwitch()
+        {
+            OnPlayerSwitch?.Invoke(this, EventArgs.Empty);
+        }
+
+        public event EventHandler OnEnemySwitch;
+        public void StartEnemySwitch()
+        {
+            OnEnemySwitch?.Invoke(this, EventArgs.Empty);
+        }
+
+        // Meant for when ONE pokemon faints
+        public event EventHandler OnPlayerPokemonFainted;
+        public void PlayerPokemonFainted()
+        {
+            OnPlayerPokemonFainted?.Invoke(this, EventArgs.Empty);
+        }
+
+        public event EventHandler OnEnemyPokemonFainted;
+        public void EnemyPokemonFainted()
+        {
+            OnEnemyPokemonFainted?.Invoke(this, EventArgs.Empty);
         }
     }
 }
