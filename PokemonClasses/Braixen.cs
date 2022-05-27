@@ -11,7 +11,7 @@ namespace Pokemon_Simulator.PokemonClasses
             MainColor = Color.LightGoldenrodYellow;
 
             level = 50;
-            health = currHealth = 134;
+            health = currHealth = 134*2;
             attack = currAttack = 79;
             defense = currDefense = 78;
             specialAttack = currSpecialAttack = 110;

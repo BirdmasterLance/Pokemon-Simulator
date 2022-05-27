@@ -17,7 +17,7 @@ namespace Pokemon_Simulator.PokemonClasses
             slogan = "The popular will win, the hated will lose.";
 
             level = 50;
-            health = currHealth = 125;
+            health = currHealth = 125*2;
             attack = currAttack = 140;
             defense = currDefense = 90;
             specialAttack = currSpecialAttack = 65;

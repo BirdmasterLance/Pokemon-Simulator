@@ -11,7 +11,7 @@ namespace Pokemon_Simulator.PokemonClasses
             MainColor = Color.Aquamarine;
 
             level = 50;
-            health = currHealth = 135;
+            health = currHealth = 135*2;
             attack = currAttack = 90;
             defense = currDefense = 85;
             specialAttack = currSpecialAttack = 145;

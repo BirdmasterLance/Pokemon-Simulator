@@ -14,7 +14,7 @@ namespace Pokemon_Simulator
         public string slogan;
 
         public Font font;
-        protected string[] comments= new string [5];
+        protected string[] comments = new string[5];
 
 
         public int level;
@@ -71,6 +71,8 @@ namespace Pokemon_Simulator
         protected int[] MaxDamage = new int[4];
 
         public Move lastUsedMove;
+
+        int moveCounter = 0;
         // TODO: Held Item
 
         protected Pokemon()
@@ -156,7 +158,7 @@ namespace Pokemon_Simulator
             double defenseModifier = move.physical ? currAttack / target.currDefense : currSpecialAttack / target.currSpecialDefense;
             //Console.WriteLine(currAttack + "/" + target.currDefense + " " + currSpecialAttack + "/" + target.currSpecialDefense);
             Random rand = new Random();
-            double randomModifier = (double) rand.Next(85, 100) / 100;
+            double randomModifier = (double)rand.Next(85, 100) / 100;
             double stabModifier = (type1 == move.type || type2 == move.type) ? 1.5 : 1;
             double typeModifier = TypeData.CalculateEffectiveness(move.type, target.type1) * TypeData.CalculateEffectiveness(move.type, target.type2);
             //Console.WriteLine(levelModifier + " " + defenseModifier + " " + stabModifier + " " + effectiveModifier);
@@ -187,22 +189,23 @@ namespace Pokemon_Simulator
             }
 
             //rival losing,
-            if (currHealth < health * 50 / 100)
+            if (currHealth < health * 50 / 100 && !lastUsedMove.canHealOneSelf)
             {
 
-                comment = "Ow, ;m;";
 
                 HealingMode();
             }
             else
             {
-
-
-                AttackMode();
                 if (rand.Next(0, 7) == 5)
                 {
                     AttackPlus();
                 }
+                else
+                {
+                    AttackMode();
+                }
+
 
             }
 
@@ -216,9 +219,9 @@ namespace Pokemon_Simulator
                 {
                     for (int i = 0; i < this.moves.Count; i++)// Scan own moves, looking for healng 
                     {
-                        ;
 
-                        if (this.moves[i].canHealOneSelf && this.moves[i].pp != 0 && rand.Next(0, 2) == 1)
+
+                        if (this.moves[i].canHealOneSelf && this.moves[i].pp != 0/* && rand.Next(0, 2) == 1 */&& !this.moves[i].actualAttack)
                         {
                             lastUsedMove = this.moves[i];
                             damage = this.UseMove(this.moves[i], ref rivalPkmn);
@@ -253,7 +256,7 @@ namespace Pokemon_Simulator
             {
                 for (int j = 0; j < this.moves.Count; j++)
                 {
-                    if (TypeData.CalculateEffectiveness(this.moves[j].type, rivalPkmn.type1) == 2 || (TypeData.CalculateEffectiveness(this.moves[j].type, rivalPkmn.type1) == 2))//Check if this attack can raise user's stats
+                    if ((TypeData.CalculateEffectiveness(this.moves[j].type, rivalPkmn.type1) == 2 || (TypeData.CalculateEffectiveness(this.moves[j].type, rivalPkmn.type1) == 2) )&& this.moves[j].actualAttack)//Check if this attack can raise user's stats
                     {
                         lastUsedMove = this.moves[j];
                         damage = this.UseMove(this.moves[j], ref rivalPkmn);
@@ -265,8 +268,8 @@ namespace Pokemon_Simulator
             }
             NoSuperEffectiveness();
         }
-        private void AttackPlus()
-        {
+        private void AttackPlus()//
+        {//-*Looking for an attack, or move that can heal, raise, etc
             for (int i = 0; i < this.moves.Count; i++)
             {
 
@@ -286,20 +289,57 @@ namespace Pokemon_Simulator
             {
                 if (this.moves[j].damage == MaxDamage.Max())
                 {
-                    //for (int i = 0; i < this.moves.Count; i++)
-                    //{
 
-                    //if (this.moves[i]./*AbsobrsEnergy*/)
-                    //{
-                    //    damage = this.UseMove(this.moves[i], this);
-
-                    //}
                     lastUsedMove = this.moves[j];
                     damage = this.UseMove(this.moves[j], ref rivalPkmn);
 
-                    //}
+
                 }
             }
+        }
+        void CommnetModifier()
+        {
+            if (this.name.Equals("Dio"))
+            {
+                switch (rivalPkmn.displayName)
+                {
+                    case "Dio":
+                        this.comments[0] = "Too tough to harm a little girl like me?!";
+
+                        return;
+                    case "Garou":
+
+                        this.comments[0] = "This is what you train for?!";
+
+                        return;
+
+
+
+                }
+            }
+
+
+            if (this.name.Equals("Dio"))
+            {
+                switch (rivalPkmn.displayName)
+                {
+                    case "Gudako":
+                        this.comments[0] = "As weak as you look.";
+
+                        return;
+                    case "Garou":
+
+                        this.comments[0] = "Haha..";
+
+                        return;
+
+
+
+                }
+            }
+
+
+
         }
 
         public object Clone()

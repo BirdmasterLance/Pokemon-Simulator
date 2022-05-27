@@ -8,3 +8,6 @@ obj/Debug/Pokemon-Simulator.csproj.AssemblyReference.cache
 obj/Debug/Pokemon-Simulator.csproj.CoreCompileInputs.cache
 obj/Debug/Pokemon-Simulator.csproj.FileListAbsolute.txt
 obj/Debug/Pokemon-Simulator.csproj.GenerateResource.cache
+*.pdb
+*.pdb
+*.exe

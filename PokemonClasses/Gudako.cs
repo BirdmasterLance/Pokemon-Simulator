@@ -16,7 +16,7 @@ namespace Pokemon_Simulator.PokemonClasses
             comments[3] = "How Dare You!?";
             comments[4] = "It Aint Overr.. yet.";
             level = 50;
-            health = currHealth = 135;
+            health = currHealth = 135*2;
             attack = currAttack = 90;
             defense = currDefense = 85;
             specialAttack = currSpecialAttack = 145;

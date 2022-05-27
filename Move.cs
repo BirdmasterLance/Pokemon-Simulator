@@ -52,6 +52,7 @@ namespace Pokemon_Simulator
 
         public bool raisesEvasion = false;
         public bool lowersEvasion = false;
+        public int moveCounter = 0;
 
         public Move(Pokemon user)
         {

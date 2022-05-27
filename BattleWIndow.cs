@@ -75,7 +75,7 @@ namespace Pokemon_Simulator.Properties
             // Get the directory of the actual project, then get the resources folder
             playerPokemonImage.Image = Image.FromFile(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName
                 + @"\Pokemon-Simulator\Resources\" + pokemon.name + "_Battle.png");
-            playerPokemonImage.Image.RotateFlip(RotateFlipType.RotateNoneFlipX);           
+            playerPokemonImage.Image.RotateFlip(RotateFlipType.RotateNoneFlipX);
 
             // Load their moves too
             LoadPlayerMoves(moves);
@@ -188,7 +188,7 @@ namespace Pokemon_Simulator.Properties
                 battleEventHandler.StartPlayerTurn(); // Using the move
                 // Delay?
                 battleEventHandler.EndPlayerTurn(); // Recoil, item usage, etc
-                
+
                 // Enemy turn
                 timer1.Start();
                 coolDown = true;
@@ -227,7 +227,7 @@ namespace Pokemon_Simulator.Properties
             {
                 int damage = activePokemon.UseMove(new Struggle(/*ref*/ activePokemon), ref activeEnemyPokemon);
                 UpdateHealthBar(1);
-            }           
+            }
         }
 
         private void Commentary_Battle()
@@ -237,7 +237,23 @@ namespace Pokemon_Simulator.Properties
 
             Comment.Show();
             Comment.Location = new Point(enemyPokemonImage.Location.X - 100, enemyPokemonImage.Location.Y);
-            Comment.Text = activeEnemyPokemon.GetComment()[rand.Next(0, 4)];
+
+
+
+            if (activeEnemyPokemon.currHealth < activeEnemyPokemon.GetHealth() * 20 / 100 && activeEnemyPokemon.currHealth > 0 && (rand.Next(0, 5) == 1))
+            {
+                Comment.Text = activeEnemyPokemon.GetComment()[4];
+            }
+            else if (activeEnemyPokemon.currHealth <= 0)
+            {
+
+                Comment.Text = activeEnemyPokemon.GetComment()[4];
+
+            }
+            else {
+                Comment.Text = activeEnemyPokemon.GetComment()[rand.Next(0, 4)];
+            }
+
 
 
         }
@@ -256,10 +272,6 @@ namespace Pokemon_Simulator.Properties
 
 
 
-                if (activeEnemyPokemon.currHealth < activeEnemyPokemon.GetHealth() * 20 / 100 && rand.Next(0, 5) == 1)
-                {
-                    Comment.Text = activeEnemyPokemon.GetComment()[4];
-                }
                 //AttackAnimation(playerPokemonImage, -1);h
                 if (!NoMoreMoves(activeEnemyPokemon))
                 {
@@ -310,7 +322,7 @@ namespace Pokemon_Simulator.Properties
         {
             secs++;
             Console.WriteLine(secs);
-         
+
 
             if (secs == 50)
             {
@@ -335,7 +347,7 @@ namespace Pokemon_Simulator.Properties
         /// </summary>
         private void UpdateHealthBar(int mode)
         {
-            if(mode == 0)
+            if (mode == 0)
             {
                 if (activePokemon.currHealth > 0)
                 {

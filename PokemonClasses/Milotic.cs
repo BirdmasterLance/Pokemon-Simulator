@@ -12,7 +12,7 @@ namespace Pokemon_Simulator.PokemonClasses
             slogan = "このワルドは。。";
 
             level = 50;
-            health = currHealth = 170;
+            health = currHealth = 170*2;
             attack = currAttack = 80;
             defense = currDefense = 99;
             specialAttack = currSpecialAttack = 120;

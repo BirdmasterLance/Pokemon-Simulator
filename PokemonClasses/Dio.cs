@@ -14,9 +14,10 @@ namespace Pokemon_Simulator.PokemonClasses
 
             comments[0] = "Is that it?";
             comments[1] = "Muda!";
+            comments[4] = "Kono Dio Da!";
 
             level = 50;
-            health = currHealth = 135;
+            health = currHealth = 135*2;
             attack = currAttack = 90;
             defense = currDefense = 85;
             specialAttack = currSpecialAttack = 145;

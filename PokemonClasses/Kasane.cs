@@ -12,7 +12,7 @@ namespace Pokemon_Simulator.PokemonClasses
             MainColor = Color.Pink;
 
             level = 50;
-            health = currHealth = 125;
+            health = currHealth = 125*2;
             attack = currAttack = 58;
             defense = currDefense = 72;
             specialAttack = currSpecialAttack = 103;
