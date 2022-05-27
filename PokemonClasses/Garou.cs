@@ -26,9 +26,9 @@ namespace Pokemon_Simulator.PokemonClasses
             type1 = Type.Fighting;
 
             moves.Add(new CloseCombat(this));
-            moves.Add(new MysticalFire(this));
-            moves.Add(new Recover(this));
-            moves.Add(new CalmMind(this));
+            moves.Add(new BulkUp(this));
+            moves.Add(new ExtremeSpeed(this));
+            moves.Add(new SuckerPunch(this));
         }
     }
 }

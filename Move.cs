@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Pokemon_Simulator
 {
-    internal abstract class Move
+    public abstract class Move
     {
         public Pokemon user; // The pokemon that is using this move
         public string moveName;
@@ -24,8 +24,8 @@ namespace Pokemon_Simulator
         public bool canHealOneSelf = false;
         public bool canAbsorb = false;
 
-        public bool canFlinch;
-        public bool causesStatus;
+        public bool canFlinch = false;
+        public bool causesStatus = false;
 
         public bool raisesAtk = false;
         public bool lowersAtk = false;
@@ -34,7 +34,7 @@ namespace Pokemon_Simulator
         public bool raisesDef = false;
         public bool lowersDef = false;
         public bool lowersDefSelf = false;
-        
+
         public bool raisesEspAtk = false;
         public bool lowersEspAtk = false;
         public bool lowersEspAtkSelf = false;
@@ -71,7 +71,7 @@ namespace Pokemon_Simulator
     }
 
     internal class Struggle : Move
-    { 
+    {
         public Struggle(Pokemon user) : base(user)
         {
             damage = 50;
@@ -100,7 +100,7 @@ namespace Pokemon_Simulator
             pp = 10;
             maxPP = pp;
             canHealOneSelf = true;
-            
+
         }
     }
 
@@ -142,7 +142,7 @@ namespace Pokemon_Simulator
         public override void SpecialEffects()
         {
             user.currHealth += user.GetHealth() * 0.5;
-            if(user.currHealth > user.GetHealth())
+            if (user.currHealth > user.GetHealth())
             {
                 user.currHealth = user.GetHealth();
             }
@@ -230,7 +230,11 @@ namespace Pokemon_Simulator
 
         public override void SpecialTargetEffects(ref Pokemon target)
         {
-            // TODO: add 30% to poison
+            Random rand = new Random();
+            if (rand.Next() <= 0.3)
+            {
+                target.currentStatusEffect = new PoisonStatusEffect(ref target);
+            }
         }
     }
 
@@ -310,7 +314,11 @@ namespace Pokemon_Simulator
 
         public override void SpecialTargetEffects(ref Pokemon target)
         {
-            // TODO: add 10% to burn
+            Random rand = new Random();
+            if (rand.Next() <= 0.1)
+            {
+                target.currentStatusEffect = new BurnStatusEffect(ref target);
+            }
         }
     }
 
@@ -332,7 +340,7 @@ namespace Pokemon_Simulator
         {
             Random rand = new Random();
             int randInt = rand.Next(1, 10);
-            if(randInt == 1)
+            if (randInt == 1)
             {
                 target.ChangeStat(ref target.currSpecialDefense, ref target.specialDefenseStage, -1);
             }
@@ -374,7 +382,11 @@ namespace Pokemon_Simulator
         }
         public override void SpecialTargetEffects(ref Pokemon target)
         {
-            // TODO: 30% burn chance
+            Random rand = new Random();
+            if (rand.Next() <= 0.3)
+            {
+                target.currentStatusEffect = new BurnStatusEffect(ref target);
+            }
         }
     }
 
@@ -394,7 +406,11 @@ namespace Pokemon_Simulator
         }
         public override void SpecialTargetEffects(ref Pokemon target)
         {
-            // TODO: 10% freeze
+            Random rand = new Random();
+            if (rand.Next() <= 0.1)
+            {
+                target.currentStatusEffect = new FreezeStatusEffect(ref target);
+            }
         }
     }
 
@@ -413,7 +429,7 @@ namespace Pokemon_Simulator
         }
         public override void SpecialTargetEffects(ref Pokemon target)
         {
-            // TODO: poison the target
+            target.currentStatusEffect = new ToxicStatusEffect(ref target);
         }
     }
     internal class IronDefense : Move
@@ -421,7 +437,7 @@ namespace Pokemon_Simulator
         public IronDefense(Pokemon user) : base(user)
         {
             moveName = "Iron Defense";
-            description = "Raises the user's defense by 2 stages";
+            description = "Raises the user's Defense by 2 stages";
             actualAttack = false;
             type = Type.Steel;
             maxPP = pp = 24;
@@ -430,6 +446,206 @@ namespace Pokemon_Simulator
         public override void SpecialEffects()
         {
             user.ChangeStat(ref user.currDefense, ref user.defenseStage, 2);
+        }
+    }
+
+    internal class MeteorMash : Move
+    {
+        public MeteorMash(Pokemon user) : base(user)
+        {
+            moveName = "Meteor Mash";
+            description = "Inflicts damage and has a 20% chance to raise the user's Attack by 1 stage";
+            damage = 90;
+            accuracy = 90;
+            actualAttack = true;
+            physical = true;
+            type = Type.Steel;
+            maxPP = pp = 16;
+            raisesAtk = true;
+        }
+
+        public override void SpecialEffects()
+        {
+            Random rand = new Random();
+            if (rand.Next() <= 0.2)
+            {
+                user.ChangeStat(ref user.currAttack, ref user.attackStage, 1);
+            }
+        }
+    }
+
+    internal class Earthquake : Move
+    {
+        public Earthquake(Pokemon user) : base(user)
+        {
+            moveName = "Earthquake";
+            description = "Inflicts damage and deals double damage to buried opponents";
+            damage = 100;
+            accuracy = 100;
+            actualAttack = true;
+            physical = true;
+            type = Type.Ground;
+            maxPP = pp = 16;
+            raisesAtk = true;
+        }
+    }
+
+    internal class BulkUp : Move
+    {
+        public BulkUp(Pokemon user) : base(user)
+        {
+            moveName = "Bulk Up";
+            description = "Raises the user's Attack and Defense by 1 stage";
+            actualAttack = false;
+            type = Type.Fighting;
+            maxPP = pp = 32;
+            raisesAtk = true;
+            raisesDef = true;
+        }
+        public override void SpecialEffects()
+        {
+            user.ChangeStat(ref user.currAttack, ref user.attackStage, 1);
+            user.ChangeStat(ref user.currDefense, ref user.defenseStage, 1);
+        }
+    }
+
+    internal class WorkUp : Move
+    {
+        public WorkUp(Pokemon user) : base(user)
+        {
+            moveName = "Work Up";
+            description = "Raises the user's Attack and Special Attack by 1 stage";
+            actualAttack = false;
+            type = Type.Normal;
+            maxPP = pp = 32;
+            raisesAtk = true;
+            raisesDef = true;
+        }
+        public override void SpecialEffects()
+        {
+            user.ChangeStat(ref user.currAttack, ref user.attackStage, 1);
+            user.ChangeStat(ref user.currSpecialAttack, ref user.specialAttackStage, 1);
+        }
+    }
+
+    internal class SuckerPunch : Move
+    {
+        public SuckerPunch(Pokemon user) : base(user)
+        {
+            moveName = "Sucker Punch";
+            description = "Usually goes first. Fails if the target does not attacking";
+            damage = 70;
+            accuracy = 100;
+            actualAttack = true;
+            physical = true;
+            type = Type.Dark;
+            maxPP = pp = 8;
+        }
+
+        public override void SpecialEffects()
+        {
+            // TODO: priority 1 if target is going to attack, fail if otherwise
+        }
+    }
+
+    internal class ExtremeSpeed : Move
+    {
+        public ExtremeSpeed(Pokemon user) : base(user)
+        {
+            moveName = "Extreme Speed";
+            description = "Usually goes first";
+            damage = 80;
+            accuracy = 100;
+            actualAttack = true;
+            physical = true;
+            type = Type.Normal;
+            maxPP = pp = 8;
+        }
+
+        public override void SpecialEffects()
+        {
+            // TODO: priority 2
+        }
+    }
+
+    internal class HyperVoice : Move
+    {
+        public HyperVoice(Pokemon user) : base(user)
+        {
+            moveName = "Hyper Voice";
+            description = "Inflicts damage";
+            damage = 90;
+            accuracy = 100;
+            actualAttack = true;
+            physical = false;
+            type = Type.Normal;
+            maxPP = pp = 15;
+        }
+
+        public override void SpecialEffects()
+        {
+            // TODO: bypass substitue
+        }
+    }
+
+    internal class Snarl : Move
+    {
+        public Snarl(Pokemon user) : base(user)
+        {
+            moveName = "Snarl";
+            description = "Inflicts damage and lowers the target's Special Attack by 1 stage";
+            damage = 65;
+            accuracy = 90;
+            actualAttack = true;
+            physical = false;
+            type = Type.Dark;
+            maxPP = pp = 24;
+        }
+
+        public override void SpecialTargetEffects(ref Pokemon target)
+        {
+            target.ChangeStat(ref target.currSpecialAttack, ref target.specialAttackStage, -1);
+        }
+    }
+
+    internal class QuiverDance : Move
+    {
+        public QuiverDance(Pokemon user) : base(user)
+        {
+            moveName = "Quiver Dance";
+            description = "Raises the user's Special Attack, Special Defense, and Speed by 1 stage";
+            actualAttack = false;
+            type = Type.Bug;
+            maxPP = pp = 32;
+            raisesEspAtk = true;
+            raisesEspDef = true;
+            raisesSpeed = true;
+        }
+        public override void SpecialEffects()
+        {
+            user.ChangeStat(ref user.currSpecialAttack, ref user.specialAttackStage, 1);
+            user.ChangeStat(ref user.currSpecialDefense, ref user.specialDefenseStage, 1);
+            user.ChangeStat(ref user.currSpeed, ref user.speedStage, 1);
+        }
+    }
+
+    internal class Headbutt : Move
+    {
+        public Headbutt(Pokemon user) : base(user)
+        {
+            moveName = "Headbutt";
+            description = "Inflicts damage and has a 30% chance to flinch the target";
+            damage = 70;
+            accuracy = 100;
+            actualAttack = true;
+            physical = true;
+            type = Type.Normal;
+            maxPP = pp = 24;
+        }
+
+        public override void SpecialEffects()
+        {
+            // TODO: flinch
         }
     }
 }

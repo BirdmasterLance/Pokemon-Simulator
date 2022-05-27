@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Pokemon_Simulator
 {
-    internal abstract class Pokemon
+    public abstract class Pokemon
     {
         public string name; // The internal name used for files
         public string displayName; // The name to be shown in the application
@@ -73,6 +73,8 @@ namespace Pokemon_Simulator
         public Move lastUsedMove;
 
         int moveCounter = 0;
+
+        public StatusEffect currentStatusEffect = null;
         // TODO: Held Item
 
         protected Pokemon()
@@ -180,7 +182,6 @@ namespace Pokemon_Simulator
         }
         public /*override*/ void AICPU(bool PlayerFirstw)
         {
-
 
             for (int h = 0; h < this.moves.Count; h++)
             {

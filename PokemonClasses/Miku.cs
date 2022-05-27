@@ -20,7 +20,7 @@ namespace Pokemon_Simulator.PokemonClasses
             type1 = Type.Fairy;
 
             moves.Add(new DazzlingGleam(this));
-            moves.Add(new MysticalFire(this));
+            moves.Add(new HyperVoice(this));
             moves.Add(new Recover(this));
             moves.Add(new CalmMind(this));
         }

@@ -25,10 +25,10 @@ namespace Pokemon_Simulator.PokemonClasses
             speed = currSpeed = 110;
             type1 = Type.Dark;
 
-            moves.Add(new DazzlingGleam(this));
-            moves.Add(new MysticalFire(this));
+            moves.Add(new IceBeam(this));
+            moves.Add(new CloseCombat(this));
             moves.Add(new Recover(this));
-            moves.Add(new CalmMind(this));
+            moves.Add(new Toxic(this));
         }
     }
 }

@@ -13,17 +13,17 @@ namespace Pokemon_Simulator.PokemonClasses
 
             level = 50;
             health = currHealth = 125*2;
-            attack = currAttack = 58;
-            defense = currDefense = 72;
-            specialAttack = currSpecialAttack = 103;
-            specialDefense = currSpecialDefense = 113;
-            speed = currSpeed = 62;
+            attack = currAttack = 50;
+            defense = currDefense = 80;
+            specialAttack = currSpecialAttack = 120;
+            specialDefense = currSpecialDefense = 95;
+            speed = currSpeed = 80;
             type1 = Type.Fairy;        
 
             moves.Add(new DazzlingGleam(this));
-            moves.Add(new MysticalFire(this));
-            moves.Add(new Recover(this));
-            moves.Add(new CalmMind(this));
+            moves.Add(new HyperVoice(this));
+            moves.Add(new Snarl(this));
+            moves.Add(new QuiverDance(this));
         }
     }
 }

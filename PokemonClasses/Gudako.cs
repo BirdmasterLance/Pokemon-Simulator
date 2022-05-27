@@ -16,18 +16,18 @@ namespace Pokemon_Simulator.PokemonClasses
             comments[3] = "How Dare You!?";
             comments[4] = "It Aint Overr.. yet.";
             level = 50;
-            health = currHealth = 135*2;
+            health = currHealth = 120*2;
             attack = currAttack = 90;
             defense = currDefense = 85;
-            specialAttack = currSpecialAttack = 145;
-            specialDefense = currSpecialDefense = 125;
-            speed = currSpeed = 110;
+            specialAttack = currSpecialAttack = 80;
+            specialDefense = currSpecialDefense = 85;
+            speed = currSpeed = 80;
             type1 = Type.Normal;
 
-            moves.Add(new DazzlingGleam(this));
-            moves.Add(new MysticalFire(this));
+            moves.Add(new Headbutt(this));
+            moves.Add(new BulkUp(this));
             moves.Add(new Recover(this));
-            moves.Add(new CalmMind(this));
+            moves.Add(new WorkUp(this));
         }
     }
 }

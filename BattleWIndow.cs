@@ -185,6 +185,7 @@ namespace Pokemon_Simulator.Properties
 
             if (activePokemon.currSpeed >= activeEnemyPokemon.currSpeed)
             {
+                playerFirst = true;
                 battleEventHandler.StartPlayerTurn(); // Using the move
                 // Delay?
                 battleEventHandler.EndPlayerTurn(); // Recoil, item usage, etc
@@ -196,6 +197,7 @@ namespace Pokemon_Simulator.Properties
             }
             else
             {
+                playerFirst = false;
                 // Enemy Turn
                 timer1.Start();
                 coolDown = true;
@@ -228,6 +230,8 @@ namespace Pokemon_Simulator.Properties
                 int damage = activePokemon.UseMove(new Struggle(/*ref*/ activePokemon), ref activeEnemyPokemon);
                 UpdateHealthBar(1);
             }
+
+            activeEnemyPokemon.knownMoves.Add(activePokemon.moves[selectedMove]);
         }
 
         private void Commentary_Battle()
@@ -262,11 +266,12 @@ namespace Pokemon_Simulator.Properties
             //timer1.Start();
 
             //secs = 0;
+            
 
             if (!EcoolDown)
             {
                 // Now that selectedMove is global, we can put this here
-                activeEnemyPokemon.knownMoves.Add(activePokemon.moves[selectedMove]);
+                
 
                 activeEnemyPokemon.AICPU(playerFirst);
 
@@ -352,7 +357,7 @@ namespace Pokemon_Simulator.Properties
                 if (activePokemon.currHealth > 0)
                 {
                     playerHealthBar.Value = (int)activePokemon.currHealth;
-                    playerHealthText.Text = activePokemon.currHealth + "/" + activePokemon.GetHealth();
+                    playerHealthText.Text = (int)activePokemon.currHealth + "/" + activePokemon.GetHealth();
                 }
                 else
                 {

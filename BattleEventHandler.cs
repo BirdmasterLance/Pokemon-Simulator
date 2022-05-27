@@ -45,29 +45,28 @@ namespace Pokemon_Simulator
             OnEndEnemyTurn?.Invoke(this, EventArgs.Empty);
         }
 
-        public event EventHandler OnPlayerSwitch;
-        public void StartPlayerSwitch()
+        public event EventHandler<Pokemon> OnPokemonSwitchIn;
+        public void StartPokemonSwitchIn(ref Pokemon pkmn)
         {
-            OnPlayerSwitch?.Invoke(this, EventArgs.Empty);
+            OnPokemonSwitchIn?.Invoke(this, pkmn);
         }
 
-        public event EventHandler OnEnemySwitch;
-        public void StartEnemySwitch()
+        public event EventHandler<Pokemon> OnPokemonSwitchOut;
+        public void StartPokemonSwitchOut(ref Pokemon pkmn)
         {
-            OnEnemySwitch?.Invoke(this, EventArgs.Empty);
+            OnPokemonSwitchOut?.Invoke(this, pkmn);
+        }       
+
+        public event EventHandler<Pokemon> OnPokemonFainted;
+        public void PlayerPokemonFainted(ref Pokemon pkmn)
+        {
+            OnPokemonFainted?.Invoke(this, pkmn);
         }
 
-        // Meant for when ONE pokemon faints
-        public event EventHandler OnPlayerPokemonFainted;
-        public void PlayerPokemonFainted()
+        public event EventHandler<Pokemon> OnHitBySuperEffective;
+        public void HitBySuperEffective(ref Pokemon pkmn)
         {
-            OnPlayerPokemonFainted?.Invoke(this, EventArgs.Empty);
-        }
-
-        public event EventHandler OnEnemyPokemonFainted;
-        public void EnemyPokemonFainted()
-        {
-            OnEnemyPokemonFainted?.Invoke(this, EventArgs.Empty);
+            OnHitBySuperEffective?.Invoke(this, pkmn);
         }
     }
 }
