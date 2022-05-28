@@ -133,11 +133,11 @@ namespace Pokemon_Simulator.Properties
                 moves[0].pp--;
                 Move1.Text = moves[0].moveName + '\n' + moves[0].pp.ToString() + "/" + moves[0].maxPP.ToString();
                 selectedMove = 0;
+                StartTurn();
             }
 
             // No more moves? Struggle.
             if (NoMoreMoves(activePokemon)) selectedMove = -1;
-            StartTurn();
         }
 
         private void Move2_Click(object sender, EventArgs e)
@@ -147,10 +147,10 @@ namespace Pokemon_Simulator.Properties
                 moves[1].pp--;
                 Move2.Text = moves[1].moveName + '\n' + moves[1].pp.ToString() + "/" + moves[1].maxPP.ToString();
                 selectedMove = 1;
+                StartTurn();
             }
 
             if (NoMoreMoves(activePokemon)) selectedMove = -1;
-            StartTurn();
         }
 
         private void Move3_Click(object sender, EventArgs e)
@@ -160,10 +160,10 @@ namespace Pokemon_Simulator.Properties
                 moves[2].pp--;
                 Move3.Text = moves[2].moveName + '\n' + moves[2].pp.ToString() + "/" + moves[2].maxPP.ToString();
                 selectedMove = 2;
+                StartTurn();
             }
 
             if (NoMoreMoves(activePokemon)) selectedMove = -1;
-            StartTurn();
         }
 
         private void Move4_Click(object sender, EventArgs e)
@@ -173,10 +173,10 @@ namespace Pokemon_Simulator.Properties
                 moves[3].pp--;
                 Move4.Text = moves[3].moveName + '\n' + moves[3].pp.ToString() + "/" + moves[3].maxPP.ToString();
                 selectedMove = 3;
+                StartTurn();
             }
 
             if (NoMoreMoves(activePokemon)) selectedMove = -1;
-            StartTurn();
         }
 
         private void StartTurn()
@@ -202,13 +202,20 @@ namespace Pokemon_Simulator.Properties
                 timer1.Start();
                 coolDown = true;
                 Commentary_Battle();
+
                 // Delay?
                 battleEventHandler.StartPlayerTurn();
                 // Delay?
                 battleEventHandler.EndPlayerTurn(); // Find a way to swap this event with the enemy fainting if possible
-
             }
             battleEventHandler.EndTurn(); // weather counts down, status effects happen, etc
+            UpdateHealthBar(0);
+            UpdateHealthBar(1);
+            LblStats.Text = activePokemon.currAttack + " " + activePokemon.GetAttack() + "\n" + 
+                activePokemon.currDefense + " " + activePokemon.GetDefense()  + "\n" + 
+                activePokemon.currSpecialAttack + " " + activePokemon.GetSpecialAttack()  + "\n" + 
+                activePokemon.currSpecialDefense + " " + activePokemon.GetSpecialDefense()  + "\n" + 
+                activePokemon.currSpeed + " " + activePokemon.GetSpeed();
         }
 
         private void PlayerTurn(object sender, EventArgs e)
@@ -216,21 +223,22 @@ namespace Pokemon_Simulator.Properties
             //System.Timers.Timer attackTimer = new System.Timers.Timer(1000);
             //attackTimer.Elapsed += PlayerAttackAnimation;
 
-            //playerPokemonImage.Location = Point.;//This sets the location of the Left top corner of the item in estion, the image, in this case
+            //playerPokemonImage.Location = Point.;//This sets the location of the Left top corner of the item in estion, the image, in this case            
             Console.WriteLine(activePokemon.currAttack + " " + activePokemon.currDefense + " " + activePokemon.currSpecialAttack + " " + activePokemon.currSpecialDefense + " " + activePokemon.currSpeed);
             if (selectedMove != -1)
             {
                 // Damage the enemy
-                int damage = activePokemon.UseMove(moves[selectedMove], ref activeEnemyPokemon);
+                Move moveToUse = moves[selectedMove];
+                int damage = activePokemon.UseMove(ref moveToUse, ref activeEnemyPokemon);
                 label1.Text = activePokemon.name + " used " + moves[selectedMove].moveName + " dealing " + damage + " damage!";
-                UpdateHealthBar(1);
             }
             else
             {
-                int damage = activePokemon.UseMove(new Struggle(/*ref*/ activePokemon), ref activeEnemyPokemon);
-                UpdateHealthBar(1);
+                Move struggle = new Struggle(/*ref*/ activePokemon);
+                int damage = activePokemon.UseMove(ref struggle , ref activeEnemyPokemon);
             }
-
+            UpdateHealthBar(0);
+            UpdateHealthBar(1);
             activeEnemyPokemon.knownMoves.Add(activePokemon.moves[selectedMove]);
         }
 
@@ -284,14 +292,14 @@ namespace Pokemon_Simulator.Properties
                     //int damage = activeEnemyPokemon.UseMove(activeEnemyPokemon.moves[move], activePokemon);
                     //label3.Text = activeEnemyPokemon.GetHealth().ToString() + " " + activeEnemyPokemon.currHealth.ToString() + " " + activeEnemyPokemon.GetDamage();
                     label3.Text = activeEnemyPokemon.name + " used " + activeEnemyPokemon.lastUsedMove.moveName + " dealing " + activeEnemyPokemon.GetDamage() + " damage!";
-                    UpdateHealthBar(0);
                 }
                 else
                 {
                     //int damage = activeEnemyPokemon.UseMove(new Struggle(activeEnemyPokemon), activePokemon);
-                    UpdateHealthBar(0);
                 }
             }
+            UpdateHealthBar(0);
+            UpdateHealthBar(1);
             EcoolDown = true;
         }
 
@@ -326,7 +334,7 @@ namespace Pokemon_Simulator.Properties
         private void timer1_Tick(object sender, EventArgs e)
         {
             secs++;
-            Console.WriteLine(secs);
+            //Console.WriteLine(secs);
 
 
             if (secs == 50)

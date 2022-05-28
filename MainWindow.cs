@@ -212,15 +212,16 @@ namespace Pokemon_Simulator
             {
                 partyPokemonCounter++;
                 Pokemon pkmnToAdd = (Pokemon)PkmnList.SelectedItem;
+                pkmnToAdd = (Pokemon) pkmnToAdd.Clone();
                 if (isPlayerSelecting)
                 {
-                    playerPokemonParty.Add((Pokemon)pkmnToAdd.Clone());
+                    playerPokemonParty.Add(pkmnToAdd);
                 }
                 else
                 {
-                    enemyPokemonParty.Add((Pokemon)pkmnToAdd.Clone());
+                    enemyPokemonParty.Add(pkmnToAdd);
                 }
-                PartyPkmn.Items.Add(PkmnList.SelectedItem);
+                PartyPkmn.Items.Add(pkmnToAdd);
             }
             label5.Text = partyPokemonCounter.ToString(); ;
         }
@@ -232,15 +233,15 @@ namespace Pokemon_Simulator
                 partyPokemonCounter--;
                 if (isPlayerSelecting)
                 {
-                    playerPokemonParty.Add((Pokemon)PkmnList.SelectedItem);
+                    playerPokemonParty.Remove((Pokemon)PartyPkmn.SelectedItem);
                 }
                 else
                 {
-                    Pokemon pkmnToAdd = (Pokemon)PkmnList.SelectedItem;
-                    enemyPokemonParty.Add((Pokemon)pkmnToAdd.Clone());
+                    enemyPokemonParty.Remove((Pokemon)PartyPkmn.SelectedItem);
                 }
                 PartyPkmn.Items.Remove(PartyPkmn.SelectedItem);
             }
+            label5.Text = partyPokemonCounter.ToString(); ;
         }
 
         private void BtnBack_Click(object sender, EventArgs e)

@@ -59,7 +59,7 @@ namespace Pokemon_Simulator
             this.user = user;
         }
 
-        public virtual void SpecialEffects()
+        public virtual void SpecialEffects(Pokemon user)
         {
         }
 
@@ -122,7 +122,8 @@ namespace Pokemon_Simulator
 
         public override void SpecialTargetEffects(ref Pokemon target)
         {
-            target.ChangeStat(ref target.currSpecialAttack, ref target.specialAttackStage, -1);
+            target.ChangeStat(target.GetSpecialAttack(), ref target.currSpecialAttack, ref target.specialAttackStage, -1);
+
         }
     }
 
@@ -139,7 +140,7 @@ namespace Pokemon_Simulator
             canHealOneSelf = true;
         }
 
-        public override void SpecialEffects()
+        public override void SpecialEffects(Pokemon user)
         {
             user.currHealth += user.GetHealth() * 0.5;
             if (user.currHealth > user.GetHealth())
@@ -162,10 +163,10 @@ namespace Pokemon_Simulator
             raisesEspDef = true;
         }
 
-        public override void SpecialEffects()
+        public override void SpecialEffects(Pokemon user)
         {
-            user.ChangeStat(ref user.currSpecialAttack, ref user.specialAttackStage, 1);
-            user.ChangeStat(ref user.currSpecialDefense, ref user.specialDefenseStage, 1);
+            user.ChangeStat(user.GetSpecialAttack(), ref user.currSpecialAttack, ref user.specialAttackStage, 1);
+            user.ChangeStat(user.GetSpecialDefense(), ref user.currSpecialDefense, ref user.specialDefenseStage, 1);
         }
     }
 
@@ -185,10 +186,10 @@ namespace Pokemon_Simulator
             lowersEspDefSelf = true;
         }
 
-        public override void SpecialEffects()
+        public override void SpecialEffects(Pokemon user)
         {
-            user.ChangeStat(ref user.currDefense, ref user.defenseStage, -1);
-            user.ChangeStat(ref user.currSpecialDefense, ref user.specialDefenseStage, -1);
+            user.ChangeStat(user.GetDefense(), ref user.currDefense, ref user.defenseStage, -1);
+            user.ChangeStat(user.GetSpecialDefense(), ref user.currSpecialDefense, ref user.specialDefenseStage, -1);
         }
     }
 
@@ -233,7 +234,7 @@ namespace Pokemon_Simulator
             Random rand = new Random();
             if (rand.Next() <= 0.3)
             {
-                target.currentStatusEffect = new PoisonStatusEffect(ref target);
+                target.SetStatusEffect(new PoisonStatusEffect(ref target));
             }
         }
     }
@@ -253,9 +254,9 @@ namespace Pokemon_Simulator
             lowersEspAtkSelf = true;
         }
 
-        public override void SpecialEffects()
+        public override void SpecialEffects(Pokemon user)
         {
-            user.ChangeStat(ref user.currSpecialAttack, ref user.specialAttackStage, -2);
+            user.ChangeStat(user.GetSpecialAttack(), ref user.currSpecialAttack, ref user.specialAttackStage, -2);
         }
     }
 
@@ -271,7 +272,7 @@ namespace Pokemon_Simulator
             canHealOneSelf = true;
         }
 
-        public override void SpecialEffects()
+        public override void SpecialEffects(Pokemon user)
         {
             // TODO: it heals more in sun 2/3 and less in other weathers 1/4
             user.currHealth += user.GetHealth() * 0.5;
@@ -317,7 +318,7 @@ namespace Pokemon_Simulator
             Random rand = new Random();
             if (rand.Next() <= 0.1)
             {
-                target.currentStatusEffect = new BurnStatusEffect(ref target);
+                target.SetStatusEffect(new BurnStatusEffect(ref target));
             }
         }
     }
@@ -342,7 +343,7 @@ namespace Pokemon_Simulator
             int randInt = rand.Next(1, 10);
             if (randInt == 1)
             {
-                target.ChangeStat(ref target.currSpecialDefense, ref target.specialDefenseStage, -1);
+                target.ChangeStat(user.GetSpecialDefense(), ref target.currSpecialDefense, ref target.specialDefenseStage, -1);
             }
         }
     }
@@ -385,7 +386,7 @@ namespace Pokemon_Simulator
             Random rand = new Random();
             if (rand.Next() <= 0.3)
             {
-                target.currentStatusEffect = new BurnStatusEffect(ref target);
+                target.SetStatusEffect(new BurnStatusEffect(ref target));
             }
         }
     }
@@ -409,7 +410,7 @@ namespace Pokemon_Simulator
             Random rand = new Random();
             if (rand.Next() <= 0.1)
             {
-                target.currentStatusEffect = new FreezeStatusEffect(ref target);
+                target.SetStatusEffect(new FreezeStatusEffect(ref target));
             }
         }
     }
@@ -429,7 +430,7 @@ namespace Pokemon_Simulator
         }
         public override void SpecialTargetEffects(ref Pokemon target)
         {
-            target.currentStatusEffect = new ToxicStatusEffect(ref target);
+            target.SetStatusEffect(new ToxicStatusEffect(ref target));
         }
     }
     internal class IronDefense : Move
@@ -443,9 +444,9 @@ namespace Pokemon_Simulator
             maxPP = pp = 24;
             raisesDef = true;
         }
-        public override void SpecialEffects()
+        public override void SpecialEffects(Pokemon user)
         {
-            user.ChangeStat(ref user.currDefense, ref user.defenseStage, 2);
+            user.ChangeStat(user.GetDefense(), ref user.currDefense, ref user.defenseStage, 2);
         }
     }
 
@@ -464,12 +465,12 @@ namespace Pokemon_Simulator
             raisesAtk = true;
         }
 
-        public override void SpecialEffects()
+        public override void SpecialEffects(Pokemon user)
         {
             Random rand = new Random();
             if (rand.Next() <= 0.2)
             {
-                user.ChangeStat(ref user.currAttack, ref user.attackStage, 1);
+                user.ChangeStat(user.GetAttack(), ref user.currAttack, ref user.attackStage, 1);
             }
         }
     }
@@ -502,10 +503,10 @@ namespace Pokemon_Simulator
             raisesAtk = true;
             raisesDef = true;
         }
-        public override void SpecialEffects()
+        public override void SpecialEffects(Pokemon user)
         {
-            user.ChangeStat(ref user.currAttack, ref user.attackStage, 1);
-            user.ChangeStat(ref user.currDefense, ref user.defenseStage, 1);
+            user.ChangeStat(user.GetAttack(), ref user.currAttack, ref user.attackStage, 1);
+            user.ChangeStat(user.GetDefense(), ref user.currDefense, ref user.defenseStage, 1);
         }
     }
 
@@ -521,10 +522,10 @@ namespace Pokemon_Simulator
             raisesAtk = true;
             raisesDef = true;
         }
-        public override void SpecialEffects()
+        public override void SpecialEffects(Pokemon user)
         {
-            user.ChangeStat(ref user.currAttack, ref user.attackStage, 1);
-            user.ChangeStat(ref user.currSpecialAttack, ref user.specialAttackStage, 1);
+            user.ChangeStat(user.GetAttack(), ref user.currAttack, ref user.attackStage, 1);
+            user.ChangeStat(user.GetSpecialAttack(), ref user.currSpecialAttack, ref user.specialAttackStage, 1);
         }
     }
 
@@ -542,7 +543,7 @@ namespace Pokemon_Simulator
             maxPP = pp = 8;
         }
 
-        public override void SpecialEffects()
+        public override void SpecialEffects(Pokemon user)
         {
             // TODO: priority 1 if target is going to attack, fail if otherwise
         }
@@ -562,7 +563,7 @@ namespace Pokemon_Simulator
             maxPP = pp = 8;
         }
 
-        public override void SpecialEffects()
+        public override void SpecialEffects(Pokemon user)
         {
             // TODO: priority 2
         }
@@ -582,7 +583,7 @@ namespace Pokemon_Simulator
             maxPP = pp = 15;
         }
 
-        public override void SpecialEffects()
+        public override void SpecialEffects(Pokemon user)
         {
             // TODO: bypass substitue
         }
@@ -604,7 +605,7 @@ namespace Pokemon_Simulator
 
         public override void SpecialTargetEffects(ref Pokemon target)
         {
-            target.ChangeStat(ref target.currSpecialAttack, ref target.specialAttackStage, -1);
+            target.ChangeStat(user.GetSpecialAttack(), ref target.currSpecialAttack, ref target.specialAttackStage, -1);
         }
     }
 
@@ -621,11 +622,11 @@ namespace Pokemon_Simulator
             raisesEspDef = true;
             raisesSpeed = true;
         }
-        public override void SpecialEffects()
+        public override void SpecialEffects(Pokemon user)
         {
-            user.ChangeStat(ref user.currSpecialAttack, ref user.specialAttackStage, 1);
-            user.ChangeStat(ref user.currSpecialDefense, ref user.specialDefenseStage, 1);
-            user.ChangeStat(ref user.currSpeed, ref user.speedStage, 1);
+            user.ChangeStat(user.GetSpecialAttack(), ref user.currSpecialAttack, ref user.specialAttackStage, 1);
+            user.ChangeStat(user.GetSpecialDefense(), ref user.currSpecialDefense, ref user.specialDefenseStage, 1);
+            user.ChangeStat(user.GetSpeed(), ref user.currSpeed, ref user.speedStage, 1);
         }
     }
 
@@ -643,7 +644,7 @@ namespace Pokemon_Simulator
             maxPP = pp = 24;
         }
 
-        public override void SpecialEffects()
+        public override void SpecialEffects(Pokemon user)
         {
             // TODO: flinch
         }

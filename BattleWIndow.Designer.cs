@@ -46,6 +46,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.Comment = new System.Windows.Forms.Label();
+            this.LblStats = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.enemyPokemonImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.playerPokemonImage)).BeginInit();
             this.SuspendLayout();
@@ -264,6 +265,15 @@
             this.Comment.TabIndex = 16;
             this.Comment.Text = "label1";
             // 
+            // LblStats
+            // 
+            this.LblStats.AutoSize = true;
+            this.LblStats.Location = new System.Drawing.Point(429, 112);
+            this.LblStats.Name = "LblStats";
+            this.LblStats.Size = new System.Drawing.Size(46, 17);
+            this.LblStats.TabIndex = 18;
+            this.LblStats.Text = "label4";
+            // 
             // BattleWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -272,6 +282,7 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1322, 653);
+            this.Controls.Add(this.LblStats);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.Comment);
             this.Controls.Add(this.label1);
@@ -318,5 +329,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label Comment;
+        private System.Windows.Forms.Label LblStats;
     }
 }

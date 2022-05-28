@@ -96,8 +96,22 @@ namespace Pokemon_Simulator
         public void SetRivalPokemon(ref Pokemon pkmn) { rivalPkmn = pkmn; }
         public string[] GetComment() { return comments; }
 
+        public void SetStatusEffect(StatusEffect effect)
+        {
+            Console.WriteLine(name + " has " + effect.ToString());
+            if(currentStatusEffect == null)
+            {
+                currentStatusEffect = effect;
+            }
+        }
 
-        public virtual int ChangeStat(ref double stat, ref int statStage, int stageIncrease)
+        public void RemoveStatusEffect()
+        {
+            currentStatusEffect = null;
+        }
+
+
+        public virtual int ChangeStat(double stat, ref double statToChange, ref int statStage, int stageIncrease)
         {
             Console.WriteLine(stat + " " + statStage);
             if (statStage == 6) return 0;
@@ -108,18 +122,17 @@ namespace Pokemon_Simulator
             if (statStage >= 0)
             {
                 double modifier = statStage + 2;
-                stat *= modifier / 2;
+                statToChange = stat * modifier / 2;
             }
             if (statStage < 0)
             {
                 double modifier = -statStage + 2;
-                stat *= 2 / modifier;
+                statToChange = stat * 2 / modifier;
             }
-            Console.WriteLine(stat + " " + statStage);
             return statStage;
         }
 
-        public virtual int ChangeAccuracyOrEvasion(ref double stat, ref int statStage, int stageIncrease)
+        public virtual int ChangeAccuracyOrEvasion(double stat, ref double statToChange, ref int statStage, int stageIncrease)
         {
             if (statStage == 6) return 0;
 
@@ -129,17 +142,17 @@ namespace Pokemon_Simulator
             if (statStage >= 0)
             {
                 double modifier = statStage + 3;
-                stat *= modifier / 3;
+                statToChange = stat * modifier / 3;
             }
             if (statStage < 0)
             {
                 double modifier = -statStage + 3;
-                stat *= 3 / modifier;
+                statToChange = stat * 3 / modifier;
             }
             return statStage;
         }
 
-        public virtual int UseMove(Move move, ref Pokemon target)
+        public virtual int UseMove(ref Move move, ref Pokemon target)
         {
 
             double accuracyModifier = (move.accuracy / 100 * this.currAccuracy / 100 * target.currEvasion / 100);
@@ -151,7 +164,7 @@ namespace Pokemon_Simulator
 
             if (!move.actualAttack)
             {
-                move.SpecialEffects();
+                move.SpecialEffects(this);
                 move.SpecialTargetEffects(ref target);
                 return -2;
             }
@@ -175,7 +188,7 @@ namespace Pokemon_Simulator
 
             // Return how much damage it did (as a percent compared to the target's total health)
 
-            move.SpecialEffects();
+            move.SpecialEffects(this);
             move.SpecialTargetEffects(ref target);
 
             return (int)damage;
@@ -225,7 +238,7 @@ namespace Pokemon_Simulator
                         if (this.moves[i].canHealOneSelf && this.moves[i].pp != 0/* && rand.Next(0, 2) == 1 */&& !this.moves[i].actualAttack)
                         {
                             lastUsedMove = this.moves[i];
-                            damage = this.UseMove(this.moves[i], ref rivalPkmn);
+                            damage = this.UseMove(ref lastUsedMove, ref rivalPkmn);
                             Console.WriteLine(name + " used " + moves[i].moveName + " dealing " + damage + " damage!");
 
                             return;
@@ -260,7 +273,7 @@ namespace Pokemon_Simulator
                     if ((TypeData.CalculateEffectiveness(this.moves[j].type, rivalPkmn.type1) == 2 || (TypeData.CalculateEffectiveness(this.moves[j].type, rivalPkmn.type1) == 2) )&& this.moves[j].actualAttack)//Check if this attack can raise user's stats
                     {
                         lastUsedMove = this.moves[j];
-                        damage = this.UseMove(this.moves[j], ref rivalPkmn);
+                        damage = this.UseMove(ref lastUsedMove, ref rivalPkmn);
                         Console.WriteLine(name + " used " + moves[j].moveName + " dealing " + damage + " damage!");
 
                         return;
@@ -278,7 +291,7 @@ namespace Pokemon_Simulator
                 if (this.moves[i].raisesAtk == true/*AbsobrsEnergy*/)
                 {
                     lastUsedMove = this.moves[i];
-                    damage = this.UseMove(this.moves[i], ref rivalPkmn);
+                    damage = this.UseMove(ref lastUsedMove, ref rivalPkmn);
 
                 }
             }
@@ -292,7 +305,7 @@ namespace Pokemon_Simulator
                 {
 
                     lastUsedMove = this.moves[j];
-                    damage = this.UseMove(this.moves[j], ref rivalPkmn);
+                    damage = this.UseMove(ref lastUsedMove, ref rivalPkmn);
 
 
                 }
