@@ -8,6 +8,15 @@ namespace Pokemon_Simulator
 {
     public class BattleEventHandler
     {
+        public static BattleEventHandler instance;
+
+        public BattleEventHandler()
+        {
+            if(instance == null)
+            {
+                instance = this;
+            }
+        }
 
         public event EventHandler OnStartTurn;
         public void StartTurn()

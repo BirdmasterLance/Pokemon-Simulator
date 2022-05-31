@@ -47,6 +47,8 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.Comment = new System.Windows.Forms.Label();
             this.LblStats = new System.Windows.Forms.Label();
+            this.LblPlayerStatus = new System.Windows.Forms.Label();
+            this.LblEnemyStatus = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.enemyPokemonImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.playerPokemonImage)).BeginInit();
             this.SuspendLayout();
@@ -274,6 +276,26 @@
             this.LblStats.TabIndex = 18;
             this.LblStats.Text = "label4";
             // 
+            // LblPlayerStatus
+            // 
+            this.LblPlayerStatus.AutoSize = true;
+            this.LblPlayerStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblPlayerStatus.Location = new System.Drawing.Point(301, 12);
+            this.LblPlayerStatus.Name = "LblPlayerStatus";
+            this.LblPlayerStatus.Size = new System.Drawing.Size(64, 25);
+            this.LblPlayerStatus.TabIndex = 19;
+            this.LblPlayerStatus.Text = "label4";
+            // 
+            // LblEnemyStatus
+            // 
+            this.LblEnemyStatus.AutoSize = true;
+            this.LblEnemyStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblEnemyStatus.Location = new System.Drawing.Point(1081, 9);
+            this.LblEnemyStatus.Name = "LblEnemyStatus";
+            this.LblEnemyStatus.Size = new System.Drawing.Size(64, 25);
+            this.LblEnemyStatus.TabIndex = 20;
+            this.LblEnemyStatus.Text = "label4";
+            // 
             // BattleWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -282,6 +304,8 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1322, 653);
+            this.Controls.Add(this.LblEnemyStatus);
+            this.Controls.Add(this.LblPlayerStatus);
             this.Controls.Add(this.LblStats);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.Comment);
@@ -330,5 +354,7 @@
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label Comment;
         private System.Windows.Forms.Label LblStats;
+        private System.Windows.Forms.Label LblPlayerStatus;
+        private System.Windows.Forms.Label LblEnemyStatus;
     }
 }

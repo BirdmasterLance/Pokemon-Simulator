@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Timers;
 using System.Windows.Forms;
 
@@ -13,7 +14,6 @@ namespace Pokemon_Simulator.Properties
 
         ComponentResourceManager resources = new ComponentResourceManager(typeof(BattleWindow));
 
-        BattleEventHandler battleEventHandler;
 
         Pokemon activePokemon;
         Pokemon activeEnemyPokemon;
@@ -52,12 +52,18 @@ namespace Pokemon_Simulator.Properties
             LoadEnemyPokemonIntoBattle(BattleData.enemyList[0]);
             //TODO: Event for Image Resizing.(Scaling) Item re-placeement depenign on the screen size.
 
+            LblPlayerStatus.Hide();
+            LblEnemyStatus.Hide();
             Comment.Hide();
 
             //Let this class listen to battle events?
-            battleEventHandler = new BattleEventHandler();
-            battleEventHandler.OnStartPlayerTurn += PlayerTurn;
-            battleEventHandler.OnStartEnemyTurn += EnemyTurn;
+            BattleEventHandler battleEventHandler = new BattleEventHandler();
+            BattleEventHandler.instance.OnStartPlayerTurn += PlayerTurn;
+            BattleEventHandler.instance.OnStartEnemyTurn += EnemyTurn;
+
+            GCHandle objHandle = GCHandle.Alloc(activeEnemyPokemon, GCHandleType.WeakTrackResurrection);
+            int address = GCHandle.ToIntPtr(objHandle).ToInt32();
+            Console.WriteLine("End of load: " + address);
         }
 
         private void LoadPlayerPokemonIntoBattle(Pokemon pokemon)
@@ -123,7 +129,7 @@ namespace Pokemon_Simulator.Properties
 
             // Now the enemy knows this pokemon 
             activeEnemyPokemon.knownPokemons.Add(activePokemon);
-            pokemon.SetRivalPokemon(ref activePokemon);
+            activeEnemyPokemon.SetRivalPokemon(activePokemon);
         }
 
         private void Move1_Click(object sender, EventArgs e)
@@ -186,9 +192,9 @@ namespace Pokemon_Simulator.Properties
             if (activePokemon.currSpeed >= activeEnemyPokemon.currSpeed)
             {
                 playerFirst = true;
-                battleEventHandler.StartPlayerTurn(); // Using the move
+                BattleEventHandler.instance.StartPlayerTurn(); // Using the move
                 // Delay?
-                battleEventHandler.EndPlayerTurn(); // Recoil, item usage, etc
+                BattleEventHandler.instance.EndPlayerTurn(); // Recoil, item usage, etc
 
                 // Enemy turn
                 timer1.Start();
@@ -204,17 +210,17 @@ namespace Pokemon_Simulator.Properties
                 Commentary_Battle();
 
                 // Delay?
-                battleEventHandler.StartPlayerTurn();
+                BattleEventHandler.instance.StartPlayerTurn();
                 // Delay?
-                battleEventHandler.EndPlayerTurn(); // Find a way to swap this event with the enemy fainting if possible
+                BattleEventHandler.instance.EndPlayerTurn(); // Find a way to swap this event with the enemy fainting if possible
             }
-            battleEventHandler.EndTurn(); // weather counts down, status effects happen, etc
+            BattleEventHandler.instance.EndTurn(); // weather counts down, status effects happen, etc
             UpdateHealthBar(0);
             UpdateHealthBar(1);
-            LblStats.Text = activePokemon.currAttack + " " + activePokemon.GetAttack() + "\n" + 
-                activePokemon.currDefense + " " + activePokemon.GetDefense()  + "\n" + 
-                activePokemon.currSpecialAttack + " " + activePokemon.GetSpecialAttack()  + "\n" + 
-                activePokemon.currSpecialDefense + " " + activePokemon.GetSpecialDefense()  + "\n" + 
+            LblStats.Text = activePokemon.currAttack + " " + activePokemon.GetAttack() + "\n" +
+                activePokemon.currDefense + " " + activePokemon.GetDefense() + "\n" +
+                activePokemon.currSpecialAttack + " " + activePokemon.GetSpecialAttack() + "\n" +
+                activePokemon.currSpecialDefense + " " + activePokemon.GetSpecialDefense() + "\n" +
                 activePokemon.currSpeed + " " + activePokemon.GetSpeed();
         }
 
@@ -224,18 +230,17 @@ namespace Pokemon_Simulator.Properties
             //attackTimer.Elapsed += PlayerAttackAnimation;
 
             //playerPokemonImage.Location = Point.;//This sets the location of the Left top corner of the item in estion, the image, in this case            
-            Console.WriteLine(activePokemon.currAttack + " " + activePokemon.currDefense + " " + activePokemon.currSpecialAttack + " " + activePokemon.currSpecialDefense + " " + activePokemon.currSpeed);
+            //Console.WriteLine(activePokemon.currAttack + " " + activePokemon.currDefense + " " + activePokemon.currSpecialAttack + " " + activePokemon.currSpecialDefense + " " + activePokemon.currSpeed);
             if (selectedMove != -1)
             {
                 // Damage the enemy
-                Move moveToUse = moves[selectedMove];
-                int damage = activePokemon.UseMove(ref moveToUse, ref activeEnemyPokemon);
+                int damage = activePokemon.UseMove(moves[selectedMove], activeEnemyPokemon);
                 label1.Text = activePokemon.name + " used " + moves[selectedMove].moveName + " dealing " + damage + " damage!";
             }
             else
             {
                 Move struggle = new Struggle(/*ref*/ activePokemon);
-                int damage = activePokemon.UseMove(ref struggle , ref activeEnemyPokemon);
+                int damage = activePokemon.UseMove(struggle, activeEnemyPokemon);
             }
             UpdateHealthBar(0);
             UpdateHealthBar(1);
@@ -262,7 +267,8 @@ namespace Pokemon_Simulator.Properties
                 Comment.Text = activeEnemyPokemon.GetComment()[4];
 
             }
-            else {
+            else
+            {
                 Comment.Text = activeEnemyPokemon.GetComment()[rand.Next(0, 4)];
             }
 
@@ -274,12 +280,12 @@ namespace Pokemon_Simulator.Properties
             //timer1.Start();
 
             //secs = 0;
-            
+
 
             if (!EcoolDown)
             {
                 // Now that selectedMove is global, we can put this here
-                
+
 
                 activeEnemyPokemon.AICPU(playerFirst);
 
@@ -342,13 +348,13 @@ namespace Pokemon_Simulator.Properties
                 Comment.Hide();
 
                 EcoolDown = false;
-                battleEventHandler.StartEnemyTurn();
+                BattleEventHandler.instance.StartEnemyTurn();
             }
             if (secs == 100)
             {
                 coolDown = false;
                 secs = 0;
-                battleEventHandler.EndEnemyTurn();
+                BattleEventHandler.instance.EndEnemyTurn();
                 timer1.Stop();
             }
 
@@ -371,7 +377,17 @@ namespace Pokemon_Simulator.Properties
                 {
                     playerHealthBar.Value = 0;
                     playerHealthText.Text = "0/" + activePokemon.GetHealth();
+                }
 
+                if(activePokemon.currentStatusEffect != null)
+                {
+                    LblPlayerStatus.Show();
+                    LblPlayerStatus.Text = activePokemon.currentStatusEffect.statusName;
+                    LblPlayerStatus.BackColor = activePokemon.currentStatusEffect.GetColor();
+                }
+                else
+                {
+                    LblPlayerStatus.Hide();
                 }
             }
             else
@@ -385,6 +401,17 @@ namespace Pokemon_Simulator.Properties
                 {
                     enemyHealthBar.Value = 0;
                     label2.Text = "0/" + activeEnemyPokemon.GetHealth();
+                }
+
+                if(activeEnemyPokemon.currentStatusEffect != null)
+                {
+                    LblEnemyStatus.Show();
+                    LblEnemyStatus.Text = activeEnemyPokemon.currentStatusEffect.statusName;
+                    LblEnemyStatus.BackColor = activeEnemyPokemon.currentStatusEffect.GetColor();
+                }
+                else
+                {
+                    LblEnemyStatus.Hide();
                 }
             }
         }

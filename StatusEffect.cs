@@ -1,21 +1,29 @@
 ﻿using System;
 using System.Drawing;
+using System.Runtime.InteropServices;
 
 namespace Pokemon_Simulator
 {
     public abstract class StatusEffect
     {
-        protected BattleEventHandler battleEventHandler;
+        public string statusName;
         protected Pokemon pokemon;
         protected Color color;
 
         public StatusEffect(Pokemon affectedPkmn)
         {
             pokemon = affectedPkmn;
-            battleEventHandler = new BattleEventHandler();
-            battleEventHandler.OnEndTurn += EndTurnEffect;
-            battleEventHandler.OnPokemonSwitchIn += SwitchInEffect;
-            battleEventHandler.OnPokemonSwitchOut += SwitchOutEffect;
+            BattleEventHandler.instance.OnEndTurn += EndTurnEffect;
+            BattleEventHandler.instance.OnPokemonSwitchIn += SwitchInEffect;
+            BattleEventHandler.instance.OnPokemonSwitchOut += SwitchOutEffect;
+
+            GCHandle objHandle = GCHandle.Alloc(pokemon, GCHandleType.WeakTrackResurrection);
+            int address = GCHandle.ToIntPtr(objHandle).ToInt32();
+            Console.WriteLine(address);
+
+            GCHandle objHandle2 = GCHandle.Alloc(affectedPkmn, GCHandleType.WeakTrackResurrection);
+            int address2 = GCHandle.ToIntPtr(objHandle2).ToInt32();
+            Console.WriteLine(address2);
         }
 
         /// <summary>
@@ -44,9 +52,10 @@ namespace Pokemon_Simulator
     class BurnStatusEffect : StatusEffect
     {
 
-        public BurnStatusEffect(ref Pokemon affectedPkmn) : base(affectedPkmn) 
+        public BurnStatusEffect(Pokemon affectedPkmn) : base(affectedPkmn) 
         {
-            color = Color.FromArgb(239, 152, 70);
+            statusName = "Burn";
+            color = Color.FromArgb(242, 127, 48);
         }
 
         protected override void EndTurnEffect(object sender, EventArgs e)
@@ -57,9 +66,10 @@ namespace Pokemon_Simulator
 
     class ParalysisStatusEffect : StatusEffect
     {
-        public ParalysisStatusEffect(ref Pokemon affectedPkmn) : base(affectedPkmn)
+        public ParalysisStatusEffect(Pokemon affectedPkmn) : base(affectedPkmn)
         {
-            color = Color.FromArgb(239, 152, 70);
+            statusName = "Paralysis";
+            color = Color.FromArgb(249, 208, 49);
         }
 
         protected override void SwitchInEffect(object sender, Pokemon pkmn)
@@ -80,9 +90,10 @@ namespace Pokemon_Simulator
 
     class FreezeStatusEffect : StatusEffect
     {
-        public FreezeStatusEffect(ref Pokemon affectedPkmn) : base(affectedPkmn)
+        public FreezeStatusEffect(Pokemon affectedPkmn) : base(affectedPkmn)
         {
-            color = Color.FromArgb(239, 152, 70);
+            statusName = "Frozen";
+            color = Color.FromArgb(155, 214, 218);
         }
 
         protected override bool Effect()
@@ -102,9 +113,10 @@ namespace Pokemon_Simulator
         private int numTurnsElasped;
         private int turnDuration;
 
-        public SleepStatusEffect(ref Pokemon affectedPkmn, int duration = 0) : base(affectedPkmn)
+        public SleepStatusEffect(Pokemon affectedPkmn, int duration = 0) : base(affectedPkmn)
         {
-            color = Color.FromArgb(239, 152, 70);
+            statusName = "Asleep";
+            color = Color.FromArgb(142, 136, 140);
             if(duration == 0)
             {
                 Random rand = new Random();
@@ -135,9 +147,10 @@ namespace Pokemon_Simulator
     class PoisonStatusEffect : StatusEffect
     {
 
-        public PoisonStatusEffect(ref Pokemon affectedPkmn) : base(affectedPkmn)
+        public PoisonStatusEffect(Pokemon affectedPkmn) : base(affectedPkmn)
         {
-            color = Color.FromArgb(239, 152, 70);
+            statusName = "Poison";
+            color = Color.FromArgb(161, 64, 166);
         }
 
         protected override void EndTurnEffect(object sender, EventArgs e)
@@ -151,10 +164,12 @@ namespace Pokemon_Simulator
 
         private int numTurnsElasped;
 
-        public ToxicStatusEffect(ref Pokemon affectedPkmn) : base(affectedPkmn)
+        public ToxicStatusEffect(Pokemon affectedPkmn) : base(affectedPkmn)
         {
+            statusName = "Badly Psn";
             numTurnsElasped = 1;
-            color = Color.FromArgb(239, 152, 70);
+            color = Color.FromArgb(161, 64, 166);
+            Console.WriteLine(affectedPkmn.displayName + " now has " + statusName);
         }
 
         protected override void SwitchOutEffect(object sender, Pokemon pkmn)
@@ -166,6 +181,7 @@ namespace Pokemon_Simulator
         {
             pokemon.currHealth -= pokemon.GetHealth() * (numTurnsElasped / 16);
             numTurnsElasped++;
+            Console.WriteLine(pokemon.displayName + " now has " + pokemon.currHealth + " health");
         }
     }
 }
