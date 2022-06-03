@@ -49,6 +49,7 @@
             this.LblStats = new System.Windows.Forms.Label();
             this.LblPlayerStatus = new System.Windows.Forms.Label();
             this.LblEnemyStatus = new System.Windows.Forms.Label();
+            this.PlayerFirstTimer = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.enemyPokemonImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.playerPokemonImage)).BeginInit();
             this.SuspendLayout();
@@ -296,6 +297,11 @@
             this.LblEnemyStatus.TabIndex = 20;
             this.LblEnemyStatus.Text = "label4";
             // 
+            // PlayerFirstTimer
+            // 
+            this.PlayerFirstTimer.Interval = 1;
+            this.PlayerFirstTimer.Tick += new System.EventHandler(this.PlayerFirstTimer_Tick);
+            // 
             // BattleWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -356,5 +362,6 @@
         private System.Windows.Forms.Label LblStats;
         private System.Windows.Forms.Label LblPlayerStatus;
         private System.Windows.Forms.Label LblEnemyStatus;
+        private System.Windows.Forms.Timer PlayerFirstTimer;
     }
 }

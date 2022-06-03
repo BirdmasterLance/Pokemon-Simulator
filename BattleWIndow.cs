@@ -192,12 +192,7 @@ namespace Pokemon_Simulator.Properties
             if (activePokemon.currSpeed >= activeEnemyPokemon.currSpeed)
             {
                 playerFirst = true;
-                BattleEventHandler.instance.StartPlayerTurn(); // Using the move
-                // Delay?
-                BattleEventHandler.instance.EndPlayerTurn(); // Recoil, item usage, etc
-
-                // Enemy turn
-                timer1.Start();
+                PlayerFirstTimer.Start();
                 coolDown = true;
                 Commentary_Battle();
             }
@@ -208,20 +203,7 @@ namespace Pokemon_Simulator.Properties
                 timer1.Start();
                 coolDown = true;
                 Commentary_Battle();
-
-                // Delay?
-                BattleEventHandler.instance.StartPlayerTurn();
-                // Delay?
-                BattleEventHandler.instance.EndPlayerTurn(); // Find a way to swap this event with the enemy fainting if possible
             }
-            BattleEventHandler.instance.EndTurn(); // weather counts down, status effects happen, etc
-            UpdateHealthBar(0);
-            UpdateHealthBar(1);
-            LblStats.Text = activePokemon.currAttack + " " + activePokemon.GetAttack() + "\n" +
-                activePokemon.currDefense + " " + activePokemon.GetDefense() + "\n" +
-                activePokemon.currSpecialAttack + " " + activePokemon.GetSpecialAttack() + "\n" +
-                activePokemon.currSpecialDefense + " " + activePokemon.GetSpecialDefense() + "\n" +
-                activePokemon.currSpeed + " " + activePokemon.GetSpeed();
         }
 
         private void PlayerTurn(object sender, EventArgs e)
@@ -235,7 +217,15 @@ namespace Pokemon_Simulator.Properties
             {
                 // Damage the enemy
                 int damage = activePokemon.UseMove(moves[selectedMove], activeEnemyPokemon);
-                label1.Text = activePokemon.name + " used " + moves[selectedMove].moveName + " dealing " + damage + " damage!";
+                label1.Text = activePokemon.name + " used " + moves[selectedMove].moveName;
+                if (damage >= 0)
+                {
+                    label1.Text += " dealing " + damage + " damage!";
+                } 
+                else
+                {
+                    label1.Text += "!"; // will optimize this part later
+                }
             }
             else
             {
@@ -301,7 +291,15 @@ namespace Pokemon_Simulator.Properties
                     // Damage the player
                     //int damage = activeEnemyPokemon.UseMove(activeEnemyPokemon.moves[move], activePokemon);
                     //label3.Text = activeEnemyPokemon.GetHealth().ToString() + " " + activeEnemyPokemon.currHealth.ToString() + " " + activeEnemyPokemon.GetDamage();
-                    label3.Text = activeEnemyPokemon.name + " used " + activeEnemyPokemon.lastUsedMove.moveName + " dealing " + activeEnemyPokemon.GetDamage() + " damage!";
+                    label3.Text = activeEnemyPokemon.name + " used " + activeEnemyPokemon.lastUsedMove.moveName;
+                    if (activeEnemyPokemon.GetDamage() > 0)
+                    {
+                        label3.Text += " dealing " + activeEnemyPokemon.GetDamage() + " damage!";
+                    }
+                    else
+                    {
+                        label3.Text += "!";
+                    }
                 }
                 else
                 {
@@ -347,21 +345,82 @@ namespace Pokemon_Simulator.Properties
             //Console.WriteLine(secs);
 
 
-            if (secs == 50)
+            if (secs == 10)
             {
                 Comment.Hide();
 
                 EcoolDown = false;
                 BattleEventHandler.instance.StartEnemyTurn();
             }
-            if (secs == 100)
+            else if (secs == 50)
             {
+                BattleEventHandler.instance.EndEnemyTurn();
+            }
+            else if (secs == 100)
+            {
+                BattleEventHandler.instance.StartPlayerTurn();
+            }
+            else if (secs == 150)
+            {
+                BattleEventHandler.instance.EndPlayerTurn();
+            }
+            else if (secs == 200)
+            {
+                BattleEventHandler.instance.EndTurn();
+
+                UpdateHealthBar(0);
+                UpdateHealthBar(1);
+                LblStats.Text = activePokemon.currAttack + " " + activePokemon.GetAttack() + "\n" +
+                    activePokemon.currDefense + " " + activePokemon.GetDefense() + "\n" +
+                    activePokemon.currSpecialAttack + " " + activePokemon.GetSpecialAttack() + "\n" +
+                    activePokemon.currSpecialDefense + " " + activePokemon.GetSpecialDefense() + "\n" +
+                    activePokemon.currSpeed + " " + activePokemon.GetSpeed();
+
                 coolDown = false;
                 secs = 0;
-                BattleEventHandler.instance.EndEnemyTurn();
                 timer1.Stop();
             }
 
+        }
+
+        private void PlayerFirstTimer_Tick(object sender, EventArgs e)
+        {
+            secs++;
+            //Console.WriteLine(secs);
+            if (secs == 10)
+            {
+                BattleEventHandler.instance.StartPlayerTurn();
+            }
+            else if (secs == 50)
+            {
+                BattleEventHandler.instance.EndPlayerTurn();
+            }
+            else if (secs == 100)
+            {
+                EcoolDown = false;
+                Comment.Hide();
+                BattleEventHandler.instance.StartEnemyTurn();
+            }
+            else if (secs == 150)
+            {
+                BattleEventHandler.instance.EndEnemyTurn();
+            }
+            else if (secs == 200)
+            {
+                BattleEventHandler.instance.EndTurn();
+
+                UpdateHealthBar(0);
+                UpdateHealthBar(1);
+                LblStats.Text = activePokemon.currAttack + " " + activePokemon.GetAttack() + "\n" +
+                    activePokemon.currDefense + " " + activePokemon.GetDefense() + "\n" +
+                    activePokemon.currSpecialAttack + " " + activePokemon.GetSpecialAttack() + "\n" +
+                    activePokemon.currSpecialDefense + " " + activePokemon.GetSpecialDefense() + "\n" +
+                    activePokemon.currSpeed + " " + activePokemon.GetSpeed();
+
+                coolDown = false;
+                secs = 0;
+                PlayerFirstTimer.Stop();
+            }
         }
 
         /// <summary>

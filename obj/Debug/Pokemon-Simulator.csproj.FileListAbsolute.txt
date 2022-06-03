@@ -13,7 +13,6 @@ C:\Users\Huu\source\repos\Pokemon-Simulator\Pokemon-Simulator\bin\Debug\Pokemon 
 C:\Users\Huu\source\repos\Pokemon-Simulator\Pokemon-Simulator\bin\Debug\Pokemon Simulator.exe
 C:\Users\Huu\source\repos\Pokemon-Simulator\Pokemon-Simulator\bin\Debug\Pokemon Simulator.pdb
 C:\Users\Huu\source\repos\Pokemon-Simulator\Pokemon-Simulator\obj\Debug\Pokemon-Simulator.csproj.AssemblyReference.cache
-C:\Users\Huu\source\repos\Pokemon-Simulator\Pokemon-Simulator\obj\Debug\Pokemon-Simulator.csproj.SuggestedBindingRedirects.cache
 C:\Users\Huu\source\repos\Pokemon-Simulator\Pokemon-Simulator\obj\Debug\Pokemon_Simulator.MainWindow.resources
 C:\Users\Huu\source\repos\Pokemon-Simulator\Pokemon-Simulator\obj\Debug\Pokemon_Simulator.Properties.BattleWindow.resources
 C:\Users\Huu\source\repos\Pokemon-Simulator\Pokemon-Simulator\obj\Debug\Pokemon_Simulator.Properties.Resources.resources

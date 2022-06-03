@@ -179,7 +179,7 @@ namespace Pokemon_Simulator
 
         protected override void EndTurnEffect(object sender, EventArgs e)
         {
-            pokemon.currHealth -= pokemon.GetHealth() * (numTurnsElasped / 16);
+            pokemon.currHealth -= pokemon.GetHealth() * ((double) numTurnsElasped / 16);
             numTurnsElasped++;
             Console.WriteLine(pokemon.displayName + " now has " + pokemon.currHealth + " health");
         }

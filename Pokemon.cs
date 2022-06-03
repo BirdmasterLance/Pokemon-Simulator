@@ -114,7 +114,7 @@ namespace Pokemon_Simulator
         }
 
 
-        public virtual int ChangeStat(double stat, double statToChange, int statStage, int stageIncrease)
+        public virtual int ChangeStat(double stat, ref double statToChange, ref int statStage, int stageIncrease)
         {
             Console.WriteLine(stat + " " + statStage);
             if (statStage == 6) return 0;
@@ -135,7 +135,7 @@ namespace Pokemon_Simulator
             return statStage;
         }
 
-        public virtual int ChangeAccuracyOrEvasion(double stat, double statToChange, int statStage, int stageIncrease)
+        public virtual int ChangeAccuracyOrEvasion(double stat, ref double statToChange, ref int statStage, int stageIncrease)
         {
             if (statStage == 6) return 0;
 
