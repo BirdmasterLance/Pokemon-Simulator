@@ -259,17 +259,21 @@ namespace Pokemon_Simulator.Properties
 
             if (activeEnemyPokemon.currHealth < activeEnemyPokemon.GetHealth() * 20 / 100 && activeEnemyPokemon.currHealth > 0 && (rand.Next(0, 5) == 1))
             {
-                Comment.Text = activeEnemyPokemon.GetComment()[4];
+                Comment.Text = activeEnemyPokemon.GetOnHitComment()[4];
             }
             else if (activeEnemyPokemon.currHealth <= 0)
             {
 
-                Comment.Text = activeEnemyPokemon.GetComment()[4];
+                Comment.Text = activeEnemyPokemon.GetOnHitComment()[4];
 
             }
             else
             {
-                Comment.Text = activeEnemyPokemon.GetComment()[rand.Next(0, 4)];
+                Comment.Text = activeEnemyPokemon.GetOnHitComment()[rand.Next(0, 4)];
+            }
+            if ( activePokemon.UseMove(moves[selectedMove], activeEnemyPokemon)< activeEnemyPokemon.GetHealth() * 20 / 100){
+
+                Comment.Text = activeEnemyPokemon.GetComment()[4];
             }
 
 

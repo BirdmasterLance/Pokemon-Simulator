@@ -10,10 +10,13 @@ namespace Pokemon_Simulator.PokemonClasses
             displayName = "Kogami Akira";
             MainColor = Color.HotPink;
             slogan = "はいい、これはあきらだぜ！！";
-            comments[0] = "W~Whyy?";
-            comments[1] = "痛って！！＞＜”";
-            comments[2] = "You little cr.. ";
-            comments[3] = ">< Agh.." /*"Grr"*/;
+            commentsOnHit[0] = "W~Whyy?";
+            commentsOnHit[1] = "痛って！！＞＜”";
+            commentsOnHit[2] = "Is that it?! ";
+            commentsOnHit[3] = ">< Ahh.." /*"Grr"*/;
+            commentsOnHit[4] = "I'm a little girl, u know!?" /*"Grr"*/;
+
+            commentsOnOther[0] = "No Way!";
             
 
             level = 50;
