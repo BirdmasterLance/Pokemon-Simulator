@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="BattleData.cs" />
     <Compile Include="BattleEventHandler.cs" />
+    <Compile Include="Item.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -125,9 +126,6 @@
     <None Include="Resources\Dio_Battle.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Dio_Pfp.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Downtown_Planeptune_RB1.jpg" />
   </ItemGroup>
   <ItemGroup>
@@ -183,6 +181,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Roserade_Pfp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Dio_Pfp.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

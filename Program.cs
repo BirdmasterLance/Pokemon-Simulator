@@ -14,6 +14,7 @@ namespace Pokemon_Simulator
         [STAThread]
         static void Main()
         {
+            BattleEventHandler battleEventHandler = new BattleEventHandler();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainWindow());

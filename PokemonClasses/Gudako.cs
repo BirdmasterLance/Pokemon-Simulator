@@ -28,6 +28,8 @@ namespace Pokemon_Simulator.PokemonClasses
             moves.Add(new BulkUp(this));
             moves.Add(new Recover(this));
             moves.Add(new WorkUp(this));
+
+            item = new ChoiceScarf(this);
         }
     }
 }

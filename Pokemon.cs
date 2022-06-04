@@ -74,6 +74,8 @@ namespace Pokemon_Simulator
 
         public Move lastUsedMove;
 
+        public Item item;
+
         int moveCounter = 0;
 
         public StatusEffect currentStatusEffect = null;
@@ -155,6 +157,28 @@ namespace Pokemon_Simulator
             return statStage;
         }
 
+        public virtual double GetDamage(Move move, Pokemon target)
+        {
+            double levelModifier = (2 * level / 5) + 2;
+            double defenseModifier = move.physical ? currAttack / target.currDefense : currSpecialAttack / target.currSpecialDefense;
+
+            Random rand = new Random();
+            double randomModifier = (double)rand.Next(85, 100) / 100;
+            double stabModifier = (type1 == move.type || type2 == move.type) ? 1.5 : 1;
+            double typeModifier = TypeData.CalculateEffectiveness(move.type, target.type1) * TypeData.CalculateEffectiveness(move.type, target.type2);
+
+            return ((levelModifier * move.damage * defenseModifier / 50) + 2) * randomModifier * stabModifier * typeModifier;
+        }
+
+        public virtual void HealPercent(double percent)
+        {
+            currHealth += (GetHealth() * percent);
+            if (currHealth > GetHealth())
+            {
+                currHealth = GetHealth();
+            }
+        }
+
         public virtual int UseMove(Move move, Pokemon target)
         {
 
@@ -174,14 +198,14 @@ namespace Pokemon_Simulator
 
             double levelModifier = (2 * level / 5) + 2;
             double defenseModifier = move.physical ? currAttack / target.currDefense : currSpecialAttack / target.currSpecialDefense;
-            //Console.WriteLine(currAttack + "/" + target.currDefense + " " + currSpecialAttack + "/" + target.currSpecialDefense);
+            
             Random rand = new Random();
             double randomModifier = (double)rand.Next(85, 100) / 100;
             double stabModifier = (type1 == move.type || type2 == move.type) ? 1.5 : 1;
             double typeModifier = TypeData.CalculateEffectiveness(move.type, target.type1) * TypeData.CalculateEffectiveness(move.type, target.type2);
-            //Console.WriteLine(levelModifier + " " + defenseModifier + " " + stabModifier + " " + effectiveModifier);
+            
             double damage = ((levelModifier * move.damage * defenseModifier / 50) + 2) * randomModifier * stabModifier * typeModifier;
-            //Console.WriteLine();
+            
             target.currHealth -= damage;
 
             if (move.recoil)

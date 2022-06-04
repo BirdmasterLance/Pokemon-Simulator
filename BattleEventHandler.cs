@@ -18,6 +18,8 @@ namespace Pokemon_Simulator
             }
         }
 
+        #region Turn Events
+
         public event EventHandler OnStartTurn;
         public void StartTurn()
         {
@@ -54,6 +56,10 @@ namespace Pokemon_Simulator
             OnEndEnemyTurn?.Invoke(this, EventArgs.Empty);
         }
 
+        #endregion
+
+        #region Switching Events
+
         public event EventHandler<Pokemon> OnPokemonSwitchIn;
         public void StartPokemonSwitchIn(ref Pokemon pkmn)
         {
@@ -64,7 +70,9 @@ namespace Pokemon_Simulator
         public void StartPokemonSwitchOut(ref Pokemon pkmn)
         {
             OnPokemonSwitchOut?.Invoke(this, pkmn);
-        }       
+        }
+
+        #endregion
 
         public event EventHandler<Pokemon> OnPokemonFainted;
         public void PlayerPokemonFainted(ref Pokemon pkmn)
@@ -72,10 +80,26 @@ namespace Pokemon_Simulator
             OnPokemonFainted?.Invoke(this, pkmn);
         }
 
+        #region Attacking Events
+
+        public event EventHandler<Pokemon> OnUseAttack;
+        public void UseAttack(ref Pokemon pkmn)
+        {
+            OnUseAttack?.Invoke(this, pkmn);
+        }
+
+        public event EventHandler<Pokemon> OnHitByMove;
+        public void HitByMove(ref Pokemon pkmn)
+        {
+            OnHitByMove?.Invoke(this, pkmn);
+        }
+
         public event EventHandler<Pokemon> OnHitBySuperEffective;
         public void HitBySuperEffective(ref Pokemon pkmn)
         {
             OnHitBySuperEffective?.Invoke(this, pkmn);
         }
+
+        #endregion
     }
 }

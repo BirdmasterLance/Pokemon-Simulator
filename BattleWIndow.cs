@@ -57,13 +57,8 @@ namespace Pokemon_Simulator.Properties
             Comment.Hide();
 
             //Let this class listen to battle events?
-            BattleEventHandler battleEventHandler = new BattleEventHandler();
             BattleEventHandler.instance.OnStartPlayerTurn += PlayerTurn;
             BattleEventHandler.instance.OnStartEnemyTurn += EnemyTurn;
-
-            GCHandle objHandle = GCHandle.Alloc(activeEnemyPokemon, GCHandleType.WeakTrackResurrection);
-            int address = GCHandle.ToIntPtr(objHandle).ToInt32();
-            Console.WriteLine("End of load: " + address);
         }
 
         private void LoadPlayerPokemonIntoBattle(Pokemon pokemon)
@@ -188,22 +183,11 @@ namespace Pokemon_Simulator.Properties
         private void StartTurn()
         {
             turnCounter++; // We are in the "next" turn
-
-            if (activePokemon.currSpeed >= activeEnemyPokemon.currSpeed)
-            {
-                playerFirst = true;
-                PlayerFirstTimer.Start();
-                coolDown = true;
-                Commentary_Battle();
-            }
-            else
-            {
-                playerFirst = false;
-                // Enemy Turn
-                timer1.Start();
-                coolDown = true;
-                Commentary_Battle();
-            }
+            playerFirst = activePokemon.currSpeed >= activeEnemyPokemon.currSpeed;
+            Console.WriteLine(turnCounter + " " + playerFirst);
+            Commentary_Battle();
+            timer1.Start();
+            coolDown = true;
         }
 
         private void PlayerTurn(object sender, EventArgs e)
@@ -261,10 +245,10 @@ namespace Pokemon_Simulator.Properties
             {
                 Comment.Text = activeEnemyPokemon.GetOnHitComment()[rand.Next(0, 4)];
             }
-            if ( activePokemon.UseMove(moves[selectedMove], activeEnemyPokemon)< activeEnemyPokemon.GetHealth() * 20 / 100){
-
-                Comment.Text = activeEnemyPokemon.GetComment()[4];
-            }
+            // if ( activePokemon.UseMove(moves[selectedMove], activeEnemyPokemon)< activeEnemyPokemon.GetHealth() * 20 / 100){
+            //
+            //     Comment.Text = activeEnemyPokemon.GetComment()[4];
+            // }
 
 
 
@@ -323,8 +307,7 @@ namespace Pokemon_Simulator.Properties
 
         private bool NoMoreMoves(Pokemon pkmn)
         {
-            List<Move> moves = pkmn.moves;
-            return moves[0].pp == 0 && moves[1].pp == 0 && moves[2].pp == 0 && moves[3].pp == 0;
+            return pkmn.moves[0].pp == 0 && pkmn.moves[1].pp == 0 && pkmn.moves[2].pp == 0 && pkmn.moves[3].pp == 0;
         }
         void ResizeScreen(Object source, EventArgs e)
         {
@@ -343,31 +326,53 @@ namespace Pokemon_Simulator.Properties
         {
             secs++;
             //Console.WriteLine(secs);
-
-
-            if (secs == 10)
+            if(playerFirst)
             {
-                Comment.Hide();
-
-                EcoolDown = false;
-                BattleEventHandler.instance.StartEnemyTurn();
+                if (secs == 10)
+                {
+                    BattleEventHandler.instance.StartPlayerTurn();
+                }
+                else if (secs == 50)
+                {
+                    BattleEventHandler.instance.EndPlayerTurn();
+                }
+                else if (secs == 100)
+                {
+                    Comment.Hide();
+                    EcoolDown = false;
+                    BattleEventHandler.instance.StartEnemyTurn();
+                }
+                else if (secs == 150)
+                {
+                    BattleEventHandler.instance.EndEnemyTurn();
+                }
             }
-            else if (secs == 50)
+            else
             {
-                BattleEventHandler.instance.EndEnemyTurn();
+                if (secs == 10)
+                {
+                    Comment.Hide();
+                    EcoolDown = false;
+                    BattleEventHandler.instance.StartEnemyTurn();
+                }
+                else if (secs == 50)
+                {
+                    BattleEventHandler.instance.EndEnemyTurn();
+                }
+                else if (secs == 100)
+                {
+                    BattleEventHandler.instance.StartPlayerTurn();
+                }
+                else if (secs == 150)
+                {
+                    BattleEventHandler.instance.EndPlayerTurn();
+                }
             }
-            else if (secs == 100)
-            {
-                BattleEventHandler.instance.StartPlayerTurn();
-            }
-            else if (secs == 150)
-            {
-                BattleEventHandler.instance.EndPlayerTurn();
-            }
-            else if (secs == 200)
+            
+            if (secs == 200)
             {
                 BattleEventHandler.instance.EndTurn();
-
+               
                 UpdateHealthBar(0);
                 UpdateHealthBar(1);
                 LblStats.Text = activePokemon.currAttack + " " + activePokemon.GetAttack() + "\n" +
@@ -375,53 +380,15 @@ namespace Pokemon_Simulator.Properties
                     activePokemon.currSpecialAttack + " " + activePokemon.GetSpecialAttack() + "\n" +
                     activePokemon.currSpecialDefense + " " + activePokemon.GetSpecialDefense() + "\n" +
                     activePokemon.currSpeed + " " + activePokemon.GetSpeed();
+                label1.Text = "";
+                label3.Text = "";
 
                 coolDown = false;
                 secs = 0;
                 timer1.Stop();
             }
 
-        }
-
-        private void PlayerFirstTimer_Tick(object sender, EventArgs e)
-        {
-            secs++;
-            //Console.WriteLine(secs);
-            if (secs == 10)
-            {
-                BattleEventHandler.instance.StartPlayerTurn();
-            }
-            else if (secs == 50)
-            {
-                BattleEventHandler.instance.EndPlayerTurn();
-            }
-            else if (secs == 100)
-            {
-                EcoolDown = false;
-                Comment.Hide();
-                BattleEventHandler.instance.StartEnemyTurn();
-            }
-            else if (secs == 150)
-            {
-                BattleEventHandler.instance.EndEnemyTurn();
-            }
-            else if (secs == 200)
-            {
-                BattleEventHandler.instance.EndTurn();
-
-                UpdateHealthBar(0);
-                UpdateHealthBar(1);
-                LblStats.Text = activePokemon.currAttack + " " + activePokemon.GetAttack() + "\n" +
-                    activePokemon.currDefense + " " + activePokemon.GetDefense() + "\n" +
-                    activePokemon.currSpecialAttack + " " + activePokemon.GetSpecialAttack() + "\n" +
-                    activePokemon.currSpecialDefense + " " + activePokemon.GetSpecialDefense() + "\n" +
-                    activePokemon.currSpeed + " " + activePokemon.GetSpeed();
-
-                coolDown = false;
-                secs = 0;
-                PlayerFirstTimer.Stop();
-            }
-        }
+        }       
 
         /// <summary>
         /// Updates the health bar in the window.

@@ -142,11 +142,7 @@ namespace Pokemon_Simulator
 
         public override void SpecialEffects(Pokemon user)
         {
-            user.currHealth += user.GetHealth() * 0.5;
-            if (user.currHealth > user.GetHealth())
-            {
-                user.currHealth = user.GetHealth();
-            }
+            user.HealPercent(0.5);
         }
     }
 
@@ -275,11 +271,7 @@ namespace Pokemon_Simulator
         public override void SpecialEffects(Pokemon user)
         {
             // TODO: it heals more in sun 2/3 and less in other weathers 1/4
-            user.currHealth += user.GetHealth() * 0.5;
-            if (user.currHealth > user.GetHealth())
-            {
-                user.currHealth = user.GetHealth();
-            }
+            user.HealPercent(0.5);
         }
     }
 

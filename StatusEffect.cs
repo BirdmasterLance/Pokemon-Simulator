@@ -16,14 +16,6 @@ namespace Pokemon_Simulator
             BattleEventHandler.instance.OnEndTurn += EndTurnEffect;
             BattleEventHandler.instance.OnPokemonSwitchIn += SwitchInEffect;
             BattleEventHandler.instance.OnPokemonSwitchOut += SwitchOutEffect;
-
-            GCHandle objHandle = GCHandle.Alloc(pokemon, GCHandleType.WeakTrackResurrection);
-            int address = GCHandle.ToIntPtr(objHandle).ToInt32();
-            Console.WriteLine(address);
-
-            GCHandle objHandle2 = GCHandle.Alloc(affectedPkmn, GCHandleType.WeakTrackResurrection);
-            int address2 = GCHandle.ToIntPtr(objHandle2).ToInt32();
-            Console.WriteLine(address2);
         }
 
         /// <summary>
@@ -169,7 +161,6 @@ namespace Pokemon_Simulator
             statusName = "Badly Psn";
             numTurnsElasped = 1;
             color = Color.FromArgb(161, 64, 166);
-            Console.WriteLine(affectedPkmn.displayName + " now has " + statusName);
         }
 
         protected override void SwitchOutEffect(object sender, Pokemon pkmn)
@@ -181,7 +172,6 @@ namespace Pokemon_Simulator
         {
             pokemon.currHealth -= pokemon.GetHealth() * ((double) numTurnsElasped / 16);
             numTurnsElasped++;
-            Console.WriteLine(pokemon.displayName + " now has " + pokemon.currHealth + " health");
         }
     }
 }

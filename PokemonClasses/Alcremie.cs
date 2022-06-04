@@ -29,6 +29,8 @@ namespace Pokemon_Simulator.PokemonClasses
             moves.Add(new MysticalFire(this));
             moves.Add(new Recover(this));
             moves.Add(new CalmMind(this));
+
+            item = new Leftovers(this);
         }
     }
 }
