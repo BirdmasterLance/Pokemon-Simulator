@@ -172,10 +172,11 @@ namespace Pokemon_Simulator
 
         public virtual void HealPercent(double percent)
         {
-            currHealth += (GetHealth() * percent);
-            if (currHealth > GetHealth())
+            double healAmount = health * percent;
+            currHealth += healAmount;
+            if (currHealth > health)
             {
-                currHealth = GetHealth();
+                currHealth = health;
             }
         }
 
@@ -191,7 +192,7 @@ namespace Pokemon_Simulator
 
             if (!move.actualAttack)
             {
-                move.SpecialEffects(this);
+                move.SpecialEffects();
                 move.SpecialTargetEffects(target);
                 return -2;
             }
@@ -215,7 +216,7 @@ namespace Pokemon_Simulator
 
             // Return how much damage it did (as a percent compared to the target's total health)
 
-            move.SpecialEffects(this);
+            move.SpecialEffects();
             move.SpecialTargetEffects(target);
 
             return (int)damage;
@@ -383,10 +384,7 @@ namespace Pokemon_Simulator
 
         }
 
-        public object Clone()
-        {
-            return MemberwiseClone();
-        }
+        public abstract object Clone();
         public override string ToString()
         {
             return displayName;

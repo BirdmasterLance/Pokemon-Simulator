@@ -61,13 +61,13 @@ namespace Pokemon_Simulator
         #region Switching Events
 
         public event EventHandler<Pokemon> OnPokemonSwitchIn;
-        public void StartPokemonSwitchIn(ref Pokemon pkmn)
+        public void StartPokemonSwitchIn(Pokemon pkmn)
         {
             OnPokemonSwitchIn?.Invoke(this, pkmn);
         }
 
         public event EventHandler<Pokemon> OnPokemonSwitchOut;
-        public void StartPokemonSwitchOut(ref Pokemon pkmn)
+        public void StartPokemonSwitchOut(Pokemon pkmn)
         {
             OnPokemonSwitchOut?.Invoke(this, pkmn);
         }
@@ -75,7 +75,7 @@ namespace Pokemon_Simulator
         #endregion
 
         public event EventHandler<Pokemon> OnPokemonFainted;
-        public void PlayerPokemonFainted(ref Pokemon pkmn)
+        public void PlayerPokemonFainted(Pokemon pkmn)
         {
             OnPokemonFainted?.Invoke(this, pkmn);
         }

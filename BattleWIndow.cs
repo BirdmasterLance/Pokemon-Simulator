@@ -81,6 +81,8 @@ namespace Pokemon_Simulator.Properties
             // Load their moves too
             LoadPlayerMoves(moves);
 
+            BattleEventHandler.instance.StartPokemonSwitchIn(activePokemon);
+
         }
 
         private void LoadPlayerMoves(List<Move> moves)
@@ -125,6 +127,8 @@ namespace Pokemon_Simulator.Properties
             // Now the enemy knows this pokemon 
             activeEnemyPokemon.knownPokemons.Add(activePokemon);
             activeEnemyPokemon.SetRivalPokemon(activePokemon);
+
+            BattleEventHandler.instance.StartPokemonSwitchIn(activeEnemyPokemon);
         }
 
         private void Move1_Click(object sender, EventArgs e)

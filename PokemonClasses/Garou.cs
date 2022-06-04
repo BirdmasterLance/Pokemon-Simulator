@@ -30,5 +30,18 @@ namespace Pokemon_Simulator.PokemonClasses
             moves.Add(new ExtremeSpeed(this));
             moves.Add(new SuckerPunch(this));
         }
+
+        public override object Clone()
+        {
+            var clonedPokemon = (Pokemon)MemberwiseClone();
+            List<Move> moves = new List<Move>();
+            moves.Add(new CloseCombat(clonedPokemon));
+            moves.Add(new BulkUp(clonedPokemon));
+            moves.Add(new ExtremeSpeed(clonedPokemon));
+            moves.Add(new SuckerPunch(clonedPokemon));
+            clonedPokemon.moves = moves;
+            clonedPokemon.item = null;
+            return clonedPokemon;
+        }
     }
 }

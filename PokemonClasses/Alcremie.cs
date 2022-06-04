@@ -30,7 +30,20 @@ namespace Pokemon_Simulator.PokemonClasses
             moves.Add(new Recover(this));
             moves.Add(new CalmMind(this));
 
-            item = new Leftovers(this);
+            //item = new Leftovers(this);
+        }
+
+        public override object Clone()
+        {
+            var clonedPokemon = (Pokemon)MemberwiseClone();
+            List<Move> moves = new List<Move>();
+            moves.Add(new DazzlingGleam(clonedPokemon));
+            moves.Add(new MysticalFire(clonedPokemon));
+            moves.Add(new Recover(clonedPokemon));
+            moves.Add(new CalmMind(clonedPokemon));
+            clonedPokemon.moves = moves;
+            clonedPokemon.item = new Leftovers(clonedPokemon);
+            return clonedPokemon;
         }
     }
 }

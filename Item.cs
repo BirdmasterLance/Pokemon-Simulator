@@ -75,7 +75,7 @@ namespace Pokemon_Simulator
 
         protected override void SwitchInEffect(object sender, Pokemon pkmn) 
         {
-            pkmn.currSpeed *= 1.5;
+            holder.currSpeed *= 1.5;
         }
     }
 
@@ -85,7 +85,7 @@ namespace Pokemon_Simulator
 
         protected override void EndTurnEffect(object sender, EventArgs e)
         {
-            holder.HealPercent(1 / 16);
+            holder.HealPercent(0.0625);
         }
     }
 }

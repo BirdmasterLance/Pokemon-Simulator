@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
 
 
 namespace Pokemon_Simulator.PokemonClasses
@@ -24,6 +25,19 @@ namespace Pokemon_Simulator.PokemonClasses
             moves.Add(new HyperVoice(this));
             moves.Add(new Snarl(this));
             moves.Add(new QuiverDance(this));
+        }
+
+        public override object Clone()
+        {
+            var clonedPokemon = (Pokemon)MemberwiseClone();
+            List<Move> moves = new List<Move>();
+            moves.Add(new DazzlingGleam(clonedPokemon));
+            moves.Add(new HyperVoice(clonedPokemon));
+            moves.Add(new Snarl(clonedPokemon));
+            moves.Add(new QuiverDance(clonedPokemon));
+            clonedPokemon.moves = moves;
+            clonedPokemon.item = null;
+            return clonedPokemon;
         }
     }
 }
