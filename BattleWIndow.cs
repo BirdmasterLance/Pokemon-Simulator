@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Timers;
@@ -16,7 +17,9 @@ namespace Pokemon_Simulator.Properties
 
 
         Pokemon activePokemon;
+        int activePokemonIndex;
         Pokemon activeEnemyPokemon;
+        int activeEnemyPokemonIndex;
         int selectedMove;
 
         Label lblMCX = new Label();
@@ -28,8 +31,6 @@ namespace Pokemon_Simulator.Properties
         bool playerFirst;
 
         bool coolDown;
-
-
         bool EcoolDown;
 
         Random rand = new Random();
@@ -41,7 +42,7 @@ namespace Pokemon_Simulator.Properties
         //Am assuming this where battle begins, so add buttons and such, might as well say that u can experiment
         private void BattleWindow_Load(object sender, EventArgs e)
         {
-            LoadPlayerPokemonIntoBattle(BattleData.pokemonList[0]);
+            LoadPlayerPokemonIntoBattle(0);
 
             lblMCY.Show();
             lblMCY.Location = new Point(500, 50);
@@ -49,8 +50,10 @@ namespace Pokemon_Simulator.Properties
             lblMCX.Show();
             lblMCX.Location = new Point(500, 20);
 
-            LoadEnemyPokemonIntoBattle(BattleData.enemyList[0]);
+            LoadEnemyPokemonIntoBattle(0);
             //TODO: Event for Image Resizing.(Scaling) Item re-placeement depenign on the screen size.
+
+            LoadPartyPictures();
 
             LblPlayerStatus.Hide();
             LblEnemyStatus.Hide();
@@ -61,8 +64,10 @@ namespace Pokemon_Simulator.Properties
             BattleEventHandler.instance.OnStartEnemyTurn += EnemyTurn;
         }
 
-        private void LoadPlayerPokemonIntoBattle(Pokemon pokemon)
+        private void LoadPlayerPokemonIntoBattle(int pokemonIndex)
         {
+            Pokemon pokemon = BattleData.pokemonList[pokemonIndex];
+            activePokemonIndex = pokemonIndex;
             activePokemon = pokemon;
             moves = pokemon.moves;
 
@@ -110,8 +115,10 @@ namespace Pokemon_Simulator.Properties
             }
         }
 
-        private void LoadEnemyPokemonIntoBattle(Pokemon pokemon)
+        private void LoadEnemyPokemonIntoBattle(int pokemonIndex)
         {
+            Pokemon pokemon = BattleData.enemyList[pokemonIndex];
+            activeEnemyPokemonIndex = pokemonIndex;
             activeEnemyPokemon = pokemon;
 
             enemyPokemonName.Text = pokemon.displayName;
@@ -135,7 +142,6 @@ namespace Pokemon_Simulator.Properties
         {
             if (moves[0].pp > 0 && !coolDown)
             {
-                moves[0].pp--;
                 Move1.Text = moves[0].moveName + '\n' + moves[0].pp.ToString() + "/" + moves[0].maxPP.ToString();
                 selectedMove = 0;
                 StartTurn();
@@ -149,7 +155,6 @@ namespace Pokemon_Simulator.Properties
         {
             if (moves[1].pp > 0 && !coolDown)
             {
-                moves[1].pp--;
                 Move2.Text = moves[1].moveName + '\n' + moves[1].pp.ToString() + "/" + moves[1].maxPP.ToString();
                 selectedMove = 1;
                 StartTurn();
@@ -162,7 +167,6 @@ namespace Pokemon_Simulator.Properties
         {
             if (moves[2].pp > 0 && !coolDown)
             {
-                moves[2].pp--;
                 Move3.Text = moves[2].moveName + '\n' + moves[2].pp.ToString() + "/" + moves[2].maxPP.ToString();
                 selectedMove = 2;
                 StartTurn();
@@ -195,25 +199,14 @@ namespace Pokemon_Simulator.Properties
         }
 
         private void PlayerTurn(object sender, EventArgs e)
-        {
-            //System.Timers.Timer attackTimer = new System.Timers.Timer(1000);
-            //attackTimer.Elapsed += PlayerAttackAnimation;
-
-            //playerPokemonImage.Location = Point.;//This sets the location of the Left top corner of the item in estion, the image, in this case            
-            //Console.WriteLine(activePokemon.currAttack + " " + activePokemon.currDefense + " " + activePokemon.currSpecialAttack + " " + activePokemon.currSpecialDefense + " " + activePokemon.currSpeed);
+        { 
             if (selectedMove != -1)
             {
                 // Damage the enemy
                 int damage = activePokemon.UseMove(moves[selectedMove], activeEnemyPokemon);
                 label1.Text = activePokemon.name + " used " + moves[selectedMove].moveName;
-                if (damage >= 0)
-                {
-                    label1.Text += " dealing " + damage + " damage!";
-                } 
-                else
-                {
-                    label1.Text += "!"; // will optimize this part later
-                }
+                if (damage >= 0) { label1.Text += " dealing " + damage + " damage!"; } 
+                else { label1.Text += "!"; }
             }
             else
             {
@@ -223,17 +216,16 @@ namespace Pokemon_Simulator.Properties
             UpdateHealthBar(0);
             UpdateHealthBar(1);
             activeEnemyPokemon.knownMoves.Add(activePokemon.moves[selectedMove]);
+
+            //if the player used a move that changed their stats, display it here
+            UpdateStatLabel();
+
         }
 
         private void Commentary_Battle()
         {
-
-
-
             Comment.Show();
             Comment.Location = new Point(enemyPokemonImage.Location.X - 100, enemyPokemonImage.Location.Y);
-
-
 
             if (activeEnemyPokemon.currHealth < activeEnemyPokemon.GetHealth() * 20 / 100 && activeEnemyPokemon.currHealth > 0 && (rand.Next(0, 5) == 1))
             {
@@ -241,53 +233,32 @@ namespace Pokemon_Simulator.Properties
             }
             else if (activeEnemyPokemon.currHealth <= 0)
             {
-
                 Comment.Text = activeEnemyPokemon.GetOnHitComment()[4];
-
             }
             else
             {
                 Comment.Text = activeEnemyPokemon.GetOnHitComment()[rand.Next(0, 4)];
             }
-            // if ( activePokemon.UseMove(moves[selectedMove], activeEnemyPokemon)< activeEnemyPokemon.GetHealth() * 20 / 100){
-            //
-            //     Comment.Text = activeEnemyPokemon.GetComment()[4];
-            // }
-
-
-
+            if (activePokemon.GetDamage(moves[selectedMove], activeEnemyPokemon) < activeEnemyPokemon.GetHealth() * 20 / 100)
+            {
+                Comment.Text = activeEnemyPokemon.GetComment()[4];
+            }
         }
+
         private void EnemyTurn(object sender, EventArgs e)
         {
-            //timer1.Start();
-
-            //secs = 0;
-
-
             if (!EcoolDown)
             {
                 // Now that selectedMove is global, we can put this here
-
-
                 activeEnemyPokemon.AICPU(playerFirst);
-
-
 
                 //AttackAnimation(playerPokemonImage, -1);h
                 if (!NoMoreMoves(activeEnemyPokemon))
                 {
-                    // Damage the player
-                    //int damage = activeEnemyPokemon.UseMove(activeEnemyPokemon.moves[move], activePokemon);
-                    //label3.Text = activeEnemyPokemon.GetHealth().ToString() + " " + activeEnemyPokemon.currHealth.ToString() + " " + activeEnemyPokemon.GetDamage();
-                    label3.Text = activeEnemyPokemon.name + " used " + activeEnemyPokemon.lastUsedMove.moveName;
-                    if (activeEnemyPokemon.GetDamage() > 0)
-                    {
-                        label3.Text += " dealing " + activeEnemyPokemon.GetDamage() + " damage!";
-                    }
-                    else
-                    {
-                        label3.Text += "!";
-                    }
+                    // Damage the player                   
+                    label1.Text = activeEnemyPokemon.name + " used " + activeEnemyPokemon.lastUsedMove.moveName;
+                    if (activeEnemyPokemon.GetDamage() > 0) { label1.Text += " dealing " + activeEnemyPokemon.GetDamage() + " damage!"; }
+                    else { label1.Text += "!"; }
                 }
                 else
                 {
@@ -297,6 +268,9 @@ namespace Pokemon_Simulator.Properties
             UpdateHealthBar(0);
             UpdateHealthBar(1);
             EcoolDown = true;
+
+            //if the enemy used a move that changed their stats, display it here
+            UpdateStatLabel();
         }
 
         private void PlayerAttackAnimation(Object source, ElapsedEventArgs e)
@@ -339,6 +313,14 @@ namespace Pokemon_Simulator.Properties
                 else if (secs == 50)
                 {
                     BattleEventHandler.instance.EndPlayerTurn();
+                    // if (CheckFainted() == 0) for when we die during out turn (like recoil)
+                    if (CheckFainted() == 1) // the enemy has fainted before their turn, skip theirs
+                    {
+                        // TODO: methods for enemy switching out
+                        GrayOutPartyPicture(1, activeEnemyPokemonIndex);
+                        label1.Text = activeEnemyPokemon.displayName + " has fainted!";
+                        secs = 151;
+                    }
                 }
                 else if (secs == 100)
                 {
@@ -362,6 +344,13 @@ namespace Pokemon_Simulator.Properties
                 else if (secs == 50)
                 {
                     BattleEventHandler.instance.EndEnemyTurn();
+                    // if (CheckFainted() == 1) for when the enemy dies during out turn (like recoil)
+                    if (CheckFainted() == 0) // the player has fainted before their turn, skip theirs
+                    {
+                        GrayOutPartyPicture(0, activePokemonIndex);
+                        label1.Text = activePokemon.displayName + " has fainted!";
+                        secs = 151;
+                    }
                 }
                 else if (secs == 100)
                 {
@@ -369,7 +358,7 @@ namespace Pokemon_Simulator.Properties
                 }
                 else if (secs == 150)
                 {
-                    BattleEventHandler.instance.EndPlayerTurn();
+                    BattleEventHandler.instance.EndPlayerTurn();                  
                 }
             }
             
@@ -378,14 +367,14 @@ namespace Pokemon_Simulator.Properties
                 BattleEventHandler.instance.EndTurn();
                
                 UpdateHealthBar(0);
-                UpdateHealthBar(1);
-                LblStats.Text = activePokemon.currAttack + " " + activePokemon.GetAttack() + "\n" +
-                    activePokemon.currDefense + " " + activePokemon.GetDefense() + "\n" +
-                    activePokemon.currSpecialAttack + " " + activePokemon.GetSpecialAttack() + "\n" +
-                    activePokemon.currSpecialDefense + " " + activePokemon.GetSpecialDefense() + "\n" +
-                    activePokemon.currSpeed + " " + activePokemon.GetSpeed();
+                UpdateHealthBar(1);               
                 label1.Text = "";
-                label3.Text = "";
+
+                // Update the move counter at the end incase it doesnt update earlier
+                Move1.Text = moves[0].moveName + '\n' + moves[0].pp.ToString() + "/" + moves[0].maxPP.ToString();
+                Move2.Text = moves[1].moveName + '\n' + moves[1].pp.ToString() + "/" + moves[1].maxPP.ToString();
+                Move3.Text = moves[2].moveName + '\n' + moves[2].pp.ToString() + "/" + moves[2].maxPP.ToString();
+                Move4.Text = moves[3].moveName + '\n' + moves[3].pp.ToString() + "/" + moves[3].maxPP.ToString();
 
                 coolDown = false;
                 secs = 0;
@@ -449,5 +438,166 @@ namespace Pokemon_Simulator.Properties
                 }
             }
         }
+
+        /// <summary>
+        /// Update the label that holds player and enemy
+        /// stat changes
+        /// </summary>
+        private void UpdateStatLabel()
+        {
+            string playerStats = "";
+            if (activePokemon.attackStage != 0) playerStats += "Attack: " + NumToPercentStatConvert(activePokemon.attackStage) + "\n";
+            if (activePokemon.defenseStage != 0) playerStats += "Defense: " + NumToPercentStatConvert(activePokemon.defenseStage) + "\n";
+            if (activePokemon.specialAttackStage != 0) playerStats += "Special Attack: " + NumToPercentStatConvert(activePokemon.specialAttackStage) + "\n";
+            if (activePokemon.specialDefenseStage != 0) playerStats += "Special Defense: " + NumToPercentStatConvert(activePokemon.specialDefenseStage) + "\n";
+            if (activePokemon.speedStage != 0) playerStats += "Speed: " + NumToPercentStatConvert(activePokemon.speedStage);
+            LblStats.Text = playerStats;
+
+            string enemyStats = "";
+            if (activeEnemyPokemon.attackStage != 0) enemyStats += "Attack: " + NumToPercentStatConvert(activeEnemyPokemon.attackStage) + "\n";
+            if (activeEnemyPokemon.defenseStage != 0) enemyStats += "Defense: " + NumToPercentStatConvert(activeEnemyPokemon.defenseStage) + "\n";
+            if (activeEnemyPokemon.specialAttackStage != 0) enemyStats += "Special Attack: " + NumToPercentStatConvert(activeEnemyPokemon.specialAttackStage) + "\n";
+            if (activeEnemyPokemon.specialDefenseStage != 0) enemyStats += "Special Defense: " + NumToPercentStatConvert(activeEnemyPokemon.specialDefenseStage) + "\n";
+            if (activeEnemyPokemon.speedStage != 0) enemyStats += "Speed: " + NumToPercentStatConvert(activeEnemyPokemon.speedStage);
+            label3.Text = enemyStats;
+        }
+
+        private string NumToPercentStatConvert(int statStage, bool accuracyOrEvasion=false)
+        {
+            if(accuracyOrEvasion)
+            {
+                if (statStage == 1) return "1.33x";
+                if (statStage == 2) return "1.66x";
+                if (statStage == 3) return "2x";
+                if (statStage == 4) return "2.33x";
+                if (statStage == 5) return "2.66x";
+                if (statStage == 6) return "3x";
+
+                if (statStage == -1) return "0.75x";
+                if (statStage == -2) return "0.60x";
+                if (statStage == -3) return "0.50x";
+                if (statStage == -4) return "0.428x";
+                if (statStage == -5) return "0.375x";
+                if (statStage == -6) return "0.33x";
+            }
+            else
+            {
+                if (statStage == 1) return "1.5x";
+                if (statStage == 2) return "2x";
+                if (statStage == 3) return "2.5x";
+                if (statStage == 4) return "3x";
+                if (statStage == 5) return "3.5x";
+                if (statStage == 6) return "4x";
+ 
+                if (statStage == -1) return "0.66x";
+                if (statStage == -2) return "0.50x";
+                if (statStage == -3) return "0.40x";
+                if (statStage == -4) return "0.33x";
+                if (statStage == -5) return "0.285x";
+                if (statStage == -6) return "0.25x";
+            }
+            return "";
+        }
+        
+        private int CheckFainted()
+        {
+            // if one of the pokemon has lost all of their HP, raise the event so other classes know a pokemon has fainted
+            if(activePokemon.currHealth <= 0)
+            {
+                BattleEventHandler.instance.PlayerPokemonFainted(activePokemon);
+                return 0; // 0 for the player
+            }
+
+            if(activeEnemyPokemon.currHealth <= 0)
+            {
+                BattleEventHandler.instance.PlayerPokemonFainted(activeEnemyPokemon);
+                return 1; // 1 for the enemy
+            }
+            return -1; // no one has fainted yet
+        }
+
+        #region Party Picture Methods
+
+        private void LoadPartyPictures()
+        {
+            int playerPartySize = BattleData.pokemonList.Count;           
+            if(playerPartySize >= 1) PicBoxPlayerPkmn1.Image = Image.FromFile(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName
+                + @"\Pokemon-Simulator\Resources\" + BattleData.pokemonList[0].name + "_Pfp.png");
+            if (playerPartySize >= 2) PicBoxPlayerPkmn2.Image = Image.FromFile(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName
+                 + @"\Pokemon-Simulator\Resources\" + BattleData.pokemonList[1].name + "_Pfp.png");
+            if (playerPartySize >= 3) PicBoxPlayerPkmn3.Image = Image.FromFile(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName
+                 + @"\Pokemon-Simulator\Resources\" + BattleData.pokemonList[2].name + "_Pfp.png");
+            if (playerPartySize >= 4) PicBoxPlayerPkmn4.Image = Image.FromFile(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName
+                 + @"\Pokemon-Simulator\Resources\" + BattleData.pokemonList[3].name + "_Pfp.png");
+            if (playerPartySize >= 5) PicBoxPlayerPkmn5.Image = Image.FromFile(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName
+                 + @"\Pokemon-Simulator\Resources\" + BattleData.pokemonList[4].name + "_Pfp.png");
+            if (playerPartySize >= 6) PicBoxPlayerPkmn6.Image = Image.FromFile(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName
+                 + @"\Pokemon-Simulator\Resources\" + BattleData.pokemonList[5].name + "_Pfp.png");
+
+            int enemyPartySize = BattleData.enemyList.Count;
+            if (enemyPartySize >= 1) PicBoxEnemyPkmn1.Image = Image.FromFile(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName
+                 + @"\Pokemon-Simulator\Resources\" + BattleData.enemyList[0].name + "_Pfp.png");
+            if (enemyPartySize >= 2) PicBoxEnemyPkmn2.Image = Image.FromFile(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName
+                 + @"\Pokemon-Simulator\Resources\" + BattleData.enemyList[1].name + "_Pfp.png");
+            if (enemyPartySize >= 3) PicBoxEnemyPkmn3.Image = Image.FromFile(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName
+                 + @"\Pokemon-Simulator\Resources\" + BattleData.enemyList[2].name + "_Pfp.png");
+            if (enemyPartySize >= 4) PicBoxEnemyPkmn4.Image = Image.FromFile(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName
+                 + @"\Pokemon-Simulator\Resources\" + BattleData.enemyList[3].name + "_Pfp.png");
+            if (enemyPartySize >= 5) PicBoxEnemyPkmn5.Image = Image.FromFile(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName
+                 + @"\Pokemon-Simulator\Resources\" + BattleData.enemyList[4].name + "_Pfp.png");
+            if (enemyPartySize >= 6) PicBoxEnemyPkmn6.Image = Image.FromFile(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName
+                 + @"\Pokemon-Simulator\Resources\" + BattleData.enemyList[5].name + "_Pfp.png");
+        }
+
+        /// <summary>
+        /// Makes the party picture gray so we know that pokemon is fainted
+        /// 0 for player, 1 for enemy
+        /// </summary>
+        private void GrayOutPartyPicture(int mode, int pokemonIndex)
+        {
+            if(mode == 0)
+            {
+                if (pokemonIndex == 0) PicBoxPlayerPkmn1.Image = ConvertToGrayScale(PicBoxPlayerPkmn1.Image);
+                else if (pokemonIndex == 1) PicBoxPlayerPkmn2.Image = ConvertToGrayScale(PicBoxPlayerPkmn2.Image);
+                else if (pokemonIndex == 2) PicBoxPlayerPkmn3.Image = ConvertToGrayScale(PicBoxPlayerPkmn3.Image);
+                else if (pokemonIndex == 3) PicBoxPlayerPkmn4.Image = ConvertToGrayScale(PicBoxPlayerPkmn4.Image);
+                else if (pokemonIndex == 4) PicBoxPlayerPkmn5.Image = ConvertToGrayScale(PicBoxPlayerPkmn5.Image);
+                else if (pokemonIndex == 5) PicBoxPlayerPkmn6.Image = ConvertToGrayScale(PicBoxPlayerPkmn6.Image);
+            }
+            else
+            {
+                if (pokemonIndex == 0) PicBoxEnemyPkmn1.Image = ConvertToGrayScale(PicBoxEnemyPkmn1.Image);
+                else if (pokemonIndex == 1) PicBoxEnemyPkmn2.Image = ConvertToGrayScale(PicBoxEnemyPkmn2.Image);
+                else if (pokemonIndex == 2) PicBoxEnemyPkmn3.Image = ConvertToGrayScale(PicBoxEnemyPkmn3.Image);
+                else if (pokemonIndex == 3) PicBoxEnemyPkmn4.Image = ConvertToGrayScale(PicBoxEnemyPkmn4.Image);
+                else if (pokemonIndex == 4) PicBoxEnemyPkmn5.Image = ConvertToGrayScale(PicBoxEnemyPkmn5.Image);
+                else if (pokemonIndex == 5) PicBoxEnemyPkmn6.Image = ConvertToGrayScale(PicBoxEnemyPkmn6.Image);
+            }
+            
+        }
+
+        private Image ConvertToGrayScale(Image original)
+        {
+            Bitmap newBmp = new Bitmap(original.Width, original.Height);
+            Graphics g = Graphics.FromImage(newBmp);
+            ColorMatrix colorMatrix = new ColorMatrix(
+               new float[][]
+               {
+                   new float[] {.3f, .3f, .3f, 0, 0},
+                   new float[] {.59f, .59f, .59f, 0, 0},
+                   new float[] {.11f, .11f, .11f, 0, 0},
+                   new float[] {0, 0, 0, 1, 0},
+                   new float[] {0, 0, 0, 0, 1}
+               });
+            ImageAttributes img = new ImageAttributes();
+            img.SetColorMatrix(colorMatrix);
+            g.DrawImage(original, new Rectangle(0, 0, original.Width, original.Height), 0, 0, original.Width, original.Height, GraphicsUnit.Pixel, img);
+            g.Dispose();
+
+            return newBmp;
+        }
+
+        #endregion
+
     }
 }

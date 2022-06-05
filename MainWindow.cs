@@ -10,7 +10,6 @@ namespace Pokemon_Simulator
 {
     public partial class MainWindow : Form
     {
-        int partyPokemonCounter = 0;
         bool isPlayerSelecting = true;
         int secs = 0;
         List<Pokemon> playerPokemonParty = new List<Pokemon>();
@@ -208,40 +207,42 @@ namespace Pokemon_Simulator
 
         private void addPokemonButton_Click(object sender, EventArgs e)
         {
-            if (partyPokemonCounter < 6 && PkmnList.SelectedItem != null)
+            if (PkmnList.SelectedItem != null)
             {
-                partyPokemonCounter++;
+                //partyPokemonCounter++;
                 Pokemon pkmnToAdd = (Pokemon)PkmnList.SelectedItem;
                 pkmnToAdd = (Pokemon) pkmnToAdd.Clone();
-                if (isPlayerSelecting)
+                if (playerPokemonParty.Count < 6 && isPlayerSelecting)
                 {
                     playerPokemonParty.Add(pkmnToAdd);
+                    PartyPkmn.Items.Add(pkmnToAdd);
                 }
-                else
+                if (enemyPokemonParty.Count < 6 && !isPlayerSelecting)
                 {
                     enemyPokemonParty.Add(pkmnToAdd);
-                }
-                PartyPkmn.Items.Add(pkmnToAdd);
+                    PartyPkmn.Items.Add(pkmnToAdd);
+                }                
             }
-            label5.Text = partyPokemonCounter.ToString(); ;
+            //label5.Text = partyPokemonCounter.ToString(); ;
         }
 
         private void removePokemonButton_Click(object sender, EventArgs e)
         {
-            if (partyPokemonCounter > 0 && PartyPkmn.SelectedItem != null)
+            if (PartyPkmn.SelectedItem != null)
             {
-                partyPokemonCounter--;
-                if (isPlayerSelecting)
+                //partyPokemonCounter--;
+                if (playerPokemonParty.Count > 0 && isPlayerSelecting)
                 {
                     playerPokemonParty.Remove((Pokemon)PartyPkmn.SelectedItem);
+                    PartyPkmn.Items.Remove(PartyPkmn.SelectedItem);
                 }
-                else
+                if(enemyPokemonParty.Count > 0 && !isPlayerSelecting)
                 {
                     enemyPokemonParty.Remove((Pokemon)PartyPkmn.SelectedItem);
+                    PartyPkmn.Items.Remove(PartyPkmn.SelectedItem);
                 }
-                PartyPkmn.Items.Remove(PartyPkmn.SelectedItem);
             }
-            label5.Text = partyPokemonCounter.ToString(); ;
+            //label5.Text = partyPokemonCounter.ToString(); ;
         }
 
         private void BtnBack_Click(object sender, EventArgs e)

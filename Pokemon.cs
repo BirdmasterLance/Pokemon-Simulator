@@ -118,8 +118,8 @@ namespace Pokemon_Simulator
 
         public virtual int ChangeStat(double stat, ref double statToChange, ref int statStage, int stageIncrease)
         {
-            Console.WriteLine(stat + " " + statStage);
-            if (statStage == 6) return 0;
+            Console.WriteLine(statToChange + " " + statStage);
+            if (statStage >= 6 || statStage <= -6) return statStage;
 
             statStage += stageIncrease;
             if (statStage > 6) statStage = 6;
@@ -134,12 +134,13 @@ namespace Pokemon_Simulator
                 double modifier = -statStage + 2;
                 statToChange = stat * 2 / modifier;
             }
+            Console.WriteLine(statToChange + " " + statStage + "\n");
             return statStage;
         }
 
         public virtual int ChangeAccuracyOrEvasion(double stat, ref double statToChange, ref int statStage, int stageIncrease)
         {
-            if (statStage == 6) return 0;
+            if (statStage >= 6 || statStage <= -6) return statStage;
 
             statStage += stageIncrease;
             if (statStage > 6) statStage = 6;
@@ -182,7 +183,7 @@ namespace Pokemon_Simulator
 
         public virtual int UseMove(Move move, Pokemon target)
         {
-
+            move.pp--;
             double accuracyModifier = (move.accuracy / 100 * this.currAccuracy / 100 * target.currEvasion / 100);
             Random accuracyRand = new Random();
             if (accuracyModifier > accuracyRand.Next(1, 100))
