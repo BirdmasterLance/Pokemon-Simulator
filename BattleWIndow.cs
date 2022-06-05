@@ -29,7 +29,7 @@ namespace Pokemon_Simulator.Properties
         int turnCounter = 0;
         int secs = 0;
         bool playerFirst;
-
+        bool requireSwitchIn;
         bool coolDown;
         bool EcoolDown;
 
@@ -42,6 +42,7 @@ namespace Pokemon_Simulator.Properties
         //Am assuming this where battle begins, so add buttons and such, might as well say that u can experiment
         private void BattleWindow_Load(object sender, EventArgs e)
         {
+            LoadEnemyPokemonIntoBattle(0);
             LoadPlayerPokemonIntoBattle(0);
 
             lblMCY.Show();
@@ -49,8 +50,6 @@ namespace Pokemon_Simulator.Properties
 
             lblMCX.Show();
             lblMCX.Location = new Point(500, 20);
-
-            LoadEnemyPokemonIntoBattle(0);
             //TODO: Event for Image Resizing.(Scaling) Item re-placeement depenign on the screen size.
 
             LoadPartyPictures();
@@ -86,7 +85,11 @@ namespace Pokemon_Simulator.Properties
             // Load their moves too
             LoadPlayerMoves(moves);
 
-            BattleEventHandler.instance.StartPokemonSwitchIn(activePokemon);
+            // Now the enemy knows this pokemon 
+            activeEnemyPokemon.knownPokemons.Add(pokemon);
+            activeEnemyPokemon.SetRivalPokemon(pokemon);
+
+            BattleEventHandler.instance.StartPokemonSwitchIn(pokemon);
 
         }
 
@@ -131,10 +134,6 @@ namespace Pokemon_Simulator.Properties
             enemyPokemonImage.Image = Image.FromFile(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName
                 + @"\Pokemon-Simulator\Resources\" + pokemon.name + "_Battle.png");
 
-            // Now the enemy knows this pokemon 
-            activeEnemyPokemon.knownPokemons.Add(activePokemon);
-            activeEnemyPokemon.SetRivalPokemon(activePokemon);
-
             BattleEventHandler.instance.StartPokemonSwitchIn(activeEnemyPokemon);
         }
 
@@ -143,12 +142,16 @@ namespace Pokemon_Simulator.Properties
             if (moves[0].pp > 0 && !coolDown)
             {
                 Move1.Text = moves[0].moveName + '\n' + moves[0].pp.ToString() + "/" + moves[0].maxPP.ToString();
-                selectedMove = 0;
-                StartTurn();
+                selectedMove = 0;                
             }
 
             // No more moves? Struggle.
-            if (NoMoreMoves(activePokemon)) selectedMove = -1;
+            if (NoMoreMoves(activePokemon))
+            {
+                selectedMove = -1;
+            }
+
+            StartTurn();
         }
 
         private void Move2_Click(object sender, EventArgs e)
@@ -157,10 +160,14 @@ namespace Pokemon_Simulator.Properties
             {
                 Move2.Text = moves[1].moveName + '\n' + moves[1].pp.ToString() + "/" + moves[1].maxPP.ToString();
                 selectedMove = 1;
-                StartTurn();
             }
 
-            if (NoMoreMoves(activePokemon)) selectedMove = -1;
+            if (NoMoreMoves(activePokemon))
+            {
+                selectedMove = -1;
+            }
+
+            StartTurn();
         }
 
         private void Move3_Click(object sender, EventArgs e)
@@ -169,23 +176,30 @@ namespace Pokemon_Simulator.Properties
             {
                 Move3.Text = moves[2].moveName + '\n' + moves[2].pp.ToString() + "/" + moves[2].maxPP.ToString();
                 selectedMove = 2;
-                StartTurn();
             }
 
-            if (NoMoreMoves(activePokemon)) selectedMove = -1;
+            if (NoMoreMoves(activePokemon))
+            {
+                selectedMove = -1;
+            }
+
+            StartTurn();
         }
 
         private void Move4_Click(object sender, EventArgs e)
         {
             if (moves[3].pp > 0 && !coolDown)
             {
-                moves[3].pp--;
                 Move4.Text = moves[3].moveName + '\n' + moves[3].pp.ToString() + "/" + moves[3].maxPP.ToString();
                 selectedMove = 3;
-                StartTurn();
             }
 
-            if (NoMoreMoves(activePokemon)) selectedMove = -1;
+            if (NoMoreMoves(activePokemon))
+            {
+                selectedMove = -1;
+            }
+
+            StartTurn();
         }
 
         private void StartTurn()
@@ -199,20 +213,24 @@ namespace Pokemon_Simulator.Properties
         }
 
         private void PlayerTurn(object sender, EventArgs e)
-        { 
+        {
+            if (selectedMove == -2) return;
+
+            int damage = 0;
             if (selectedMove != -1)
             {
                 // Damage the enemy
-                int damage = activePokemon.UseMove(moves[selectedMove], activeEnemyPokemon);
+                damage = activePokemon.UseMove(moves[selectedMove], activeEnemyPokemon);
                 label1.Text = activePokemon.name + " used " + moves[selectedMove].moveName;
-                if (damage >= 0) { label1.Text += " dealing " + damage + " damage!"; } 
+                if (damage >= 0) { label1.Text += " dealing " + damage + " damage!"; }
                 else { label1.Text += "!"; }
             }
             else
             {
-                Move struggle = new Struggle(/*ref*/ activePokemon);
-                int damage = activePokemon.UseMove(struggle, activeEnemyPokemon);
+                damage = activePokemon.UseMove(new Struggle(activePokemon), activeEnemyPokemon);
+                label1.Text = activePokemon.name + " used Struggle dealing " + damage + " damage!";
             }
+
             UpdateHealthBar(0);
             UpdateHealthBar(1);
             activeEnemyPokemon.knownMoves.Add(activePokemon.moves[selectedMove]);
@@ -239,7 +257,7 @@ namespace Pokemon_Simulator.Properties
             {
                 Comment.Text = activeEnemyPokemon.GetOnHitComment()[rand.Next(0, 4)];
             }
-            if (activePokemon.GetDamage(moves[selectedMove], activeEnemyPokemon) < activeEnemyPokemon.GetHealth() * 20 / 100)
+            if (selectedMove >= 0 && activePokemon.GetDamage(moves[selectedMove], activeEnemyPokemon) < activeEnemyPokemon.GetHealth() * 20 / 100)
             {
                 Comment.Text = activeEnemyPokemon.GetComment()[4];
             }
@@ -256,13 +274,15 @@ namespace Pokemon_Simulator.Properties
                 if (!NoMoreMoves(activeEnemyPokemon))
                 {
                     // Damage the player                   
+                    activeEnemyPokemon.AICPU(playerFirst);
                     label1.Text = activeEnemyPokemon.name + " used " + activeEnemyPokemon.lastUsedMove.moveName;
                     if (activeEnemyPokemon.GetDamage() > 0) { label1.Text += " dealing " + activeEnemyPokemon.GetDamage() + " damage!"; }
                     else { label1.Text += "!"; }
                 }
                 else
                 {
-                    //int damage = activeEnemyPokemon.UseMove(new Struggle(activeEnemyPokemon), activePokemon);
+                    int damage = activeEnemyPokemon.UseMove(new Struggle(activePokemon), activeEnemyPokemon);
+                    label1.Text = activeEnemyPokemon.name + " used Struggle dealing " + damage + " damage!";
                 }
             }
             UpdateHealthBar(0);
@@ -313,14 +333,7 @@ namespace Pokemon_Simulator.Properties
                 else if (secs == 50)
                 {
                     BattleEventHandler.instance.EndPlayerTurn();
-                    // if (CheckFainted() == 0) for when we die during out turn (like recoil)
-                    if (CheckFainted() == 1) // the enemy has fainted before their turn, skip theirs
-                    {
-                        // TODO: methods for enemy switching out
-                        GrayOutPartyPicture(1, activeEnemyPokemonIndex);
-                        label1.Text = activeEnemyPokemon.displayName + " has fainted!";
-                        secs = 151;
-                    }
+                    CheckFainted();
                 }
                 else if (secs == 100)
                 {
@@ -331,6 +344,7 @@ namespace Pokemon_Simulator.Properties
                 else if (secs == 150)
                 {
                     BattleEventHandler.instance.EndEnemyTurn();
+                    CheckFainted();
                 }
             }
             else
@@ -344,13 +358,7 @@ namespace Pokemon_Simulator.Properties
                 else if (secs == 50)
                 {
                     BattleEventHandler.instance.EndEnemyTurn();
-                    // if (CheckFainted() == 1) for when the enemy dies during out turn (like recoil)
-                    if (CheckFainted() == 0) // the player has fainted before their turn, skip theirs
-                    {
-                        GrayOutPartyPicture(0, activePokemonIndex);
-                        label1.Text = activePokemon.displayName + " has fainted!";
-                        secs = 151;
-                    }
+                    CheckFainted();
                 }
                 else if (secs == 100)
                 {
@@ -358,7 +366,8 @@ namespace Pokemon_Simulator.Properties
                 }
                 else if (secs == 150)
                 {
-                    BattleEventHandler.instance.EndPlayerTurn();                  
+                    BattleEventHandler.instance.EndPlayerTurn();
+                    CheckFainted();
                 }
             }
             
@@ -375,13 +384,22 @@ namespace Pokemon_Simulator.Properties
                 Move2.Text = moves[1].moveName + '\n' + moves[1].pp.ToString() + "/" + moves[1].maxPP.ToString();
                 Move3.Text = moves[2].moveName + '\n' + moves[2].pp.ToString() + "/" + moves[2].maxPP.ToString();
                 Move4.Text = moves[3].moveName + '\n' + moves[3].pp.ToString() + "/" + moves[3].maxPP.ToString();
-
-                coolDown = false;
-                secs = 0;
-                timer1.Stop();
             }
 
-        }       
+            if(secs > 200)
+            {
+                label1.Text = "Select a new Pokemon...";
+                if(!requireSwitchIn)
+                {
+                    coolDown = false;
+                    secs = 0;
+                    timer1.Stop();
+                }
+            }
+
+        }
+
+        #region Updating the window
 
         /// <summary>
         /// Updates the health bar in the window.
@@ -498,19 +516,28 @@ namespace Pokemon_Simulator.Properties
             }
             return "";
         }
-        
+
+        #endregion
+
         private int CheckFainted()
         {
             // if one of the pokemon has lost all of their HP, raise the event so other classes know a pokemon has fainted
             if(activePokemon.currHealth <= 0)
             {
+                GrayOutPartyPicture(0, activePokemonIndex);
+                label1.Text = activePokemon.displayName + " has fainted!";
                 BattleEventHandler.instance.PlayerPokemonFainted(activePokemon);
+                secs = 151;
+                requireSwitchIn = true;
                 return 0; // 0 for the player
             }
 
             if(activeEnemyPokemon.currHealth <= 0)
             {
                 BattleEventHandler.instance.PlayerPokemonFainted(activeEnemyPokemon);
+                GrayOutPartyPicture(1, activeEnemyPokemonIndex);
+                label1.Text = activeEnemyPokemon.displayName + " has fainted!";
+                secs = 151;
                 return 1; // 1 for the enemy
             }
             return -1; // no one has fainted yet
@@ -595,6 +622,166 @@ namespace Pokemon_Simulator.Properties
             g.Dispose();
 
             return newBmp;
+        }
+
+        #endregion
+
+        #region Party Swtich Methods
+
+        private void PicBoxPlayerPkmn1_Click(object sender, EventArgs e)
+        {
+            if(BattleData.pokemonList[0].currHealth <= 0)
+            {
+                label1.Text = "That Pokemon is unable to battle!";
+                return;
+            }
+
+            if (activePokemonIndex != 0)
+            {
+                BattleEventHandler.instance.StartPokemonSwitchOut(activePokemon);
+                LoadPlayerPokemonIntoBattle(0);
+                if (!requireSwitchIn)
+                {
+                    selectedMove = -2;
+                    playerFirst = false;
+                    StartTurn();
+                }
+                if (requireSwitchIn)
+                {
+                    requireSwitchIn = false;
+                }
+            }
+            else label1.Text = "That Pokemon is already in battle!";
+        }
+
+        private void PicBoxPlayerPkmn2_Click(object sender, EventArgs e)
+        {
+            if (BattleData.pokemonList[1].currHealth <= 0)
+            {
+                label1.Text = "That Pokemon is unable to battle!";
+                return;
+            }
+
+            if (activePokemonIndex != 1)
+            {
+                BattleEventHandler.instance.StartPokemonSwitchOut(activePokemon);
+                LoadPlayerPokemonIntoBattle(1);
+                if (!requireSwitchIn)
+                {
+                    selectedMove = -2;
+                    playerFirst = true;
+                    StartTurn();
+                }
+                if (requireSwitchIn)
+                {
+                    requireSwitchIn = false;
+                }
+            }
+            else label1.Text = "That Pokemon is already in battle!";
+        }
+
+        private void PicBoxPlayerPkmn3_Click(object sender, EventArgs e)
+        {
+            if (BattleData.pokemonList[2].currHealth <= 0)
+            {
+                label1.Text = "That Pokemon is unable to battle!";
+                return;
+            }
+
+            if (activePokemonIndex != 2)
+            {
+                BattleEventHandler.instance.StartPokemonSwitchOut(activePokemon);
+                LoadPlayerPokemonIntoBattle(2);
+                if (!requireSwitchIn)
+                {
+                    selectedMove = -2;
+                    playerFirst = true;
+                    StartTurn();
+                }
+                if (requireSwitchIn)
+                {
+                    requireSwitchIn = false;
+                }
+            }
+            else label1.Text = "That Pokemon is already in battle!";
+        }
+
+        private void PicBoxPlayerPkmn4_Click(object sender, EventArgs e)
+        {
+            if (BattleData.pokemonList[3].currHealth <= 0)
+            {
+                label1.Text = "That Pokemon is unable to battle!";
+                return;
+            }
+
+            if (activePokemonIndex != 3)
+            {
+                BattleEventHandler.instance.StartPokemonSwitchOut(activePokemon);
+                LoadPlayerPokemonIntoBattle(3);
+                if (!requireSwitchIn)
+                {
+                    selectedMove = -2;
+                    playerFirst = true;
+                    StartTurn();
+                }
+                if (requireSwitchIn)
+                {
+                    requireSwitchIn = false;
+                }
+            }
+            else label1.Text = "That Pokemon is already in battle!";
+        }
+
+        private void PicBoxPlayerPkmn5_Click(object sender, EventArgs e)
+        {
+            if (BattleData.pokemonList[4].currHealth <= 0)
+            {
+                label1.Text = "That Pokemon is unable to battle!";
+                return;
+            }
+
+            if (activePokemonIndex != 4)
+            {
+                BattleEventHandler.instance.StartPokemonSwitchOut(activePokemon);
+                LoadPlayerPokemonIntoBattle(4);
+                if (!requireSwitchIn)
+                {
+                    selectedMove = -2;
+                    playerFirst = true;
+                    StartTurn();
+                }
+                if (requireSwitchIn)
+                {
+                    requireSwitchIn = false;
+                }
+            }
+            else label1.Text = "That Pokemon is already in battle!";
+        }
+
+        private void PicBoxPlayerPkmn6_Click(object sender, EventArgs e)
+        {
+            if (BattleData.pokemonList[5].currHealth <= 0)
+            {
+                label1.Text = "That Pokemon is unable to battle!";
+                return;
+            }
+
+            if (activePokemonIndex != 5)
+            {
+                BattleEventHandler.instance.StartPokemonSwitchOut(activePokemon);
+                LoadPlayerPokemonIntoBattle(5);
+                if (!requireSwitchIn)
+                {
+                    selectedMove = -2;
+                    playerFirst = true;
+                    StartTurn();
+                }
+                if(requireSwitchIn)
+                {
+                    requireSwitchIn = false;
+                }
+            }
+            else label1.Text = "That Pokemon is already in battle!";
         }
 
         #endregion

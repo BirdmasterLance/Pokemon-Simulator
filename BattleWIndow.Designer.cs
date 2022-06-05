@@ -368,6 +368,7 @@
             this.PicBoxPlayerPkmn1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.PicBoxPlayerPkmn1.TabIndex = 0;
             this.PicBoxPlayerPkmn1.TabStop = false;
+            this.PicBoxPlayerPkmn1.Click += new System.EventHandler(this.PicBoxPlayerPkmn1_Click);
             // 
             // PicBoxPlayerPkmn2
             // 
@@ -378,6 +379,7 @@
             this.PicBoxPlayerPkmn2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.PicBoxPlayerPkmn2.TabIndex = 1;
             this.PicBoxPlayerPkmn2.TabStop = false;
+            this.PicBoxPlayerPkmn2.Click += new System.EventHandler(this.PicBoxPlayerPkmn2_Click);
             // 
             // PicBoxPlayerPkmn3
             // 
@@ -388,6 +390,7 @@
             this.PicBoxPlayerPkmn3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.PicBoxPlayerPkmn3.TabIndex = 2;
             this.PicBoxPlayerPkmn3.TabStop = false;
+            this.PicBoxPlayerPkmn3.Click += new System.EventHandler(this.PicBoxPlayerPkmn3_Click);
             // 
             // PicBoxPlayerPkmn6
             // 
@@ -397,6 +400,7 @@
             this.PicBoxPlayerPkmn6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.PicBoxPlayerPkmn6.TabIndex = 5;
             this.PicBoxPlayerPkmn6.TabStop = false;
+            this.PicBoxPlayerPkmn6.Click += new System.EventHandler(this.PicBoxPlayerPkmn6_Click);
             // 
             // PicBoxPlayerPkmn5
             // 
@@ -407,6 +411,7 @@
             this.PicBoxPlayerPkmn5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.PicBoxPlayerPkmn5.TabIndex = 4;
             this.PicBoxPlayerPkmn5.TabStop = false;
+            this.PicBoxPlayerPkmn5.Click += new System.EventHandler(this.PicBoxPlayerPkmn5_Click);
             // 
             // PicBoxPlayerPkmn4
             // 
@@ -417,6 +422,7 @@
             this.PicBoxPlayerPkmn4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.PicBoxPlayerPkmn4.TabIndex = 3;
             this.PicBoxPlayerPkmn4.TabStop = false;
+            this.PicBoxPlayerPkmn4.Click += new System.EventHandler(this.PicBoxPlayerPkmn4_Click);
             // 
             // LblPlayerPartyTitle
             // 
