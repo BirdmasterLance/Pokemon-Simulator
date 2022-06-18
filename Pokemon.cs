@@ -118,7 +118,6 @@ namespace Pokemon_Simulator
 
         public virtual int ChangeStat(double stat, ref double statToChange, ref int statStage, int stageIncrease)
         {
-            Console.WriteLine(statToChange + " " + statStage);
             if (statStage >= 6 || statStage <= -6) return statStage;
 
             statStage += stageIncrease;
@@ -134,7 +133,6 @@ namespace Pokemon_Simulator
                 double modifier = -statStage + 2;
                 statToChange = stat * 2 / modifier;
             }
-            Console.WriteLine(statToChange + " " + statStage + "\n");
             return statStage;
         }
 
@@ -158,17 +156,17 @@ namespace Pokemon_Simulator
             return statStage;
         }
 
-        public virtual double GetDamage(Move move, Pokemon target)
+        public virtual void ResetStatChanges()
         {
-            double levelModifier = (2 * level / 5) + 2;
-            double defenseModifier = move.physical ? currAttack / target.currDefense : currSpecialAttack / target.currSpecialDefense;
+            currAttack = attack;
+            currDefense = defense;
+            currSpecialAttack = specialAttack;
+            currSpecialDefense = specialDefense;
+            currSpeed = speed;
+            currAccuracy = accuracy;
+            currEvasion = evasion;
 
-            Random rand = new Random();
-            double randomModifier = (double)rand.Next(85, 100) / 100;
-            double stabModifier = (type1 == move.type || type2 == move.type) ? 1.5 : 1;
-            double typeModifier = TypeData.CalculateEffectiveness(move.type, target.type1) * TypeData.CalculateEffectiveness(move.type, target.type2);
-
-            return ((levelModifier * move.damage * defenseModifier / 50) + 2) * randomModifier * stabModifier * typeModifier;
+            attackStage = defenseStage = specialAttackStage = specialDefenseStage = speedStage = accuracyStage = evasionStage = 0;
         }
 
         public virtual void HealPercent(double percent)
@@ -181,45 +179,64 @@ namespace Pokemon_Simulator
             }
         }
 
+        public virtual double GetDamage(Move move, Pokemon target)
+        {
+            double levelModifier = (2 * level / 5) + 2;
+            double defenseModifier = move.physical ? currAttack / target.currDefense : currSpecialAttack / target.currSpecialDefense;
+
+            Random rand = new Random();
+            double randomModifier = (double)rand.Next(85, 100) / 100;
+            double stabModifier = (type1 == move.type || type2 == move.type) ? 1.5 : 1;
+            double typeModifier = TypeData.CalculateEffectiveness(move.type, target.type1) * TypeData.CalculateEffectiveness(move.type, target.type2);
+
+            double criticalModifier = 1;
+            if(move.criticalHitChance >= rand.NextDouble())
+            {
+                criticalModifier = 1.5f;
+                defenseModifier = move.physical ? currAttack / target.defense : currSpecialAttack / target.specialDefense;
+            }
+
+            double weatherModifier = 1;
+            if (move.type == Type.Fire && BattleData.currentWeather == Weather.Rain) weatherModifier = 0.5;
+            if (move.type == Type.Fire && BattleData.currentWeather == Weather.Sunlight) weatherModifier = 1.5;
+            if (move.type == Type.Water && BattleData.currentWeather == Weather.Sunlight) weatherModifier = 0.5;
+            if (move.type == Type.Water && BattleData.currentWeather == Weather.Rain) weatherModifier = 1.5;
+
+            return ((levelModifier * move.damage * defenseModifier / 50) + 2) 
+                * weatherModifier * criticalModifier * randomModifier * stabModifier * typeModifier;
+        }
+
         public virtual int UseMove(Move move, Pokemon target)
         {
-            move.pp--;
             double accuracyModifier = (move.accuracy / 100 * this.currAccuracy / 100 * target.currEvasion / 100);
             Random accuracyRand = new Random();
             if (accuracyModifier > accuracyRand.Next(1, 100))
             {
-                return -1;
+                return -1; // Return -1 if we miss
             }
+
+            move.pp--;
 
             if (!move.actualAttack)
             {
                 move.SpecialEffects();
                 move.SpecialTargetEffects(target);
-                return -2;
+                return -2; // Return -2 if this didn't actually attack
             }
-
-            double levelModifier = (2 * level / 5) + 2;
-            double defenseModifier = move.physical ? currAttack / target.currDefense : currSpecialAttack / target.currSpecialDefense;
             
-            Random rand = new Random();
-            double randomModifier = (double)rand.Next(85, 100) / 100;
-            double stabModifier = (type1 == move.type || type2 == move.type) ? 1.5 : 1;
-            double typeModifier = TypeData.CalculateEffectiveness(move.type, target.type1) * TypeData.CalculateEffectiveness(move.type, target.type2);
-            
-            double damage = ((levelModifier * move.damage * defenseModifier / 50) + 2) * randomModifier * stabModifier * typeModifier;
+            double damage = GetDamage(move, target);
             
             target.currHealth -= damage;
 
             if (move.recoil)
             {
-                this.currHealth -= damage / 2;
+                currHealth -= damage / 2;
             }
-
-            // Return how much damage it did (as a percent compared to the target's total health)
 
             move.SpecialEffects();
             move.SpecialTargetEffects(target);
 
+            // TODO: different moves have different info that needs to be passed into the battle window, do something about it
             return (int)damage;
         }
         public /*override*/ void AICPU(bool PlayerFirstw)

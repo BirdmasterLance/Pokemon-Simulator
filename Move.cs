@@ -19,6 +19,7 @@ namespace Pokemon_Simulator
         public Type type;
         public int pp;
         public int maxPP;
+        public double criticalHitChance = 0.417;
 
         // Info about what the move does
         public bool canHealOneSelf = false;

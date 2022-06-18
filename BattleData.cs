@@ -11,7 +11,8 @@ namespace Pokemon_Simulator
     {
         public static List<Pokemon> pokemonList = new List<Pokemon>();
         public static List<Pokemon> enemyList = new List<Pokemon>();
-
+        
+        public static Weather currentWeather = Weather.None;
 
         public static void SetPokemon(List<Pokemon> pkmns) { pokemonList = pkmns; }
         public static void AddPokemon(Pokemon pkmn) { pokemonList.Add(pkmn); }
