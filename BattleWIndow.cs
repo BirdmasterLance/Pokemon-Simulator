@@ -13,6 +13,8 @@ namespace Pokemon_Simulator.Properties
     public partial class BattleWindow : Form
     {
 
+        public static BattleWindow instance;
+
         ComponentResourceManager resources = new ComponentResourceManager(typeof(BattleWindow));
 
 
@@ -37,11 +39,21 @@ namespace Pokemon_Simulator.Properties
         public BattleWindow()
         {
             InitializeComponent();
+
+            // Initialize an instance to this class so other classes can access certain parts
+            if(instance == null)
+            {
+                instance = this;
+            }
         }
 
         //Am assuming this where battle begins, so add buttons and such, might as well say that u can experiment
         private void BattleWindow_Load(object sender, EventArgs e)
         {
+            // 0, 100, 220 for rain
+            // 0, 200, 220 for hail
+            // 230, 120, 0 for sun
+            // 191, 161, 77 for sandstorm
             LoadEnemyPokemonIntoBattle(0);
             LoadPlayerPokemonIntoBattle(0);
 
@@ -61,6 +73,7 @@ namespace Pokemon_Simulator.Properties
             //Let this class listen to battle events?
             BattleEventHandler.instance.OnStartPlayerTurn += PlayerTurn;
             BattleEventHandler.instance.OnStartEnemyTurn += EnemyTurn;
+            BattleEventHandler.instance.OnEndTurn += WeatherEffects;
         }
 
         private void LoadPlayerPokemonIntoBattle(int pokemonIndex)
@@ -221,14 +234,14 @@ namespace Pokemon_Simulator.Properties
             {
                 // Damage the enemy
                 damage = activePokemon.UseMove(moves[selectedMove], activeEnemyPokemon);
-                label1.Text = activePokemon.name + " used " + moves[selectedMove].moveName;
-                if (damage >= 0) { label1.Text += " dealing " + damage + " damage!"; }
-                else { label1.Text += "!"; }
+                LblBattleText.Text = activePokemon.name + " used " + moves[selectedMove].moveName;
+                if (damage >= 0) { LblBattleText.Text += " dealing " + damage + " damage!"; }
+                else { LblBattleText.Text += "!"; }
             }
             else
             {
                 damage = activePokemon.UseMove(new Struggle(activePokemon), activeEnemyPokemon);
-                label1.Text = activePokemon.name + " used Struggle dealing " + damage + " damage!";
+                LblBattleText.Text = activePokemon.name + " used Struggle dealing " + damage + " damage!";
             }
 
             UpdateHealthBar(0);
@@ -275,14 +288,14 @@ namespace Pokemon_Simulator.Properties
                 {
                     // Damage the player                   
                     activeEnemyPokemon.AICPU(playerFirst);
-                    label1.Text = activeEnemyPokemon.name + " used " + activeEnemyPokemon.lastUsedMove.moveName;
-                    if (activeEnemyPokemon.GetDamage() > 0) { label1.Text += " dealing " + activeEnemyPokemon.GetDamage() + " damage!"; }
-                    else { label1.Text += "!"; }
+                    LblBattleText.Text = activeEnemyPokemon.name + " used " + activeEnemyPokemon.lastUsedMove.moveName;
+                    if (activeEnemyPokemon.GetDamage() > 0) { LblBattleText.Text += " dealing " + activeEnemyPokemon.GetDamage() + " damage!"; }
+                    else { LblBattleText.Text += "!"; }
                 }
                 else
                 {
                     int damage = activeEnemyPokemon.UseMove(new Struggle(activePokemon), activeEnemyPokemon);
-                    label1.Text = activeEnemyPokemon.name + " used Struggle dealing " + damage + " damage!";
+                    LblBattleText.Text = activeEnemyPokemon.name + " used Struggle dealing " + damage + " damage!";
                 }
             }
             UpdateHealthBar(0);
@@ -377,7 +390,7 @@ namespace Pokemon_Simulator.Properties
                
                 UpdateHealthBar(0);
                 UpdateHealthBar(1);               
-                label1.Text = "";
+                LblBattleText.Text = "";
 
                 // Update the move counter at the end incase it doesnt update earlier
                 Move1.Text = moves[0].moveName + '\n' + moves[0].pp.ToString() + "/" + moves[0].maxPP.ToString();
@@ -388,12 +401,15 @@ namespace Pokemon_Simulator.Properties
 
             if(secs > 200)
             {
-                label1.Text = "Select a new Pokemon...";
                 if(!requireSwitchIn)
                 {
                     coolDown = false;
                     secs = 0;
                     timer1.Stop();
+                }
+                else
+                {
+                    LblBattleText.Text = "Select a new Pokemon...";
                 }
             }
 
@@ -517,6 +533,49 @@ namespace Pokemon_Simulator.Properties
             return "";
         }
 
+        // From: https://stackoverflow.com/questions/33024881/invert-image-faster-in-c-sharp
+        public void InvertBackgroundColor()
+        {
+            Bitmap pic = new Bitmap(BackgroundImage);
+            for (int y = 0; (y <= (pic.Height - 1)); y++)
+            {
+                for (int x = 0; (x <= (pic.Width - 1)); x++)
+                {
+                    Color inv = pic.GetPixel(x, y);
+                    inv = Color.FromArgb(255, (255 - inv.R), (255 - inv.G), (255 - inv.B));
+                    pic.SetPixel(x, y, inv);
+                }
+            }
+            BackgroundImage = pic;
+        }
+
+        public void TintBackgroundColor(float redTint, float greenTint, float blueTint)
+        {
+            redTint /= 255;
+            greenTint /= 255;
+            blueTint /= 255;
+
+            Bitmap pic = new Bitmap(BackgroundImage);
+            for (int y = 0; (y <= (pic.Height - 1)); y++)
+            {
+                for (int x = 0; (x <= (pic.Width - 1)); x++)
+                {
+                    Color inv = pic.GetPixel(x, y);
+                    int red = (int) (inv.R + (255 - inv.R) * redTint);
+                    int green = (int) (inv.G + (255 - inv.G) * greenTint);
+                    int blue = (int) (inv.B + (255 - inv.B) * blueTint);
+
+                    if (red > 255) red = 255;
+                    if (green > 255) green = 255;
+                    if (blue > 255) blue = 255;
+
+                    inv = Color.FromArgb(255, red , green, blue);
+                    pic.SetPixel(x, y, inv);
+                }
+            }
+            BackgroundImage = pic;
+        }
+
         #endregion
 
         private int CheckFainted()
@@ -525,7 +584,7 @@ namespace Pokemon_Simulator.Properties
             if(activePokemon.currHealth <= 0)
             {
                 GrayOutPartyPicture(0, activePokemonIndex);
-                label1.Text = activePokemon.displayName + " has fainted!";
+                LblBattleText.Text = activePokemon.displayName + " has fainted!";
                 BattleEventHandler.instance.PlayerPokemonFainted(activePokemon);
                 secs = 151;
                 requireSwitchIn = true;
@@ -534,13 +593,41 @@ namespace Pokemon_Simulator.Properties
 
             if(activeEnemyPokemon.currHealth <= 0)
             {
-                BattleEventHandler.instance.PlayerPokemonFainted(activeEnemyPokemon);
                 GrayOutPartyPicture(1, activeEnemyPokemonIndex);
-                label1.Text = activeEnemyPokemon.displayName + " has fainted!";
+                LblBattleText.Text = activeEnemyPokemon.displayName + " has fainted!";
+                BattleEventHandler.instance.PlayerPokemonFainted(activeEnemyPokemon);
                 secs = 151;
                 return 1; // 1 for the enemy
             }
             return -1; // no one has fainted yet
+        }
+
+        private void WeatherEffects(object sender, EventArgs e)
+        {
+            if(BattleData.currentWeather == Weather.Hail)
+            {
+                if(activePokemon.type1 != Type.Ice && activePokemon.type2 != Type.Ice)
+                {
+                    activePokemon.currHealth -= activePokemon.currHealth / 16;
+                }
+                if (activeEnemyPokemon.type1 != Type.Ice && activeEnemyPokemon.type2 != Type.Ice)
+                {
+                    activeEnemyPokemon.currHealth -= activeEnemyPokemon.currHealth / 16;
+                }
+            }
+            else if (BattleData.currentWeather == Weather.Sandstorm)
+            {
+                if ((activePokemon.type1 != Type.Rock || activePokemon.type1 != Type.Ground || activePokemon.type1 != Type.Steel) &&
+                    (activePokemon.type2 != Type.Rock || activePokemon.type2 != Type.Ground || activePokemon.type2 != Type.Steel))
+                {
+                    activePokemon.currHealth -= activePokemon.currHealth / 16;
+                }
+                if ((activeEnemyPokemon.type1 != Type.Rock || activeEnemyPokemon.type1 != Type.Ground || activeEnemyPokemon.type1 != Type.Steel) &&
+                    (activeEnemyPokemon.type2 != Type.Rock || activeEnemyPokemon.type2 != Type.Ground || activeEnemyPokemon.type2 != Type.Steel))
+                {
+                    activeEnemyPokemon.currHealth -= activeEnemyPokemon.currHealth / 16;
+                }
+            }
         }
 
         #region Party Picture Methods
@@ -632,7 +719,7 @@ namespace Pokemon_Simulator.Properties
         {
             if(BattleData.pokemonList[0].currHealth <= 0)
             {
-                label1.Text = "That Pokemon is unable to battle!";
+                LblBattleText.Text = "That Pokemon is unable to battle!";
                 return;
             }
 
@@ -651,14 +738,14 @@ namespace Pokemon_Simulator.Properties
                     requireSwitchIn = false;
                 }
             }
-            else label1.Text = "That Pokemon is already in battle!";
+            else LblBattleText.Text = "That Pokemon is already in battle!";
         }
 
         private void PicBoxPlayerPkmn2_Click(object sender, EventArgs e)
         {
             if (BattleData.pokemonList[1].currHealth <= 0)
             {
-                label1.Text = "That Pokemon is unable to battle!";
+                LblBattleText.Text = "That Pokemon is unable to battle!";
                 return;
             }
 
@@ -677,14 +764,14 @@ namespace Pokemon_Simulator.Properties
                     requireSwitchIn = false;
                 }
             }
-            else label1.Text = "That Pokemon is already in battle!";
+            else LblBattleText.Text = "That Pokemon is already in battle!";
         }
 
         private void PicBoxPlayerPkmn3_Click(object sender, EventArgs e)
         {
             if (BattleData.pokemonList[2].currHealth <= 0)
             {
-                label1.Text = "That Pokemon is unable to battle!";
+                LblBattleText.Text = "That Pokemon is unable to battle!";
                 return;
             }
 
@@ -703,14 +790,14 @@ namespace Pokemon_Simulator.Properties
                     requireSwitchIn = false;
                 }
             }
-            else label1.Text = "That Pokemon is already in battle!";
+            else LblBattleText.Text = "That Pokemon is already in battle!";
         }
 
         private void PicBoxPlayerPkmn4_Click(object sender, EventArgs e)
         {
             if (BattleData.pokemonList[3].currHealth <= 0)
             {
-                label1.Text = "That Pokemon is unable to battle!";
+                LblBattleText.Text = "That Pokemon is unable to battle!";
                 return;
             }
 
@@ -729,14 +816,14 @@ namespace Pokemon_Simulator.Properties
                     requireSwitchIn = false;
                 }
             }
-            else label1.Text = "That Pokemon is already in battle!";
+            else LblBattleText.Text = "That Pokemon is already in battle!";
         }
 
         private void PicBoxPlayerPkmn5_Click(object sender, EventArgs e)
         {
             if (BattleData.pokemonList[4].currHealth <= 0)
             {
-                label1.Text = "That Pokemon is unable to battle!";
+                LblBattleText.Text = "That Pokemon is unable to battle!";
                 return;
             }
 
@@ -755,14 +842,14 @@ namespace Pokemon_Simulator.Properties
                     requireSwitchIn = false;
                 }
             }
-            else label1.Text = "That Pokemon is already in battle!";
+            else LblBattleText.Text = "That Pokemon is already in battle!";
         }
 
         private void PicBoxPlayerPkmn6_Click(object sender, EventArgs e)
         {
             if (BattleData.pokemonList[5].currHealth <= 0)
             {
-                label1.Text = "That Pokemon is unable to battle!";
+                LblBattleText.Text = "That Pokemon is unable to battle!";
                 return;
             }
 
@@ -781,7 +868,7 @@ namespace Pokemon_Simulator.Properties
                     requireSwitchIn = false;
                 }
             }
-            else label1.Text = "That Pokemon is already in battle!";
+            else LblBattleText.Text = "That Pokemon is already in battle!";
         }
 
         #endregion

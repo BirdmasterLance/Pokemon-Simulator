@@ -42,7 +42,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.enemyPokemonImage = new System.Windows.Forms.PictureBox();
             this.playerPokemonImage = new System.Windows.Forms.PictureBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.LblBattleText = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.Comment = new System.Windows.Forms.Label();
@@ -50,14 +50,14 @@
             this.LblPlayerStatus = new System.Windows.Forms.Label();
             this.LblEnemyStatus = new System.Windows.Forms.Label();
             this.PlayerParty = new System.Windows.Forms.Panel();
-            this.EnemyParty = new System.Windows.Forms.Panel();
-            this.PicBoxPlayerPkmn1 = new System.Windows.Forms.PictureBox();
-            this.PicBoxPlayerPkmn2 = new System.Windows.Forms.PictureBox();
-            this.PicBoxPlayerPkmn3 = new System.Windows.Forms.PictureBox();
+            this.LblPlayerPartyTitle = new System.Windows.Forms.Label();
             this.PicBoxPlayerPkmn6 = new System.Windows.Forms.PictureBox();
             this.PicBoxPlayerPkmn5 = new System.Windows.Forms.PictureBox();
             this.PicBoxPlayerPkmn4 = new System.Windows.Forms.PictureBox();
-            this.LblPlayerPartyTitle = new System.Windows.Forms.Label();
+            this.PicBoxPlayerPkmn3 = new System.Windows.Forms.PictureBox();
+            this.PicBoxPlayerPkmn2 = new System.Windows.Forms.PictureBox();
+            this.PicBoxPlayerPkmn1 = new System.Windows.Forms.PictureBox();
+            this.EnemyParty = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
             this.PicBoxEnemyPkmn6 = new System.Windows.Forms.PictureBox();
             this.PicBoxEnemyPkmn5 = new System.Windows.Forms.PictureBox();
@@ -68,13 +68,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.enemyPokemonImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.playerPokemonImage)).BeginInit();
             this.PlayerParty.SuspendLayout();
-            this.EnemyParty.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PicBoxPlayerPkmn1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicBoxPlayerPkmn2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicBoxPlayerPkmn3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicBoxPlayerPkmn6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicBoxPlayerPkmn5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicBoxPlayerPkmn4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicBoxPlayerPkmn3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicBoxPlayerPkmn2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicBoxPlayerPkmn1)).BeginInit();
+            this.EnemyParty.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBoxEnemyPkmn6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicBoxEnemyPkmn5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicBoxEnemyPkmn4)).BeginInit();
@@ -252,20 +252,20 @@
             this.playerPokemonImage.TabIndex = 10;
             this.playerPokemonImage.TabStop = false;
             // 
-            // label1
+            // LblBattleText
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.LblBattleText.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F);
-            this.label1.Location = new System.Drawing.Point(572, 497);
-            this.label1.MaximumSize = new System.Drawing.Size(500, 0);
-            this.label1.MinimumSize = new System.Drawing.Size(86, 31);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(86, 31);
-            this.label1.TabIndex = 16;
-            this.label1.Text = "label1";
+            this.LblBattleText.AutoSize = true;
+            this.LblBattleText.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F);
+            this.LblBattleText.Location = new System.Drawing.Point(572, 497);
+            this.LblBattleText.MaximumSize = new System.Drawing.Size(500, 0);
+            this.LblBattleText.MinimumSize = new System.Drawing.Size(86, 31);
+            this.LblBattleText.Name = "LblBattleText";
+            this.LblBattleText.Size = new System.Drawing.Size(86, 31);
+            this.LblBattleText.TabIndex = 16;
+            this.LblBattleText.Text = "label1";
             // 
             // label2
             // 
@@ -344,53 +344,16 @@
             this.PlayerParty.Size = new System.Drawing.Size(133, 653);
             this.PlayerParty.TabIndex = 21;
             // 
-            // EnemyParty
+            // LblPlayerPartyTitle
             // 
-            this.EnemyParty.Controls.Add(this.label4);
-            this.EnemyParty.Controls.Add(this.PicBoxEnemyPkmn6);
-            this.EnemyParty.Controls.Add(this.PicBoxEnemyPkmn5);
-            this.EnemyParty.Controls.Add(this.PicBoxEnemyPkmn4);
-            this.EnemyParty.Controls.Add(this.PicBoxEnemyPkmn3);
-            this.EnemyParty.Controls.Add(this.PicBoxEnemyPkmn2);
-            this.EnemyParty.Controls.Add(this.PicBoxEnemyPkmn1);
-            this.EnemyParty.Dock = System.Windows.Forms.DockStyle.Right;
-            this.EnemyParty.Location = new System.Drawing.Point(1184, 0);
-            this.EnemyParty.Name = "EnemyParty";
-            this.EnemyParty.Size = new System.Drawing.Size(138, 653);
-            this.EnemyParty.TabIndex = 22;
-            // 
-            // PicBoxPlayerPkmn1
-            // 
-            this.PicBoxPlayerPkmn1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.PicBoxPlayerPkmn1.Location = new System.Drawing.Point(22, 51);
-            this.PicBoxPlayerPkmn1.Name = "PicBoxPlayerPkmn1";
-            this.PicBoxPlayerPkmn1.Size = new System.Drawing.Size(85, 85);
-            this.PicBoxPlayerPkmn1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.PicBoxPlayerPkmn1.TabIndex = 0;
-            this.PicBoxPlayerPkmn1.TabStop = false;
-            this.PicBoxPlayerPkmn1.Click += new System.EventHandler(this.PicBoxPlayerPkmn1_Click);
-            // 
-            // PicBoxPlayerPkmn2
-            // 
-            this.PicBoxPlayerPkmn2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.PicBoxPlayerPkmn2.Location = new System.Drawing.Point(22, 151);
-            this.PicBoxPlayerPkmn2.Name = "PicBoxPlayerPkmn2";
-            this.PicBoxPlayerPkmn2.Size = new System.Drawing.Size(85, 85);
-            this.PicBoxPlayerPkmn2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.PicBoxPlayerPkmn2.TabIndex = 1;
-            this.PicBoxPlayerPkmn2.TabStop = false;
-            this.PicBoxPlayerPkmn2.Click += new System.EventHandler(this.PicBoxPlayerPkmn2_Click);
-            // 
-            // PicBoxPlayerPkmn3
-            // 
-            this.PicBoxPlayerPkmn3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.PicBoxPlayerPkmn3.Location = new System.Drawing.Point(22, 253);
-            this.PicBoxPlayerPkmn3.Name = "PicBoxPlayerPkmn3";
-            this.PicBoxPlayerPkmn3.Size = new System.Drawing.Size(85, 85);
-            this.PicBoxPlayerPkmn3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.PicBoxPlayerPkmn3.TabIndex = 2;
-            this.PicBoxPlayerPkmn3.TabStop = false;
-            this.PicBoxPlayerPkmn3.Click += new System.EventHandler(this.PicBoxPlayerPkmn3_Click);
+            this.LblPlayerPartyTitle.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.LblPlayerPartyTitle.AutoSize = true;
+            this.LblPlayerPartyTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
+            this.LblPlayerPartyTitle.Location = new System.Drawing.Point(26, 10);
+            this.LblPlayerPartyTitle.Name = "LblPlayerPartyTitle";
+            this.LblPlayerPartyTitle.Size = new System.Drawing.Size(72, 29);
+            this.LblPlayerPartyTitle.TabIndex = 23;
+            this.LblPlayerPartyTitle.Text = "Party";
             // 
             // PicBoxPlayerPkmn6
             // 
@@ -424,16 +387,53 @@
             this.PicBoxPlayerPkmn4.TabStop = false;
             this.PicBoxPlayerPkmn4.Click += new System.EventHandler(this.PicBoxPlayerPkmn4_Click);
             // 
-            // LblPlayerPartyTitle
+            // PicBoxPlayerPkmn3
             // 
-            this.LblPlayerPartyTitle.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.LblPlayerPartyTitle.AutoSize = true;
-            this.LblPlayerPartyTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
-            this.LblPlayerPartyTitle.Location = new System.Drawing.Point(26, 10);
-            this.LblPlayerPartyTitle.Name = "LblPlayerPartyTitle";
-            this.LblPlayerPartyTitle.Size = new System.Drawing.Size(72, 29);
-            this.LblPlayerPartyTitle.TabIndex = 23;
-            this.LblPlayerPartyTitle.Text = "Party";
+            this.PicBoxPlayerPkmn3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.PicBoxPlayerPkmn3.Location = new System.Drawing.Point(22, 253);
+            this.PicBoxPlayerPkmn3.Name = "PicBoxPlayerPkmn3";
+            this.PicBoxPlayerPkmn3.Size = new System.Drawing.Size(85, 85);
+            this.PicBoxPlayerPkmn3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.PicBoxPlayerPkmn3.TabIndex = 2;
+            this.PicBoxPlayerPkmn3.TabStop = false;
+            this.PicBoxPlayerPkmn3.Click += new System.EventHandler(this.PicBoxPlayerPkmn3_Click);
+            // 
+            // PicBoxPlayerPkmn2
+            // 
+            this.PicBoxPlayerPkmn2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.PicBoxPlayerPkmn2.Location = new System.Drawing.Point(22, 151);
+            this.PicBoxPlayerPkmn2.Name = "PicBoxPlayerPkmn2";
+            this.PicBoxPlayerPkmn2.Size = new System.Drawing.Size(85, 85);
+            this.PicBoxPlayerPkmn2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.PicBoxPlayerPkmn2.TabIndex = 1;
+            this.PicBoxPlayerPkmn2.TabStop = false;
+            this.PicBoxPlayerPkmn2.Click += new System.EventHandler(this.PicBoxPlayerPkmn2_Click);
+            // 
+            // PicBoxPlayerPkmn1
+            // 
+            this.PicBoxPlayerPkmn1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.PicBoxPlayerPkmn1.Location = new System.Drawing.Point(22, 51);
+            this.PicBoxPlayerPkmn1.Name = "PicBoxPlayerPkmn1";
+            this.PicBoxPlayerPkmn1.Size = new System.Drawing.Size(85, 85);
+            this.PicBoxPlayerPkmn1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.PicBoxPlayerPkmn1.TabIndex = 0;
+            this.PicBoxPlayerPkmn1.TabStop = false;
+            this.PicBoxPlayerPkmn1.Click += new System.EventHandler(this.PicBoxPlayerPkmn1_Click);
+            // 
+            // EnemyParty
+            // 
+            this.EnemyParty.Controls.Add(this.label4);
+            this.EnemyParty.Controls.Add(this.PicBoxEnemyPkmn6);
+            this.EnemyParty.Controls.Add(this.PicBoxEnemyPkmn5);
+            this.EnemyParty.Controls.Add(this.PicBoxEnemyPkmn4);
+            this.EnemyParty.Controls.Add(this.PicBoxEnemyPkmn3);
+            this.EnemyParty.Controls.Add(this.PicBoxEnemyPkmn2);
+            this.EnemyParty.Controls.Add(this.PicBoxEnemyPkmn1);
+            this.EnemyParty.Dock = System.Windows.Forms.DockStyle.Right;
+            this.EnemyParty.Location = new System.Drawing.Point(1184, 0);
+            this.EnemyParty.Name = "EnemyParty";
+            this.EnemyParty.Size = new System.Drawing.Size(138, 653);
+            this.EnemyParty.TabIndex = 22;
             // 
             // label4
             // 
@@ -521,7 +521,7 @@
             this.Controls.Add(this.LblStats);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.Comment);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.LblBattleText);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.enemyPokemonImage);
             this.Controls.Add(this.playerPokemonImage);
@@ -545,14 +545,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.playerPokemonImage)).EndInit();
             this.PlayerParty.ResumeLayout(false);
             this.PlayerParty.PerformLayout();
-            this.EnemyParty.ResumeLayout(false);
-            this.EnemyParty.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PicBoxPlayerPkmn1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicBoxPlayerPkmn2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicBoxPlayerPkmn3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicBoxPlayerPkmn6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicBoxPlayerPkmn5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicBoxPlayerPkmn4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicBoxPlayerPkmn3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicBoxPlayerPkmn2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicBoxPlayerPkmn1)).EndInit();
+            this.EnemyParty.ResumeLayout(false);
+            this.EnemyParty.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBoxEnemyPkmn6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicBoxEnemyPkmn5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicBoxEnemyPkmn4)).EndInit();
@@ -577,7 +577,7 @@
         private System.Windows.Forms.PictureBox playerPokemonImage;
         private System.Windows.Forms.PictureBox enemyPokemonImage;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label LblBattleText;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label Comment;

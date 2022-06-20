@@ -25,6 +25,7 @@ namespace Pokemon_Simulator.PokemonClasses
             moves.Add(new Recover(this));
             moves.Add(new Toxic(this));
             moves.Add(new IceBeam(this));
+            moves.Add(new RainDance(this));
         }
 
         public override object Clone()
@@ -33,7 +34,8 @@ namespace Pokemon_Simulator.PokemonClasses
             List<Move> moves = new List<Move>();
             moves.Add(new Scald(clonedPokemon));
             moves.Add(new Recover(clonedPokemon));
-            moves.Add(new Toxic(clonedPokemon));
+            //moves.Add(new Toxic(clonedPokemon));
+            moves.Add(new RainDance(clonedPokemon));
             moves.Add(new IceBeam(clonedPokemon));
             clonedPokemon.moves = moves;
             clonedPokemon.item = null;

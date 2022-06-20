@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pokemon_Simulator.Properties;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -641,5 +642,24 @@ namespace Pokemon_Simulator
         {
             // TODO: flinch
         }
+    }
+
+    internal class RainDance : Move
+    {
+        public RainDance(Pokemon user) : base(user)
+        {
+            moveName = "Rain Dance";
+            description = "Sets the weather to rain";
+            actualAttack = false;
+            type = Type.Water;
+            maxPP = pp = 8;
+        }
+
+        public override void SpecialEffects()
+        {
+            BattleData.currentWeather = Weather.Rain;
+            BattleWindow.instance.TintBackgroundColor(0, 100, 220);
+        }
+
     }
 }
