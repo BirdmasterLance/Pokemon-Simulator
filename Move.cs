@@ -646,20 +646,21 @@ namespace Pokemon_Simulator
 
     internal class RainDance : Move
     {
-        public RainDance(Pokemon user) : base(user)
+        private int maxTurns;
+        public RainDance(Pokemon user, int maxTurns=5) : base(user)
         {
             moveName = "Rain Dance";
             description = "Sets the weather to rain";
             actualAttack = false;
             type = Type.Water;
             maxPP = pp = 8;
+            this.maxTurns = maxTurns;
         }
 
         public override void SpecialEffects()
         {
-            BattleData.currentWeather = Weather.Rain;
+            BattleWindow.instance.SetWeather(Weather.Rain, maxTurns);
             BattleWindow.instance.TintBackgroundColor(0, 100, 220);
         }
-
     }
 }

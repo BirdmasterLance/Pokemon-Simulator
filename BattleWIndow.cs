@@ -36,6 +36,12 @@ namespace Pokemon_Simulator.Properties
         bool EcoolDown;
 
         Random rand = new Random();
+
+        // Weather
+        int weatherTurnsElasped;
+        int weatherMaxTurns;
+        Image originalBackGroundPic;
+
         public BattleWindow()
         {
             InitializeComponent();
@@ -54,6 +60,9 @@ namespace Pokemon_Simulator.Properties
             // 0, 200, 220 for hail
             // 230, 120, 0 for sun
             // 191, 161, 77 for sandstorm
+
+            originalBackGroundPic = BackgroundImage;
+
             LoadEnemyPokemonIntoBattle(0);
             LoadPlayerPokemonIntoBattle(0);
 
@@ -576,6 +585,11 @@ namespace Pokemon_Simulator.Properties
             BackgroundImage = pic;
         }
 
+        public void ResetBackground()
+        {
+            BackgroundImage = originalBackGroundPic;
+        }
+
         #endregion
 
         private int CheckFainted()
@@ -602,8 +616,26 @@ namespace Pokemon_Simulator.Properties
             return -1; // no one has fainted yet
         }
 
+        public void SetWeather(Weather weather, int turns)
+        {
+            weatherTurnsElasped = 0;
+            weatherMaxTurns = turns;
+            if(BattleData.currentWeather != Weather.None)
+            {
+                BattleData.currentWeather = weather;
+            }
+        }
+
         private void WeatherEffects(object sender, EventArgs e)
         {
+            weatherTurnsElasped++;
+            if(weatherTurnsElasped == weatherMaxTurns)
+            {
+                BattleData.currentWeather = Weather.None;
+                ResetBackground();
+                return;
+            }
+
             if(BattleData.currentWeather == Weather.Hail)
             {
                 if(activePokemon.type1 != Type.Ice && activePokemon.type2 != Type.Ice)
