@@ -21,7 +21,7 @@ namespace Pokemon_Simulator.PokemonClasses
             
 
             level = 50;
-            health = currHealth = 135*2;
+            health = currHealth = 135;
             attack = currAttack = 90;
             defense = currDefense = 85;
             specialAttack = currSpecialAttack = 145;

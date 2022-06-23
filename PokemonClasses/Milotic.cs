@@ -13,7 +13,7 @@ namespace Pokemon_Simulator.PokemonClasses
             slogan = "このワルドは。。";
 
             level = 50;
-            health = currHealth = 170*2;
+            health = currHealth = 170;
             attack = currAttack = 80;
             defense = currDefense = 99;
             specialAttack = currSpecialAttack = 120;
@@ -35,7 +35,7 @@ namespace Pokemon_Simulator.PokemonClasses
             moves.Add(new Scald(clonedPokemon));
             moves.Add(new Recover(clonedPokemon));
             //moves.Add(new Toxic(clonedPokemon));
-            moves.Add(new RainDance(clonedPokemon));
+            moves.Add(new TestMove(clonedPokemon));
             moves.Add(new IceBeam(clonedPokemon));
             clonedPokemon.moves = moves;
             clonedPokemon.item = null;

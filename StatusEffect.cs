@@ -36,7 +36,7 @@ namespace Pokemon_Simulator
         /// <summary>
         /// What happens when the user tries to do an action
         /// </summary>
-        protected virtual bool Effect() { return true; }
+        public virtual bool Effect() { return true; }
 
         public Color GetColor() { return color; }
     }
@@ -69,7 +69,7 @@ namespace Pokemon_Simulator
             pkmn.currSpeed = pkmn.GetSpeed() / 2;
         }
 
-        protected override bool Effect()
+        public override bool Effect()
         {
             Random rand = new Random();
             if(rand.NextDouble() <= 0.25)
@@ -88,7 +88,7 @@ namespace Pokemon_Simulator
             color = Color.FromArgb(155, 214, 218);
         }
 
-        protected override bool Effect()
+        public override bool Effect()
         {
             Random rand = new Random();
             if (rand.NextDouble() <= 0.20)
@@ -120,7 +120,7 @@ namespace Pokemon_Simulator
             }
         }
 
-        protected override bool Effect()
+        public override bool Effect()
         {
             if(numTurnsElasped == turnDuration)
             {

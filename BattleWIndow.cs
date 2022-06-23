@@ -236,7 +236,9 @@ namespace Pokemon_Simulator.Properties
 
         private void PlayerTurn(object sender, EventArgs e)
         {
+            activeEnemyPokemon.knownMoves.Add(activePokemon.moves[selectedMove]);
             if (selectedMove == -2) return;
+            if (activePokemon.currentStatusEffect != null && !activePokemon.currentStatusEffect.Effect()) return; 
 
             int damage = 0;
             if (selectedMove != -1)
@@ -255,7 +257,6 @@ namespace Pokemon_Simulator.Properties
 
             UpdateHealthBar(0);
             UpdateHealthBar(1);
-            activeEnemyPokemon.knownMoves.Add(activePokemon.moves[selectedMove]);
 
             //if the player used a move that changed their stats, display it here
             UpdateStatLabel();
@@ -290,6 +291,8 @@ namespace Pokemon_Simulator.Properties
             if (!EcoolDown)
             {
                 // Now that selectedMove is global, we can put this here
+                if (activeEnemyPokemon.currentStatusEffect != null && !activeEnemyPokemon.currentStatusEffect.Effect()) return;
+
                 activeEnemyPokemon.AICPU(playerFirst);
 
                 //AttackAnimation(playerPokemonImage, -1);h

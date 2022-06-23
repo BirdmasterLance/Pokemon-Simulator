@@ -72,6 +72,21 @@ namespace Pokemon_Simulator
 
     }
 
+    internal class TestMove : Move
+    {
+        public TestMove(Pokemon user) : base(user)
+        {
+            damage = 0;
+            type = Type.None;
+            maxPP = pp = 30;
+        }
+
+        public override void SpecialTargetEffects(Pokemon target)
+        {
+            target.SetStatusEffect(new FreezeStatusEffect(target));
+        }
+    }
+
     internal class Struggle : Move
     {
         public Struggle(Pokemon user) : base(user)
