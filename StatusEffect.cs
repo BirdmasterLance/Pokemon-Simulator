@@ -36,7 +36,7 @@ namespace Pokemon_Simulator
         /// <summary>
         /// What happens when the user tries to do an action
         /// </summary>
-        public virtual bool Effect() { return true; }
+        public virtual bool Effect() { return false; }
 
         public Color GetColor() { return color; }
     }
@@ -48,6 +48,11 @@ namespace Pokemon_Simulator
         {
             statusName = "Burn";
             color = Color.FromArgb(242, 127, 48);
+        }
+
+        protected override void SwitchInEffect(object sender, Pokemon pkmn)
+        {
+            pkmn.currAttack /= 2;
         }
 
         protected override void EndTurnEffect(object sender, EventArgs e)
@@ -66,7 +71,7 @@ namespace Pokemon_Simulator
 
         protected override void SwitchInEffect(object sender, Pokemon pkmn)
         {
-            pkmn.currSpeed = pkmn.GetSpeed() / 2;
+            pkmn.currSpeed /= 2;
         }
 
         public override bool Effect()
@@ -74,9 +79,9 @@ namespace Pokemon_Simulator
             Random rand = new Random();
             if(rand.NextDouble() <= 0.25)
             {
-                return false;
+                return true;
             }
-            return true;
+            return false;
         }
     }
 
@@ -94,9 +99,9 @@ namespace Pokemon_Simulator
             if (rand.NextDouble() <= 0.20)
             {
                 pokemon.currentStatusEffect = null;
-                return true;
+                return false;
             }
-            return false;
+            return true;
         }
     }
 
@@ -125,9 +130,9 @@ namespace Pokemon_Simulator
             if(numTurnsElasped == turnDuration)
             {
                 pokemon.currentStatusEffect = null;
-                return true;
+                return false;
             }
-            return false;
+            return true;
         }
 
         protected override void EndTurnEffect(object sender, EventArgs e)

@@ -56,11 +56,6 @@ namespace Pokemon_Simulator.Properties
         //Am assuming this where battle begins, so add buttons and such, might as well say that u can experiment
         private void BattleWindow_Load(object sender, EventArgs e)
         {
-            // 0, 100, 220 for rain
-            // 0, 200, 220 for hail
-            // 230, 120, 0 for sun
-            // 191, 161, 77 for sandstorm
-
             originalBackGroundPic = BackgroundImage;
 
             LoadEnemyPokemonIntoBattle(0);
@@ -235,10 +230,11 @@ namespace Pokemon_Simulator.Properties
         }
 
         private void PlayerTurn(object sender, EventArgs e)
-        {
-            activeEnemyPokemon.knownMoves.Add(activePokemon.moves[selectedMove]);
+        {            
             if (selectedMove == -2) return;
-            if (activePokemon.currentStatusEffect != null && !activePokemon.currentStatusEffect.Effect()) return; 
+            if (CheckStatus(activePokemon)) return;
+
+            activeEnemyPokemon.knownMoves.Add(activePokemon.moves[selectedMove]);
 
             int damage = 0;
             if (selectedMove != -1)
@@ -291,7 +287,7 @@ namespace Pokemon_Simulator.Properties
             if (!EcoolDown)
             {
                 // Now that selectedMove is global, we can put this here
-                if (activeEnemyPokemon.currentStatusEffect != null && !activeEnemyPokemon.currentStatusEffect.Effect()) return;
+                if (CheckStatus(activeEnemyPokemon)) return;
 
                 activeEnemyPokemon.AICPU(playerFirst);
 
@@ -617,6 +613,42 @@ namespace Pokemon_Simulator.Properties
                 return 1; // 1 for the enemy
             }
             return -1; // no one has fainted yet
+        }
+
+        private bool CheckStatus(Pokemon pokemon)
+        {
+            if(pokemon.currentStatusEffect != null)
+            {
+                StatusEffect statusEffect = pokemon.currentStatusEffect;
+                if(statusEffect.Effect())
+                {
+                    if (statusEffect.statusName == "Frozen")
+                    {
+                        LblBattleText.Text = pokemon.displayName + " is frozen!";
+                    }
+                    else if (statusEffect.statusName == "Asleep")
+                    {
+                        LblBattleText.Text = pokemon.displayName + " is asleep!";
+                    }
+                    else if (statusEffect.statusName == "Paralysis")
+                    {
+                        LblBattleText.Text = pokemon.displayName + " is paralyzed!";
+                    }
+                    return true;
+                }
+                else
+                {
+                    if (statusEffect.statusName == "Frozen")
+                    {
+                        LblBattleText.Text = pokemon.displayName + " thawed out!";
+                    }
+                    else if (statusEffect.statusName == "Asleep")
+                    {
+                        LblBattleText.Text = pokemon.displayName + " woke up!";
+                    }
+                }
+            }
+            return false;
         }
 
         public void SetWeather(Weather weather, int turns)
