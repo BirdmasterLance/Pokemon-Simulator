@@ -42,7 +42,6 @@ namespace Pokemon_Simulator.PokemonClasses
             moves.Add(new Recover(clonedPokemon));
             moves.Add(new CalmMind(clonedPokemon));
             clonedPokemon.moves = moves;
-            clonedPokemon.item = new Leftovers(clonedPokemon);
             return clonedPokemon;
         }
     }

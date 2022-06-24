@@ -113,12 +113,18 @@ namespace Pokemon_Simulator
         {
             if (currentStatusEffect == null)
             {
+                if (effect.statusName == "Burn") currAttack /= 2;
+                else if (effect.statusName == "Paralysis") currSpeed /= 2;
+
                 currentStatusEffect = effect;
             }
         }
 
         public void RemoveStatusEffect()
         {
+            if (currentStatusEffect.statusName == "Burn") currAttack *= 2;
+            else if (currentStatusEffect.statusName == "Paralysis") currSpeed *= 2;
+
             currentStatusEffect = null;
         }
 

@@ -52,7 +52,7 @@ namespace Pokemon_Simulator
 
         protected override void SwitchInEffect(object sender, Pokemon pkmn)
         {
-            pkmn.currAttack /= 2;
+            pokemon.currAttack /= 2;
         }
 
         protected override void EndTurnEffect(object sender, EventArgs e)
@@ -71,7 +71,7 @@ namespace Pokemon_Simulator
 
         protected override void SwitchInEffect(object sender, Pokemon pkmn)
         {
-            pkmn.currSpeed /= 2;
+            pokemon.currSpeed /= 2;
         }
 
         public override bool Effect()

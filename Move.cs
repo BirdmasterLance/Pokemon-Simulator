@@ -21,6 +21,7 @@ namespace Pokemon_Simulator
         public int pp;
         public int maxPP;
         public double criticalHitChance = 0.417;
+        public int priority = 0;
 
         // Info about what the move does
         public bool canHealOneSelf = false;
@@ -72,15 +73,11 @@ namespace Pokemon_Simulator
 
     }
 
-    // 0, 100, 220 for rain
-    // 0, 200, 220 for hail
-    // 230, 120, 0 for sun
-    // 191, 161, 77 for sandstorm
-
     internal class TestMove : Move
     {
         public TestMove(Pokemon user) : base(user)
         {
+            moveName = "Test Move";
             damage = 0;
             type = Type.None;
             maxPP = pp = 30;
@@ -88,8 +85,7 @@ namespace Pokemon_Simulator
 
         public override void SpecialTargetEffects(Pokemon target)
         {
-            BattleWindow.instance.TintBackgroundColor(191, 161, 77);
-            BattleWindow.instance.SetWeather(Weather.Sandstorm, 5);
+            target.SetStatusEffect(new BurnStatusEffect(target));
         }
     }
 

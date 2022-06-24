@@ -51,6 +51,7 @@
             this.removePokemonButton = new System.Windows.Forms.Button();
             this.BtnBack = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.BtnItem = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.PbCharacterPic)).BeginInit();
             this.GbTats.SuspendLayout();
             this.SuspendLayout();
@@ -319,12 +320,28 @@
             // 
             this.timer1.Tick += new System.EventHandler(this.BattleRun);
             // 
+            // BtnItem
+            // 
+            this.BtnItem.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.BtnItem.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.BtnItem.Cursor = System.Windows.Forms.Cursors.Default;
+            this.BtnItem.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnItem.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.BtnItem.Location = new System.Drawing.Point(1175, 256);
+            this.BtnItem.Name = "BtnItem";
+            this.BtnItem.Size = new System.Drawing.Size(123, 57);
+            this.BtnItem.TabIndex = 16;
+            this.BtnItem.Text = "Item";
+            this.BtnItem.UseVisualStyleBackColor = false;
+            this.BtnItem.Click += new System.EventHandler(this.BtnItem_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightSeaGreen;
             this.ClientSize = new System.Drawing.Size(1398, 519);
+            this.Controls.Add(this.BtnItem);
             this.Controls.Add(this.BtnBack);
             this.Controls.Add(this.removePokemonButton);
             this.Controls.Add(this.addPokemonButton);
@@ -332,8 +349,6 @@
             this.Controls.Add(this.LblSlogan);
             this.Controls.Add(this.LblName);
             this.Controls.Add(this.PbCharacterPic);
-            this.Controls.Add(this.picture1v1);
-
             this.Controls.Add(this.label2);
             this.Controls.Add(this.PartyPkmn);
             this.Controls.Add(this.label1);
@@ -381,6 +396,7 @@
         private System.Windows.Forms.Label LblSlogan;
         private System.Windows.Forms.Button BtnBack;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Button BtnItem;
     }
 }
 

@@ -49,10 +49,16 @@
     <Compile Include="BattleData.cs" />
     <Compile Include="BattleEventHandler.cs" />
     <Compile Include="Item.cs" />
-    <Compile Include="MainWindow.cs">
+    <Compile Include="Windows\ItemWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainWindow.designer.cs">
+    <Compile Include="Windows\ItemWindow.Designer.cs">
+      <DependentUpon>ItemWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\MainWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\MainWindow.designer.cs">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Move.cs" />
@@ -73,10 +79,13 @@
     <Compile Include="StatusEffect.cs" />
     <Compile Include="Type.cs" />
     <Compile Include="Weather.cs" />
-    <EmbeddedResource Include="BattleWIndow.resx">
+    <EmbeddedResource Include="Windows\BattleWIndow.resx">
       <DependentUpon>BattleWIndow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainWindow.resx">
+    <EmbeddedResource Include="Windows\ItemWindow.resx">
+      <DependentUpon>ItemWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -84,10 +93,10 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <Compile Include="BattleWIndow.cs">
+    <Compile Include="Windows\BattleWIndow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="BattleWIndow.Designer.cs">
+    <Compile Include="Windows\BattleWIndow.Designer.cs">
       <DependentUpon>BattleWIndow.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\Resources.Designer.cs">

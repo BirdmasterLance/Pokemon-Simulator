@@ -7,11 +7,11 @@ namespace Pokemon_Simulator
     public abstract class Item
     {
         public string itemName;
+        public string description;
         protected Pokemon holder;
 
-        public Item(Pokemon holder)
+        public Item()
         {
-            this.holder = holder;
             BattleEventHandler.instance.OnEndTurn += EndTurnEffect;
             BattleEventHandler.instance.OnPokemonSwitchIn += SwitchInEffect;
             BattleEventHandler.instance.OnPokemonSwitchOut += SwitchOutEffect;
@@ -19,6 +19,14 @@ namespace Pokemon_Simulator
             BattleEventHandler.instance.OnUseAttack += UseAttackEffect;
             BattleEventHandler.instance.OnHitByMove += HitByMoveEffect;
             BattleEventHandler.instance.OnHitBySuperEffective += HitBySuperEffectiveEffect;
+        }
+
+        /// <summary>
+        /// Sets the holder of this item
+        /// </summary>
+        public void SetHolder(Pokemon holder)
+        {
+            this.holder = holder;
         }
 
         /// <summary>
@@ -60,32 +68,50 @@ namespace Pokemon_Simulator
         /// What happens when the user tries to do an action
         /// </summary>
         protected virtual bool Effect() { return true; }
+
+        public override string ToString()
+        {
+            return itemName;
+        }
     }
 
     public class LifeOrb : Item
     {
-        public LifeOrb(Pokemon holder) : base(holder) { }
+        public LifeOrb()
+        {
+            itemName = "Life Orb";
+            description = "Boost the power of the user's attacks by 30% at the cost of 10% HP after an attack is used";
+        }
 
 
     }
 
     public class ChoiceScarf : Item
     {
-        public ChoiceScarf(Pokemon holder) : base(holder) { }
+        public ChoiceScarf() 
+        {
+            itemName = "Choice Scarf";
+            description = "Boosts the user's speed by 50%, but the user can only use the first move selected";
+        }
 
         protected override void SwitchInEffect(object sender, Pokemon pkmn) 
         {
-            holder.currSpeed *= 1.5;
+            // Because of how items were written, copies of items from the ItemWindow exist and do things, despite not being in the battle
+            if(holder != null) holder.currSpeed *= 1.5;
         }
     }
 
     public class Leftovers : Item
     {
-        public Leftovers(Pokemon holder) : base(holder) { }
+        public Leftovers()
+        {
+            itemName = "Leftovers";
+            description = "Restores 1/16th of the user's HP after every turn";
+        }
 
         protected override void EndTurnEffect(object sender, EventArgs e)
         {
-            holder.HealPercent(0.0625);
+            if (holder != null) holder.HealPercent(0.0625);
         }
     }
 }

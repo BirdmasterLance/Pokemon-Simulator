@@ -1,5 +1,6 @@
 ﻿using Pokemon_Simulator.PokemonClasses;
 using Pokemon_Simulator.Properties;
+using Pokemon_Simulator.Windows;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -291,7 +292,24 @@ namespace Pokemon_Simulator
             }
         }
 
-       
+        private void BtnItem_Click(object sender, EventArgs e)
+        {
+            if(PartyPkmn.SelectedIndex != -1)
+            {
+                if(isPlayerSelecting)
+                {
+                    ItemWindow itemWindow = new ItemWindow(playerPokemonParty[PartyPkmn.SelectedIndex]);
+                    itemWindow.Show();
+                }
+                else
+                {
+                    ItemWindow itemWindow = new ItemWindow(enemyPokemonParty[PartyPkmn.SelectedIndex]);
+                    itemWindow.Show();
+                }
+            }
+        }
+
+
         //When removing a button or anythign via here（In the code. And by ctrl z）It may ask u if u are sure of this decision, since it may undo some other actions as well..
     }
 }
