@@ -18,6 +18,8 @@ namespace Pokemon_Simulator
 
         protected string[] commentsOnHit = new string[5];
         protected string[] commentsOnOther = new string[5];
+        protected string[]  commentsOnLowDmg = new string[5];
+
 
         public int level;
 
@@ -100,6 +102,11 @@ namespace Pokemon_Simulator
         public void SetRivalPokemon(Pokemon pkmn) { rivalPkmn = pkmn; }
         public string[] GetComment() { return comments; }
         public string[] GetOnHitComment() { return commentsOnHit; }
+
+        public string[] GetOnLowDmgHitComment() { return  commentsOnLowDmg; }
+
+        public string[] GetOnOtherComment() { return commentsOnOther; }
+
 
 
         public void SetStatusEffect(StatusEffect effect)
@@ -249,21 +256,24 @@ namespace Pokemon_Simulator
             }
 
             //rival losing,
-            if (currHealth < health * 50 / 100 && !lastUsedMove.canHealOneSelf)
+            if (currHealth < health * 50 / 100/* && !lastUsedMove.canHealOneSelf*/)
             {
 
 
                 HealingMode();
+                return;
             }
             else
             {
                 if (rand.Next(0, 7) == 5)
                 {
                     AttackPlus();
+                    return;
                 }
                 else
                 {
                     AttackMode();
+                    return;
                 }
 
 
@@ -294,6 +304,7 @@ namespace Pokemon_Simulator
 
                             AttackMode();
 
+                            return;
                         }
                         //else if (moves[i] /*.protects*/)
                         //{
@@ -364,12 +375,12 @@ namespace Pokemon_Simulator
                 switch (rivalPkmn.displayName)
                 {
                     case "Dio":
-                        this.comments[0] = "Too tough to harm a little girl like me?!";
+                        commentsOnHit[0] = "Too tough to harm a little girl like me?!";
 
                         return;
                     case "Garou":
 
-                        this.comments[0] = "This is what you train for?!";
+                        commentsOnHit[0] = "This is what you train for?!";
 
                         return;
 

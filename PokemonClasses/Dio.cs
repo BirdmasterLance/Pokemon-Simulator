@@ -13,9 +13,12 @@ namespace Pokemon_Simulator.PokemonClasses
             slogan = "How many slices of bread?";
             font = new Font("Arial",10);
 
-            comments[0] = "Is that it?";
-            comments[1] = "Muda!";
-            comments[4] = "Kono Dio Da!";
+            comments[1] = "Is that it?";
+            comments[2] = "Muda!";
+
+            comments[3] = "Muda!";
+
+            comments[0] = "Kono Dio Da!";
 
             level = 50;
             health = currHealth = 135*2;

@@ -14,8 +14,10 @@ namespace Pokemon_Simulator.PokemonClasses
             commentsOnHit[0] = "W~Whyy?";
             commentsOnHit[1] = "痛って！！＞＜”";
             commentsOnHit[2] = "Is that it?! ";
-            commentsOnHit[3] = ">< Ahh.." /*"Grr"*/;
+            commentsOnHit[3] = "Grr" /*"Grr"*/;
             commentsOnHit[4] = "I'm a little girl, u know!?" /*"Grr"*/;
+             commentsOnLowDmg[0] = "Pff. I just felt a lil breeze.";
+             commentsOnLowDmg[0] = "*Giggle*";
 
             commentsOnOther[0] = "No Way!";
             

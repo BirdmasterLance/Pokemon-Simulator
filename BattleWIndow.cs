@@ -224,7 +224,7 @@ namespace Pokemon_Simulator.Properties
             turnCounter++; // We are in the "next" turn
             playerFirst = activePokemon.currSpeed >= activeEnemyPokemon.currSpeed;
             Console.WriteLine(turnCounter + " " + playerFirst);
-            Commentary_Battle();
+            Comment.Text = Commentary_Battle();
             timer1.Start();
             coolDown = true;
         }
@@ -259,27 +259,28 @@ namespace Pokemon_Simulator.Properties
 
         }
 
-        private void Commentary_Battle()
+        private string Commentary_Battle()
         {
             Comment.Show();
             Comment.Location = new Point(enemyPokemonImage.Location.X - 100, enemyPokemonImage.Location.Y);
 
             if (activeEnemyPokemon.currHealth < activeEnemyPokemon.GetHealth() * 20 / 100 && activeEnemyPokemon.currHealth > 0 && (rand.Next(0, 5) == 1))
             {
-                Comment.Text = activeEnemyPokemon.GetOnHitComment()[4];
+                return activeEnemyPokemon.GetOnHitComment()[4];
             }
             else if (activeEnemyPokemon.currHealth <= 0)
             {
-                Comment.Text = activeEnemyPokemon.GetOnHitComment()[4];
+                return activeEnemyPokemon.GetOnHitComment()[4];
+            }
+            else if (selectedMove >= 0 && activePokemon.GetDamage(moves[selectedMove], activeEnemyPokemon) < activeEnemyPokemon.GetHealth() * 20 / 100)
+            {
+                return activeEnemyPokemon.GetOnLowDmgHitComment()[rand.Next(0, 5)];
             }
             else
             {
-                Comment.Text = activeEnemyPokemon.GetOnHitComment()[rand.Next(0, 4)];
+                return activeEnemyPokemon.GetOnHitComment()[rand.Next(0, 4)];
             }
-            if (selectedMove >= 0 && activePokemon.GetDamage(moves[selectedMove], activeEnemyPokemon) < activeEnemyPokemon.GetHealth() * 20 / 100)
-            {
-                Comment.Text = activeEnemyPokemon.GetComment()[4];
-            }
+           
         }
 
         private void EnemyTurn(object sender, EventArgs e)
