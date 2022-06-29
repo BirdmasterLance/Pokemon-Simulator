@@ -1,23 +1,7 @@
 
-.vs/Pokemon-Simulator/v16/.suo
-bin/Debug/Pokemon Simulator.exe
-bin/Debug/Pokemon Simulator.pdb
-obj/Debug/Pokemon Simulator.exe
-obj/Debug/Pokemon Simulator.pdb
-obj/Debug/Pokemon-Simulator.csproj.AssemblyReference.cache
-obj/Debug/Pokemon-Simulator.csproj.CoreCompileInputs.cache
 obj/Debug/Pokemon-Simulator.csproj.FileListAbsolute.txt
-obj/Debug/Pokemon-Simulator.csproj.GenerateResource.cache
-*.pdb
+
+*.suo
 *.pdb
 *.exe
-.vs/Pokemon-Simulator/v16/.suo
-bin/Debug/Pokemon Simulator.exe
-bin/Debug/Pokemon Simulator.pdb
-obj/Debug/Pokemon Simulator.exe
-obj/Debug/Pokemon Simulator.pdb
-obj/Debug/Pokemon-Simulator.csproj.AssemblyReference.cache
-obj/Debug/Pokemon-Simulator.csproj.CoreCompileInputs.cache
-obj/Debug/Pokemon-Simulator.csproj.FileListAbsolute.txt
-obj/Debug/Pokemon-Simulator.csproj.GenerateResource.cache
-obj/Debug/Pokemon-Simulator.csproj.SuggestedBindingRedirects.cache
+*.cache
