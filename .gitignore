@@ -1,7 +1,10 @@
 
 obj/Debug/Pokemon-Simulator.csproj.FileListAbsolute.txt
+obj/Debug/.NETFramework,Version=v4.7.2.AssemblyAttributes.cs
 
 *.suo
 *.pdb
 *.exe
 *.cache
+*.config
+*.resources
