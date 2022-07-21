@@ -29,6 +29,8 @@ namespace Pokemon_Simulator.Windows
 
             LstBxItems.Items.Add(new LifeOrb());
             LstBxItems.Items.Add(new ChoiceScarf());
+            LstBxItems.Items.Add(new ChoiceBand());
+            LstBxItems.Items.Add(new ChoiceSpecs());
             LstBxItems.Items.Add(new Leftovers());
 
             this.FormClosed += new FormClosedEventHandler(ClearList);           

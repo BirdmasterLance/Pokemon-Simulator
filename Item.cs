@@ -12,13 +12,13 @@ namespace Pokemon_Simulator
 
         public Item()
         {
-            BattleEventHandler.instance.OnEndTurn += EndTurnEffect;
-            BattleEventHandler.instance.OnPokemonSwitchIn += SwitchInEffect;
-            BattleEventHandler.instance.OnPokemonSwitchOut += SwitchOutEffect;
-            BattleEventHandler.instance.OnPokemonFainted += PokemonFaintedEffect;
-            BattleEventHandler.instance.OnUseAttack += UseAttackEffect;
-            BattleEventHandler.instance.OnHitByMove += HitByMoveEffect;
-            BattleEventHandler.instance.OnHitBySuperEffective += HitBySuperEffectiveEffect;
+            BattleEventHandler.instance.EndTurn += EndTurnEffect;
+            BattleEventHandler.instance.PokemonSwitchIn += SwitchInEffect;
+            BattleEventHandler.instance.PokemonSwitchOut += SwitchOutEffect;
+            BattleEventHandler.instance.PokemonFainted += PokemonFaintedEffect;
+            BattleEventHandler.instance.UseAttack += UseAttackEffect;
+            BattleEventHandler.instance.HitByMove += HitByMoveEffect;
+            BattleEventHandler.instance.HitBySuperEffective += HitBySuperEffectiveEffect;
         }
 
         /// <summary>
@@ -82,8 +82,6 @@ namespace Pokemon_Simulator
             itemName = "Life Orb";
             description = "Boost the power of the user's attacks by 30% at the cost of 10% HP after an attack is used";
         }
-
-
     }
 
     public class ChoiceScarf : Item
@@ -97,7 +95,35 @@ namespace Pokemon_Simulator
         protected override void SwitchInEffect(object sender, Pokemon pkmn) 
         {
             // Because of how items were written, copies of items from the ItemWindow exist and do things, despite not being in the battle
-            if(holder != null) holder.currSpeed *= 1.5;
+            if(holder != null) pkmn.currSpeed *= 1.5;
+        }
+    }
+
+    public class ChoiceBand : Item
+    {
+        public ChoiceBand()
+        {
+            itemName = "Choice Band";
+            description = "Boosts the user's attack by 50%, but the user can only use the first move selected";
+        }
+
+        protected override void SwitchInEffect(object sender, Pokemon pkmn)
+        {         
+            if (holder != null) pkmn.currAttack *= 1.5;
+        }
+    }
+
+    public class ChoiceSpecs : Item
+    {
+        public ChoiceSpecs()
+        {
+            itemName = "Choice Specs";
+            description = "Boosts the user's special attack by 50%, but the user can only use the first move selected";
+        }
+
+        protected override void SwitchInEffect(object sender, Pokemon pkmn)
+        {
+            if (holder != null) pkmn.currSpecialAttack *= 1.5;
         }
     }
 

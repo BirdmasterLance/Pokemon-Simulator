@@ -202,11 +202,15 @@ namespace Pokemon_Simulator
             double stabModifier = (type1 == move.type || type2 == move.type) ? 1.5 : 1;
             double typeModifier = TypeData.CalculateEffectiveness(move.type, target.type1) * TypeData.CalculateEffectiveness(move.type, target.type2);
 
+            // Raise the hit event by super effective move
+            if (typeModifier > 1) BattleEventHandler.instance.OnHitBySuperEffective(target);
+
             double criticalModifier = 1;
             if(move.criticalHitChance >= rand.NextDouble())
             {
                 criticalModifier = 1.5f;
                 defenseModifier = move.physical ? currAttack / target.defense : currSpecialAttack / target.specialDefense;
+                //BattleEventHandler.instance.HitByCritical(target); // Raise the event if hit by critical
             }
 
             double weatherModifier = 1;
@@ -215,7 +219,7 @@ namespace Pokemon_Simulator
             if (move.type == Type.Water && BattleData.currentWeather == Weather.Sunlight) weatherModifier = 0.5;
             if (move.type == Type.Water && BattleData.currentWeather == Weather.Rain) weatherModifier = 1.5;
 
-            return ((levelModifier * move.damage * defenseModifier / 50) + 2) 
+            return ((levelModifier * move.damage * defenseModifier / 50) + 2)
                 * weatherModifier * criticalModifier * randomModifier * stabModifier * typeModifier;
         }
 
@@ -238,7 +242,13 @@ namespace Pokemon_Simulator
             }
             
             double damage = GetDamage(move, target);
-            
+
+            if (item != null && item.itemName == "Life Orb")
+            {
+                damage *= 1.3;
+                currHealth -= health / 10;
+            }
+
             target.currHealth -= damage;
 
             if (move.recoil)
@@ -252,7 +262,7 @@ namespace Pokemon_Simulator
             // TODO: different moves have different info that needs to be passed into the battle window, do something about it
             return (int)damage;
         }
-        public /*override*/ void AICPU(bool PlayerFirstw)
+        public /*override*/ Move AICPU(bool PlayerFirstw)
         {
 
             for (int h = 0; h < this.moves.Count; h++)
@@ -266,20 +276,17 @@ namespace Pokemon_Simulator
             {
 
 
-                HealingMode();
-                return;
+                return HealingMode();
             }
             else
             {
                 if (rand.Next(0, 7) == 5)
                 {
-                    AttackPlus();
-                    return;
+                    return AttackPlus();
                 }
                 else
                 {
-                    AttackMode();
-                    return;
+                    return AttackMode();
                 }
 
 
@@ -287,7 +294,7 @@ namespace Pokemon_Simulator
 
         }
 
-        private void HealingMode()
+        private Move HealingMode()
         {
             for (int j = 0; j < this.moves.Count; j++)//Scan "Known", or used moves by player.
             {
@@ -300,17 +307,15 @@ namespace Pokemon_Simulator
                         if (this.moves[i].canHealOneSelf && this.moves[i].pp != 0/* && rand.Next(0, 2) == 1 */&& !this.moves[i].actualAttack)
                         {
                             lastUsedMove = this.moves[i];
-                            damage = this.UseMove(lastUsedMove, rivalPkmn);
+                            //damage = this.UseMove(lastUsedMove, rivalPkmn);
                             Console.WriteLine(name + " used " + moves[i].moveName + " dealing " + damage + " damage!");
 
-                            return;
+                            return lastUsedMove;
                         }
                         else
                         {
 
-                            AttackMode();
-
-                            return;
+                            return AttackMode();
                         }
                         //else if (moves[i] /*.protects*/)
                         //{
@@ -320,9 +325,9 @@ namespace Pokemon_Simulator
                     }
                 }
             }
-            AttackMode();
+            return AttackMode();
         }
-        private void AttackMode()
+        private Move AttackMode()
         {
 
 
@@ -336,16 +341,16 @@ namespace Pokemon_Simulator
                     if ((TypeData.CalculateEffectiveness(this.moves[j].type, rivalPkmn.type1) == 2 || (TypeData.CalculateEffectiveness(this.moves[j].type, rivalPkmn.type1) == 2)) && this.moves[j].actualAttack)//Check if this attack can raise user's stats
                     {
                         lastUsedMove = this.moves[j];
-                        damage = this.UseMove(lastUsedMove, rivalPkmn);
+                        //damage = this.UseMove(lastUsedMove, rivalPkmn);
                         Console.WriteLine(name + " used " + moves[j].moveName + " dealing " + damage + " damage!");
 
-                        return;
+                        return lastUsedMove;
                     }
                 }
             }
-            NoSupefectiveness();
+            return NoSupefectiveness();
         }
-        private void AttackPlus()//
+        private Move AttackPlus()//
         {//-*Looking for an attack, or move that can heal, raise, etc
             for (int i = 0; i < this.moves.Count; i++)
             {
@@ -354,13 +359,14 @@ namespace Pokemon_Simulator
                 if (this.moves[i].raisesAtk == true/*AbsobrsEnergy*/)
                 {
                     lastUsedMove = this.moves[i];
-                    damage = this.UseMove(lastUsedMove, rivalPkmn);
-
+                    //damage = this.UseMove(lastUsedMove, rivalPkmn);
+                    return lastUsedMove;
                 }
             }
+            return null;
         }
 
-        private void NoSupefectiveness()
+        private Move NoSupefectiveness()
         {
             for (int j = 0; j < this.moves.Count; j++)
             {
@@ -368,11 +374,12 @@ namespace Pokemon_Simulator
                 {
 
                     lastUsedMove = this.moves[j];
-                    damage = this.UseMove(lastUsedMove, rivalPkmn);
-
+                    //damage = this.UseMove(lastUsedMove, rivalPkmn);
+                    return lastUsedMove;
 
                 }
             }
+            return null;
         }
         void CommentModifier()
         {

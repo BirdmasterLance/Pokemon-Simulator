@@ -8,6 +8,11 @@ namespace Pokemon_Simulator
 {
     public class BattleEventHandler
     {
+
+        // Events are best used when you want to communicate information ACROSS different classes
+        // Which leads me to believe that some of these events aren't very useful, since they are only needed 
+        // in the BattleWindow (unless we update CPU AI information when certain events are triggered)
+
         public static BattleEventHandler instance;
 
         public BattleEventHandler()
@@ -20,84 +25,90 @@ namespace Pokemon_Simulator
 
         #region Turn Events
 
-        public event EventHandler OnStartTurn;
-        public void StartTurn()
+        public event EventHandler StartTurn;
+        public void OnStartTurn()
         {
-            OnStartTurn?.Invoke(this, EventArgs.Empty);
+            StartTurn?.Invoke(this, EventArgs.Empty);
         }
 
-        public event EventHandler OnEndTurn;
-        public  void EndTurn()
+        public event EventHandler EndTurn;
+        public  void OnEndTurn()
         {
-            OnEndTurn?.Invoke(this, EventArgs.Empty);
+            EndTurn?.Invoke(this, EventArgs.Empty);
         }
 
-        public event EventHandler OnStartPlayerTurn;
-        public void StartPlayerTurn()
+        public event EventHandler StartPlayerTurn;
+        public void OnStartPlayerTurn()
         {
-            OnStartPlayerTurn?.Invoke(this, EventArgs.Empty);
+            StartPlayerTurn?.Invoke(this, EventArgs.Empty);
         }
 
-        public event EventHandler OnEndPlayerTurn;
-        public void EndPlayerTurn()
+        public event EventHandler EndPlayerTurn;
+        public void OnEndPlayerTurn()
         {
-            OnEndPlayerTurn?.Invoke(this, EventArgs.Empty);
+            EndPlayerTurn?.Invoke(this, EventArgs.Empty);
         }
 
-        public event EventHandler OnStartEnemyTurn;
-        public void StartEnemyTurn()
+        public event EventHandler StartEnemyTurn;
+        public void OnStartEnemyTurn()
         {
-            OnStartEnemyTurn?.Invoke(this, EventArgs.Empty);
+            StartEnemyTurn?.Invoke(this, EventArgs.Empty);
         }
 
-        public event EventHandler OnEndEnemyTurn;
-        public void EndEnemyTurn()
+        public event EventHandler EndEnemyTurn;
+        public void OnEndEnemyTurn()
         {
-            OnEndEnemyTurn?.Invoke(this, EventArgs.Empty);
+            EndEnemyTurn?.Invoke(this, EventArgs.Empty);
         }
 
         #endregion
 
         #region Switching Events
 
-        public event EventHandler<Pokemon> OnPokemonSwitchIn;
-        public void StartPokemonSwitchIn(Pokemon pkmn)
+        public event EventHandler<Pokemon> PokemonSwitchIn;
+        public void OnPokemonSwitchIn(Pokemon pkmn)
         {
-            OnPokemonSwitchIn?.Invoke(this, pkmn);
+            PokemonSwitchIn?.Invoke(this, pkmn);
         }
 
-        public event EventHandler<Pokemon> OnPokemonSwitchOut;
-        public void StartPokemonSwitchOut(Pokemon pkmn)
+        public event EventHandler<Pokemon> PokemonSwitchOut;
+        public void OnPokemonSwitchOut(Pokemon pkmn)
         {
-            OnPokemonSwitchOut?.Invoke(this, pkmn);
+            PokemonSwitchOut?.Invoke(this, pkmn);
         }
 
         #endregion
 
-        public event EventHandler<Pokemon> OnPokemonFainted;
-        public void PlayerPokemonFainted(Pokemon pkmn)
+        public event EventHandler<Pokemon> PokemonFainted;
+        public void OnPlayerPokemonFainted(Pokemon pkmn)
         {
-            OnPokemonFainted?.Invoke(this, pkmn);
+            PokemonFainted?.Invoke(this, pkmn);
         }
 
         #region Attacking Events
 
-        public event EventHandler<Pokemon> OnUseAttack;
-        public void UseAttack(ref Pokemon pkmn)
+        public event EventHandler<Pokemon> UseAttack;
+        public void OnUseAttack(Pokemon pkmn)
         {
-            OnUseAttack?.Invoke(this, pkmn);
+            UseAttack?.Invoke(this, pkmn);
         }
 
-        public event EventHandler<Pokemon> OnHitByMove;
-        public void HitByMove(ref Pokemon pkmn)
+        public event EventHandler<Pokemon> HitByMove;
+        public void OnHitByMove(Pokemon pkmn)
         {
-            OnHitByMove?.Invoke(this, pkmn);
+            HitByMove?.Invoke(this, pkmn);
         }
 
-        public event EventHandler<Pokemon> OnHitBySuperEffective;
-        public void HitBySuperEffective(ref Pokemon pkmn)
+        public event EventHandler<Pokemon> HitBySuperEffective;
+        public void OnHitBySuperEffective(Pokemon pkmn)
         {
-            OnHitBySuperEffective?.Invoke(this, pkmn);
+            HitBySuperEffective?.Invoke(this, pkmn);
+        }
+
+        public event EventHandler<Pokemon> HitByCritical;
+        public void OnHitByCritical(Pokemon pkmn)
+        {
+            HitByCritical.Invoke(this, pkmn);
         }
 
         #endregion

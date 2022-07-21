@@ -8,3 +8,4 @@ obj/Debug/.NETFramework,Version=v4.7.2.AssemblyAttributes.cs
 *.cache
 *.config
 *.resources
+*.dll

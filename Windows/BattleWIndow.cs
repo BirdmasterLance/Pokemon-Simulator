@@ -23,6 +23,7 @@ namespace Pokemon_Simulator.Properties
         Pokemon activeEnemyPokemon;
         int activeEnemyPokemonIndex;
         int selectedMove;
+        Move enemySelectedMove;
 
         Label lblMCX = new Label();
         Label lblMCY = new Label();
@@ -75,9 +76,9 @@ namespace Pokemon_Simulator.Properties
             Comment.Hide();
 
             //Let this class listen to battle events?
-            BattleEventHandler.instance.OnStartPlayerTurn += PlayerTurn;
-            BattleEventHandler.instance.OnStartEnemyTurn += EnemyTurn;
-            BattleEventHandler.instance.OnEndTurn += WeatherEffects;
+            BattleEventHandler.instance.StartPlayerTurn += PlayerTurn;
+            BattleEventHandler.instance.StartEnemyTurn += EnemyTurn;
+            BattleEventHandler.instance.EndTurn += WeatherEffects;
         }
 
         private void LoadPlayerPokemonIntoBattle(int pokemonIndex)
@@ -106,7 +107,7 @@ namespace Pokemon_Simulator.Properties
             activeEnemyPokemon.knownPokemons.Add(pokemon);
             activeEnemyPokemon.SetRivalPokemon(pokemon);
 
-            BattleEventHandler.instance.StartPokemonSwitchIn(pokemon);
+            BattleEventHandler.instance.OnPokemonSwitchIn(pokemon);
 
         }
 
@@ -133,6 +134,8 @@ namespace Pokemon_Simulator.Properties
                 Move4.Text = moves[3].moveName + '\n' + moves[3].pp.ToString() + "/" + moves[3].maxPP.ToString();
                 Move4.BackColor = TypeData.GetTypeColor(moves[3].type);
             }
+
+            Move1.Enabled = Move2.Enabled = Move3.Enabled = Move4.Enabled = true;
         }
 
         private void LoadEnemyPokemonIntoBattle(int pokemonIndex)
@@ -151,7 +154,7 @@ namespace Pokemon_Simulator.Properties
             enemyPokemonImage.Image = Image.FromFile(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName
                 + @"\Pokemon-Simulator\Resources\" + pokemon.name + "_Battle.png");
 
-            BattleEventHandler.instance.StartPokemonSwitchIn(activeEnemyPokemon);
+            BattleEventHandler.instance.OnPokemonSwitchIn(activeEnemyPokemon);
         }
 
         private void Move1_Click(object sender, EventArgs e)
@@ -160,6 +163,9 @@ namespace Pokemon_Simulator.Properties
             {
                 Move1.Text = moves[0].moveName + '\n' + moves[0].pp.ToString() + "/" + moves[0].maxPP.ToString();
                 selectedMove = 0;                
+                
+                // See if the current pokemon is holding a "choice" item
+                if(activePokemon.item != null) Move2.Enabled = Move3.Enabled = Move4.Enabled = !activePokemon.item.itemName.Contains("Choice");
             }
 
             // No more moves? Struggle.
@@ -177,6 +183,8 @@ namespace Pokemon_Simulator.Properties
             {
                 Move2.Text = moves[1].moveName + '\n' + moves[1].pp.ToString() + "/" + moves[1].maxPP.ToString();
                 selectedMove = 1;
+
+                if (activePokemon.item != null) Move1.Enabled = Move3.Enabled = Move4.Enabled = !activePokemon.item.itemName.Contains("Choice");
             }
 
             if (NoMoreMoves(activePokemon))
@@ -193,6 +201,8 @@ namespace Pokemon_Simulator.Properties
             {
                 Move3.Text = moves[2].moveName + '\n' + moves[2].pp.ToString() + "/" + moves[2].maxPP.ToString();
                 selectedMove = 2;
+
+                if (activePokemon.item != null) Move1.Enabled = Move2.Enabled = Move4.Enabled = !activePokemon.item.itemName.Contains("Choice");
             }
 
             if (NoMoreMoves(activePokemon))
@@ -209,6 +219,8 @@ namespace Pokemon_Simulator.Properties
             {
                 Move4.Text = moves[3].moveName + '\n' + moves[3].pp.ToString() + "/" + moves[3].maxPP.ToString();
                 selectedMove = 3;
+
+                if (activePokemon.item != null) Move1.Enabled = Move2.Enabled = Move3.Enabled = !activePokemon.item.itemName.Contains("Choice");
             }
 
             if (NoMoreMoves(activePokemon))
@@ -223,6 +235,13 @@ namespace Pokemon_Simulator.Properties
         {
             turnCounter++; // We are in the "next" turn
             playerFirst = activePokemon.currSpeed >= activeEnemyPokemon.currSpeed;
+            enemySelectedMove = activeEnemyPokemon.AICPU(playerFirst);
+
+            // Calculate move priority if it exists
+            // TODO: if player switches out then priority doesnt matter
+            if (enemySelectedMove.priority > moves[selectedMove].priority) playerFirst = false;
+            else if (enemySelectedMove.priority < moves[selectedMove].priority) playerFirst = true;
+
             Console.WriteLine(turnCounter + " " + playerFirst);
             Commentary_Battle();
             timer1.Start();
@@ -293,9 +312,10 @@ namespace Pokemon_Simulator.Properties
                 if (!NoMoreMoves(activeEnemyPokemon))
                 {
                     // Damage the player                   
-                    activeEnemyPokemon.AICPU(playerFirst);
+                    //activeEnemyPokemon.AICPU(playerFirst);
+                    int damage = activeEnemyPokemon.UseMove(enemySelectedMove, activePokemon);
                     LblBattleText.Text = activeEnemyPokemon.name + " used " + activeEnemyPokemon.lastUsedMove.moveName;
-                    if (activeEnemyPokemon.GetDamage() > 0) { LblBattleText.Text += " dealing " + activeEnemyPokemon.GetDamage() + " damage!"; }
+                    if (damage > 0) { LblBattleText.Text += " dealing " + damage + " damage!"; }
                     else { LblBattleText.Text += "!"; }
                 }
                 else
@@ -347,22 +367,22 @@ namespace Pokemon_Simulator.Properties
             {
                 if (secs == 10)
                 {
-                    BattleEventHandler.instance.StartPlayerTurn();
+                    BattleEventHandler.instance.OnStartPlayerTurn();
                 }
                 else if (secs == 50)
                 {
-                    BattleEventHandler.instance.EndPlayerTurn();
+                    BattleEventHandler.instance.OnEndPlayerTurn();
                     CheckFainted();
                 }
                 else if (secs == 100)
                 {
                     Comment.Hide();
                     EcoolDown = false;
-                    BattleEventHandler.instance.StartEnemyTurn();
+                    BattleEventHandler.instance.OnStartEnemyTurn();
                 }
                 else if (secs == 150)
                 {
-                    BattleEventHandler.instance.EndEnemyTurn();
+                    BattleEventHandler.instance.OnEndEnemyTurn();
                     CheckFainted();
                 }
             }
@@ -372,27 +392,27 @@ namespace Pokemon_Simulator.Properties
                 {
                     Comment.Hide();
                     EcoolDown = false;
-                    BattleEventHandler.instance.StartEnemyTurn();
+                    BattleEventHandler.instance.OnStartEnemyTurn();
                 }
                 else if (secs == 50)
                 {
-                    BattleEventHandler.instance.EndEnemyTurn();
+                    BattleEventHandler.instance.OnEndEnemyTurn();
                     CheckFainted();
                 }
                 else if (secs == 100)
                 {
-                    BattleEventHandler.instance.StartPlayerTurn();
+                    BattleEventHandler.instance.OnStartPlayerTurn();
                 }
                 else if (secs == 150)
                 {
-                    BattleEventHandler.instance.EndPlayerTurn();
+                    BattleEventHandler.instance.OnEndPlayerTurn();
                     CheckFainted();
                 }
             }
             
             if (secs == 200)
             {
-                BattleEventHandler.instance.EndTurn();
+                BattleEventHandler.instance.OnEndTurn();
                
                 UpdateHealthBar(0);
                 UpdateHealthBar(1);               
@@ -596,7 +616,7 @@ namespace Pokemon_Simulator.Properties
             {
                 GrayOutPartyPicture(0, activePokemonIndex);
                 LblBattleText.Text = activePokemon.displayName + " has fainted!";
-                BattleEventHandler.instance.PlayerPokemonFainted(activePokemon);
+                BattleEventHandler.instance.OnPlayerPokemonFainted(activePokemon);
                 secs = 151;
                 requireSwitchIn = true;
                 return 0; // 0 for the player
@@ -606,7 +626,7 @@ namespace Pokemon_Simulator.Properties
             {
                 GrayOutPartyPicture(1, activeEnemyPokemonIndex);
                 LblBattleText.Text = activeEnemyPokemon.displayName + " has fainted!";
-                BattleEventHandler.instance.PlayerPokemonFainted(activeEnemyPokemon);
+                BattleEventHandler.instance.OnPlayerPokemonFainted(activeEnemyPokemon);
                 secs = 151;
                 return 1; // 1 for the enemy
             }
@@ -794,7 +814,7 @@ namespace Pokemon_Simulator.Properties
 
             if (activePokemonIndex != 0)
             {
-                BattleEventHandler.instance.StartPokemonSwitchOut(activePokemon);
+                BattleEventHandler.instance.OnPokemonSwitchOut(activePokemon);
                 LoadPlayerPokemonIntoBattle(0);
                 if (!requireSwitchIn)
                 {
@@ -820,7 +840,7 @@ namespace Pokemon_Simulator.Properties
 
             if (activePokemonIndex != 1)
             {
-                BattleEventHandler.instance.StartPokemonSwitchOut(activePokemon);
+                BattleEventHandler.instance.OnPokemonSwitchOut(activePokemon);
                 LoadPlayerPokemonIntoBattle(1);
                 if (!requireSwitchIn)
                 {
@@ -846,7 +866,7 @@ namespace Pokemon_Simulator.Properties
 
             if (activePokemonIndex != 2)
             {
-                BattleEventHandler.instance.StartPokemonSwitchOut(activePokemon);
+                BattleEventHandler.instance.OnPokemonSwitchOut(activePokemon);
                 LoadPlayerPokemonIntoBattle(2);
                 if (!requireSwitchIn)
                 {
@@ -872,7 +892,7 @@ namespace Pokemon_Simulator.Properties
 
             if (activePokemonIndex != 3)
             {
-                BattleEventHandler.instance.StartPokemonSwitchOut(activePokemon);
+                BattleEventHandler.instance.OnPokemonSwitchOut(activePokemon);
                 LoadPlayerPokemonIntoBattle(3);
                 if (!requireSwitchIn)
                 {
@@ -898,7 +918,7 @@ namespace Pokemon_Simulator.Properties
 
             if (activePokemonIndex != 4)
             {
-                BattleEventHandler.instance.StartPokemonSwitchOut(activePokemon);
+                BattleEventHandler.instance.OnPokemonSwitchOut(activePokemon);
                 LoadPlayerPokemonIntoBattle(4);
                 if (!requireSwitchIn)
                 {
@@ -924,7 +944,7 @@ namespace Pokemon_Simulator.Properties
 
             if (activePokemonIndex != 5)
             {
-                BattleEventHandler.instance.StartPokemonSwitchOut(activePokemon);
+                BattleEventHandler.instance.OnPokemonSwitchOut(activePokemon);
                 LoadPlayerPokemonIntoBattle(5);
                 if (!requireSwitchIn)
                 {

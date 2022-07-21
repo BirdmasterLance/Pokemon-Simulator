@@ -290,6 +290,14 @@ namespace Pokemon_Simulator
         public override void SpecialEffects()
         {
             // TODO: it heals more in sun 2/3 and less in other weathers 1/4
+            if(BattleData.currentWeather == Weather.Sunlight)
+            {
+                user.HealPercent(0.66);
+            }
+            else if(BattleData.currentWeather != Weather.None)
+            {
+                user.HealPercent(0.25);
+            }
             user.HealPercent(0.5);
         }
     }
@@ -572,6 +580,7 @@ namespace Pokemon_Simulator
             physical = true;
             type = Type.Normal;
             maxPP = pp = 8;
+            priority = 2;
         }
 
         public override void SpecialEffects()

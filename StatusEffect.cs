@@ -13,9 +13,9 @@ namespace Pokemon_Simulator
         public StatusEffect(Pokemon affectedPkmn)
         {
             pokemon = affectedPkmn;
-            BattleEventHandler.instance.OnEndTurn += EndTurnEffect;
-            BattleEventHandler.instance.OnPokemonSwitchIn += SwitchInEffect;
-            BattleEventHandler.instance.OnPokemonSwitchOut += SwitchOutEffect;
+            BattleEventHandler.instance.EndTurn += EndTurnEffect;
+            BattleEventHandler.instance.PokemonSwitchIn += SwitchInEffect;
+            BattleEventHandler.instance.PokemonSwitchOut += SwitchOutEffect;
         }
 
         /// <summary>
