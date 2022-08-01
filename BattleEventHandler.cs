@@ -23,92 +23,59 @@ namespace Pokemon_Simulator
             }
         }
 
-        #region Turn Events
-
-        public event EventHandler StartTurn;
-        public void OnStartTurn()
+        // An event that calls out if the GameState (in BattleWindow.cs) has changed
+        public event Action<Properties.GameState> GameStateChange;
+        public void OnGameStateChange(Properties.GameState state)
         {
-            StartTurn?.Invoke(this, EventArgs.Empty);
+            GameStateChange?.Invoke(state);
         }
-
-        public event EventHandler EndTurn;
-        public  void OnEndTurn()
-        {
-            EndTurn?.Invoke(this, EventArgs.Empty);
-        }
-
-        public event EventHandler StartPlayerTurn;
-        public void OnStartPlayerTurn()
-        {
-            StartPlayerTurn?.Invoke(this, EventArgs.Empty);
-        }
-
-        public event EventHandler EndPlayerTurn;
-        public void OnEndPlayerTurn()
-        {
-            EndPlayerTurn?.Invoke(this, EventArgs.Empty);
-        }
-
-        public event EventHandler StartEnemyTurn;
-        public void OnStartEnemyTurn()
-        {
-            StartEnemyTurn?.Invoke(this, EventArgs.Empty);
-        }
-
-        public event EventHandler EndEnemyTurn;
-        public void OnEndEnemyTurn()
-        {
-            EndEnemyTurn?.Invoke(this, EventArgs.Empty);
-        }
-
-        #endregion
 
         #region Switching Events
 
-        public event EventHandler<Pokemon> PokemonSwitchIn;
+        public event Action<Pokemon> PokemonSwitchIn;
         public void OnPokemonSwitchIn(Pokemon pkmn)
         {
-            PokemonSwitchIn?.Invoke(this, pkmn);
+            PokemonSwitchIn?.Invoke(pkmn);
         }
 
-        public event EventHandler<Pokemon> PokemonSwitchOut;
+        public event Action<Pokemon> PokemonSwitchOut;
         public void OnPokemonSwitchOut(Pokemon pkmn)
         {
-            PokemonSwitchOut?.Invoke(this, pkmn);
+            PokemonSwitchOut?.Invoke(pkmn);
         }
 
         #endregion
 
-        public event EventHandler<Pokemon> PokemonFainted;
+        public event Action<Pokemon> PokemonFainted;
         public void OnPlayerPokemonFainted(Pokemon pkmn)
         {
-            PokemonFainted?.Invoke(this, pkmn);
+            PokemonFainted?.Invoke(pkmn);
         }
 
         #region Attacking Events
 
-        public event EventHandler<Pokemon> UseAttack;
+        public event Action<Pokemon> UseAttack;
         public void OnUseAttack(Pokemon pkmn)
         {
-            UseAttack?.Invoke(this, pkmn);
+            UseAttack?.Invoke(pkmn);
         }
 
-        public event EventHandler<Pokemon> HitByMove;
+        public event Action<Pokemon> HitByMove;
         public void OnHitByMove(Pokemon pkmn)
         {
-            HitByMove?.Invoke(this, pkmn);
+            HitByMove?.Invoke(pkmn);
         }
 
-        public event EventHandler<Pokemon> HitBySuperEffective;
+        public event Action<Pokemon> HitBySuperEffective;
         public void OnHitBySuperEffective(Pokemon pkmn)
         {
-            HitBySuperEffective?.Invoke(this, pkmn);
+            HitBySuperEffective?.Invoke(pkmn);
         }
 
-        public event EventHandler<Pokemon> HitByCritical;
+        public event Action<Pokemon> HitByCritical;
         public void OnHitByCritical(Pokemon pkmn)
         {
-            HitByCritical.Invoke(this, pkmn);
+            HitByCritical.Invoke(pkmn);
         }
 
         #endregion

@@ -17,6 +17,7 @@ namespace Pokemon_Simulator.Properties
 
         ComponentResourceManager resources = new ComponentResourceManager(typeof(BattleWindow));
 
+        public GameState state;
 
         Pokemon activePokemon;
         int activePokemonIndex;
@@ -75,10 +76,6 @@ namespace Pokemon_Simulator.Properties
             LblEnemyStatus.Hide();
             Comment.Hide();
 
-            //Let this class listen to battle events?
-            BattleEventHandler.instance.StartPlayerTurn += PlayerTurn;
-            BattleEventHandler.instance.StartEnemyTurn += EnemyTurn;
-            BattleEventHandler.instance.EndTurn += WeatherEffects;
         }
 
         private void LoadPlayerPokemonIntoBattle(int pokemonIndex)
@@ -237,10 +234,12 @@ namespace Pokemon_Simulator.Properties
             playerFirst = activePokemon.currSpeed >= activeEnemyPokemon.currSpeed;
             enemySelectedMove = activeEnemyPokemon.AICPU(playerFirst);
 
-            // Calculate move priority if it exists
-            // TODO: if player switches out then priority doesnt matter
-            if (enemySelectedMove.priority > moves[selectedMove].priority) playerFirst = false;
-            else if (enemySelectedMove.priority < moves[selectedMove].priority) playerFirst = true;
+
+            if(selectedMove >= 0)
+            {
+                if (enemySelectedMove.priority > moves[selectedMove].priority) playerFirst = false;
+                else if (enemySelectedMove.priority < moves[selectedMove].priority) playerFirst = true;
+            }
 
             Console.WriteLine(turnCounter + " " + playerFirst);
             Commentary_Battle();
@@ -248,7 +247,7 @@ namespace Pokemon_Simulator.Properties
             coolDown = true;
         }
 
-        private void PlayerTurn(object sender, EventArgs e)
+        private void PlayerTurn()
         {            
             if (selectedMove == -2) return;
             if (CheckStatus(activePokemon)) return;
@@ -301,7 +300,7 @@ namespace Pokemon_Simulator.Properties
             }
         }
 
-        private void EnemyTurn(object sender, EventArgs e)
+        private void EnemyTurn()
         {
             if (!EcoolDown)
             {
@@ -332,6 +331,20 @@ namespace Pokemon_Simulator.Properties
             UpdateStatLabel();
         }
 
+        private void EndTurn()
+        {
+            // This code can go either in the timer method, this method, or its own method.
+            UpdateHealthBar(0);
+            UpdateHealthBar(1);
+            LblBattleText.Text = "";
+
+            // Update the move counter at the end incase it doesnt update earlier
+            Move1.Text = moves[0].moveName + '\n' + moves[0].pp.ToString() + "/" + moves[0].maxPP.ToString();
+            Move2.Text = moves[1].moveName + '\n' + moves[1].pp.ToString() + "/" + moves[1].maxPP.ToString();
+            Move3.Text = moves[2].moveName + '\n' + moves[2].pp.ToString() + "/" + moves[2].maxPP.ToString();
+            Move4.Text = moves[3].moveName + '\n' + moves[3].pp.ToString() + "/" + moves[3].maxPP.ToString();
+        }
+
         private void PlayerAttackAnimation(Object source, ElapsedEventArgs e)
         {
 
@@ -359,70 +372,77 @@ namespace Pokemon_Simulator.Properties
 
 
         }
+
+        /// <summary>
+        /// Updates the current GameState so the window knows which state of the battle we are on
+        /// </summary>
+        public void UpdateGameState(GameState newState)
+        {
+            // We have the current GameState as a public variable here, so we update it to the newState
+            state = newState;
+
+            // Trigger the event so any class listening to this event knows the state has changed
+            BattleEventHandler.instance.OnGameStateChange(newState);
+
+            // Depending on the newState, we can do some code here
+            switch (newState)
+            {
+                case GameState.PlayerSelectMove:
+                    break;
+
+                case GameState.StartPlayerTurn:
+                    PlayerTurn();
+                    break;
+
+                case GameState.EndPlayerTurn:
+                    CheckFainted();
+                    break;
+
+                case GameState.StartEnemyTurn:
+                    Comment.Hide();
+                    EcoolDown = false;
+                    EnemyTurn();
+                    break;
+
+                case GameState.EndEnemyTurn:
+                    CheckFainted();
+                    break;
+
+                case GameState.EndTurn:
+                    EndTurn();
+                    break;
+
+            }     
+        }
+
         private void timer1_Tick(object sender, EventArgs e)
         {
             secs++;
             //Console.WriteLine(secs);
-            if(playerFirst)
+            if (secs == 10)
             {
-                if (secs == 10)
-                {
-                    BattleEventHandler.instance.OnStartPlayerTurn();
-                }
-                else if (secs == 50)
-                {
-                    BattleEventHandler.instance.OnEndPlayerTurn();
-                    CheckFainted();
-                }
-                else if (secs == 100)
-                {
-                    Comment.Hide();
-                    EcoolDown = false;
-                    BattleEventHandler.instance.OnStartEnemyTurn();
-                }
-                else if (secs == 150)
-                {
-                    BattleEventHandler.instance.OnEndEnemyTurn();
-                    CheckFainted();
-                }
+                if(playerFirst) UpdateGameState(GameState.StartPlayerTurn);
+                else UpdateGameState(GameState.StartEnemyTurn);
             }
-            else
+            else if (secs == 50)
             {
-                if (secs == 10)
-                {
-                    Comment.Hide();
-                    EcoolDown = false;
-                    BattleEventHandler.instance.OnStartEnemyTurn();
-                }
-                else if (secs == 50)
-                {
-                    BattleEventHandler.instance.OnEndEnemyTurn();
-                    CheckFainted();
-                }
-                else if (secs == 100)
-                {
-                    BattleEventHandler.instance.OnStartPlayerTurn();
-                }
-                else if (secs == 150)
-                {
-                    BattleEventHandler.instance.OnEndPlayerTurn();
-                    CheckFainted();
-                }
+                if (playerFirst) UpdateGameState(GameState.EndPlayerTurn);
+                else UpdateGameState(GameState.EndEnemyTurn);
             }
-            
+            else if (secs == 100)
+            {
+                if (playerFirst) UpdateGameState(GameState.StartEnemyTurn);
+                else UpdateGameState(GameState.StartPlayerTurn);
+            }
+            else if (secs == 150)
+            {
+                if (playerFirst) UpdateGameState(GameState.EndEnemyTurn);
+                else UpdateGameState(GameState.EndPlayerTurn);
+            }
+
             if (secs == 200)
             {
-                BattleEventHandler.instance.OnEndTurn();
-               
-                UpdateHealthBar(0);
-                UpdateHealthBar(1);               
-                LblBattleText.Text = "";
-
-                // Update the move counter at the end incase it doesnt update earlier
-                Move1.Text = moves[0].moveName + '\n' + moves[0].pp.ToString() + "/" + moves[0].maxPP.ToString();
-                Move2.Text = moves[1].moveName + '\n' + moves[1].pp.ToString() + "/" + moves[1].maxPP.ToString();
-                Move3.Text = moves[2].moveName + '\n' + moves[2].pp.ToString() + "/" + moves[2].maxPP.ToString();
-                Move4.Text = moves[3].moveName + '\n' + moves[3].pp.ToString() + "/" + moves[3].maxPP.ToString();
+                UpdateGameState(GameState.EndTurn);
             }
 
             if(secs > 200)
@@ -431,6 +451,7 @@ namespace Pokemon_Simulator.Properties
                 {
                     coolDown = false;
                     secs = 0;
+                    UpdateGameState(GameState.PlayerSelectMove);
                     timer1.Stop();
                 }
                 else
@@ -522,6 +543,9 @@ namespace Pokemon_Simulator.Properties
             label3.Text = enemyStats;
         }
 
+        /// <summary>
+        /// Converts a stat change into a string representation of how much the stat has changed.
+        /// </summary>
         private string NumToPercentStatConvert(int statStage, bool accuracyOrEvasion=false)
         {
             if(accuracyOrEvasion)
@@ -819,12 +843,12 @@ namespace Pokemon_Simulator.Properties
                 if (!requireSwitchIn)
                 {
                     selectedMove = -2;
-                    playerFirst = false;
                     StartTurn();
                 }
                 if (requireSwitchIn)
                 {
                     requireSwitchIn = false;
+                    UpdateGameState(GameState.PlayerSelectMove);
                 }
             }
             else LblBattleText.Text = "That Pokemon is already in battle!";
@@ -845,12 +869,12 @@ namespace Pokemon_Simulator.Properties
                 if (!requireSwitchIn)
                 {
                     selectedMove = -2;
-                    playerFirst = true;
                     StartTurn();
                 }
                 if (requireSwitchIn)
                 {
                     requireSwitchIn = false;
+                    UpdateGameState(GameState.PlayerSelectMove);
                 }
             }
             else LblBattleText.Text = "That Pokemon is already in battle!";
@@ -871,12 +895,12 @@ namespace Pokemon_Simulator.Properties
                 if (!requireSwitchIn)
                 {
                     selectedMove = -2;
-                    playerFirst = true;
                     StartTurn();
                 }
                 if (requireSwitchIn)
                 {
                     requireSwitchIn = false;
+                    UpdateGameState(GameState.PlayerSelectMove);
                 }
             }
             else LblBattleText.Text = "That Pokemon is already in battle!";
@@ -897,12 +921,12 @@ namespace Pokemon_Simulator.Properties
                 if (!requireSwitchIn)
                 {
                     selectedMove = -2;
-                    playerFirst = true;
                     StartTurn();
                 }
                 if (requireSwitchIn)
                 {
                     requireSwitchIn = false;
+                    UpdateGameState(GameState.PlayerSelectMove);
                 }
             }
             else LblBattleText.Text = "That Pokemon is already in battle!";
@@ -923,12 +947,12 @@ namespace Pokemon_Simulator.Properties
                 if (!requireSwitchIn)
                 {
                     selectedMove = -2;
-                    playerFirst = true;
                     StartTurn();
                 }
                 if (requireSwitchIn)
                 {
                     requireSwitchIn = false;
+                    UpdateGameState(GameState.PlayerSelectMove);
                 }
             }
             else LblBattleText.Text = "That Pokemon is already in battle!";
@@ -949,18 +973,28 @@ namespace Pokemon_Simulator.Properties
                 if (!requireSwitchIn)
                 {
                     selectedMove = -2;
-                    playerFirst = true;
                     StartTurn();
                 }
                 if(requireSwitchIn)
                 {
                     requireSwitchIn = false;
+                    UpdateGameState(GameState.PlayerSelectMove);
                 }
             }
             else LblBattleText.Text = "That Pokemon is already in battle!";
         }
 
-        #endregion
+            #endregion
 
+        }
+
+    public enum GameState
+    {
+        PlayerSelectMove,
+        StartPlayerTurn,
+        EndPlayerTurn,
+        StartEnemyTurn,
+        EndEnemyTurn,
+        EndTurn
     }
 }

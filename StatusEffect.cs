@@ -13,7 +13,7 @@ namespace Pokemon_Simulator
         public StatusEffect(Pokemon affectedPkmn)
         {
             pokemon = affectedPkmn;
-            BattleEventHandler.instance.EndTurn += EndTurnEffect;
+            BattleEventHandler.instance.GameStateChange += EndTurnEffect;
             BattleEventHandler.instance.PokemonSwitchIn += SwitchInEffect;
             BattleEventHandler.instance.PokemonSwitchOut += SwitchOutEffect;
         }
@@ -21,17 +21,17 @@ namespace Pokemon_Simulator
         /// <summary>
         /// What happens when the pokemon switches in
         /// </summary>
-        protected virtual void SwitchInEffect(object sender, Pokemon pkmn) { }
+        protected virtual void SwitchInEffect(Pokemon pkmn) { }
 
         /// <summary>
         /// What happens when the pokemon switches out
         /// </summary>
-        protected virtual void SwitchOutEffect(object sender, Pokemon pkmn) { }
+        protected virtual void SwitchOutEffect(Pokemon pkmn) { }
 
         /// <summary>
         /// What does this effect do at every turn?
         /// </summary>
-        protected virtual void EndTurnEffect(object sender, EventArgs e) { }
+        protected virtual void EndTurnEffect(Properties.GameState state) { }
 
         /// <summary>
         /// What happens when the user tries to do an action
@@ -50,14 +50,14 @@ namespace Pokemon_Simulator
             color = Color.FromArgb(242, 127, 48);
         }
 
-        protected override void SwitchInEffect(object sender, Pokemon pkmn)
+        protected override void SwitchInEffect(Pokemon pkmn)
         {
             pokemon.currAttack /= 2;
         }
 
-        protected override void EndTurnEffect(object sender, EventArgs e)
+        protected override void EndTurnEffect(Properties.GameState state)
         {
-            pokemon.currHealth -= pokemon.GetHealth() / 16;
+            if(state == Properties.GameState.EndTurn) pokemon.currHealth -= pokemon.GetHealth() / 16;
         }
     }
 
@@ -69,7 +69,7 @@ namespace Pokemon_Simulator
             color = Color.FromArgb(249, 208, 49);
         }
 
-        protected override void SwitchInEffect(object sender, Pokemon pkmn)
+        protected override void SwitchInEffect(Pokemon pkmn)
         {
             pokemon.currSpeed /= 2;
         }
@@ -135,9 +135,9 @@ namespace Pokemon_Simulator
             return true;
         }
 
-        protected override void EndTurnEffect(object sender, EventArgs e)
+        protected override void EndTurnEffect(Properties.GameState state)
         {
-            numTurnsElasped++;
+            if (state == Properties.GameState.EndTurn) numTurnsElasped++;
         }
     }
 
@@ -150,9 +150,9 @@ namespace Pokemon_Simulator
             color = Color.FromArgb(161, 64, 166);
         }
 
-        protected override void EndTurnEffect(object sender, EventArgs e)
+        protected override void EndTurnEffect(Properties.GameState state)
         {
-            pokemon.currHealth -= pokemon.GetHealth() / 8;
+            if (state == Properties.GameState.EndTurn) pokemon.currHealth -= pokemon.GetHealth() / 8;
         }
     }
 
@@ -168,15 +168,18 @@ namespace Pokemon_Simulator
             color = Color.FromArgb(161, 64, 166);
         }
 
-        protected override void SwitchOutEffect(object sender, Pokemon pkmn)
+        protected override void SwitchOutEffect(Pokemon pkmn)
         {
             numTurnsElasped = 1;
         }
 
-        protected override void EndTurnEffect(object sender, EventArgs e)
+        protected override void EndTurnEffect(Properties.GameState state)
         {
-            pokemon.currHealth -= pokemon.GetHealth() * ((double) numTurnsElasped / 16);
-            numTurnsElasped++;
+            if (state == Properties.GameState.EndTurn)
+            {
+                pokemon.currHealth -= pokemon.GetHealth() * ((double)numTurnsElasped / 16);
+                numTurnsElasped++;
+            }
         }
     }
 }
