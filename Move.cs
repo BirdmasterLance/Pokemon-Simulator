@@ -689,4 +689,24 @@ namespace Pokemon_Simulator
             BattleWindow.instance.TintBackgroundColor(0, 100, 220);
         }
     }
+
+    internal class Outrage : Move
+    {
+        public Outrage(Pokemon user) : base(user)
+        {
+            moveName = "Outrage";
+            description = "Attacks for 2 or 3 turns, then leaves the user with confusion.";
+            damage = 120;
+            accuracy = 100;
+            actualAttack = true;
+            physical = true;
+            type = Type.Dragon;
+            maxPP = pp = 16;
+        }
+
+        public override void SpecialEffects()
+        {
+            user.AddSubStatusEffect(new OutrageStatusEffect(user));
+        }
+    }
 }

@@ -81,7 +81,7 @@ namespace Pokemon_Simulator
         int moveCounter = 0;
 
         public StatusEffect currentStatusEffect = null;
-        // TODO: Held Item
+        public List<StatusEffect> subStatusEffects = new List<StatusEffect>();
 
         protected Pokemon()
         {
@@ -126,6 +126,35 @@ namespace Pokemon_Simulator
             else if (currentStatusEffect.statusName == "Paralysis") currSpeed *= 2;
 
             currentStatusEffect = null;
+        }
+
+        public void AddSubStatusEffect(StatusEffect effect)
+        {
+            if (FindSubStatusEffect(effect.statusName) == null)
+            {
+                subStatusEffects.Add(effect);
+            }
+        }
+
+        public void RemoveSubStatusEffect(string effect)
+        {
+            var effectToRemove = FindSubStatusEffect(effect);
+            if (effectToRemove != null)
+            {
+                subStatusEffects.Remove(effectToRemove);
+            }
+        }
+
+        private StatusEffect FindSubStatusEffect(string effect)
+        {
+            foreach (StatusEffect currentStatusEffect in subStatusEffects)
+            {
+                if (currentStatusEffect.statusName == effect)
+                {
+                    return currentStatusEffect;
+                }
+            }
+            return null;
         }
 
 

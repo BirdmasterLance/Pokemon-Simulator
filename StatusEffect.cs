@@ -39,6 +39,14 @@ namespace Pokemon_Simulator
         public virtual bool Effect() { return false; }
 
         public Color GetColor() { return color; }
+
+        public bool Equals(StatusEffect obj)
+        {
+            if (obj == null) return false;
+            if (obj.GetType() != GetType()) return false;
+            if (object.ReferenceEquals(obj, this)) return true;
+            return obj.statusName == statusName;
+        }
     }
 
     class BurnStatusEffect : StatusEffect
@@ -98,7 +106,7 @@ namespace Pokemon_Simulator
             Random rand = new Random();
             if (rand.NextDouble() <= 0.20)
             {
-                pokemon.currentStatusEffect = null;
+                pokemon.RemoveStatusEffect();
                 return false;
             }
             return true;
@@ -180,6 +188,67 @@ namespace Pokemon_Simulator
                 pokemon.currHealth -= pokemon.GetHealth() * ((double)numTurnsElasped / 16);
                 numTurnsElasped++;
             }
+        }
+    }
+
+    class ConfusedStatusEffect : StatusEffect
+    {
+
+        private int numTurnsElasped;
+        private int turnDuration;
+
+        public ConfusedStatusEffect(Pokemon affectedPkmn) : base(affectedPkmn)
+        {
+            statusName = "Confused";
+            numTurnsElasped = 1;
+            Random rand = new Random();
+            turnDuration = rand.Next(2, 5);
+        }
+
+        public override bool Effect()
+        {
+            if (numTurnsElasped == turnDuration)
+            {
+                pokemon.RemoveSubStatusEffect("Confused");
+                return false;
+            }
+            return true;
+        }
+
+        protected override void EndTurnEffect(Properties.GameState state)
+        {
+            if (state == Properties.GameState.EndTurn) numTurnsElasped++;
+        }
+    }
+
+    class OutrageStatusEffect : StatusEffect
+    {
+
+        private int numTurnsElasped;
+        private int turnDuration;
+
+        public OutrageStatusEffect(Pokemon affectedPkmn) : base(affectedPkmn)
+        {
+            statusName = "Outrage";
+            numTurnsElasped = 1;
+            Random rand = new Random();
+            turnDuration = rand.Next(2, 3);
+        }
+
+        public override bool Effect()
+        {
+            if (numTurnsElasped == turnDuration)
+            {
+                pokemon.RemoveSubStatusEffect("Outrage");
+                pokemon.AddSubStatusEffect(new ConfusedStatusEffect(pokemon));
+                return false;
+            }
+            return true;
+        }
+
+        protected override void EndTurnEffect(Properties.GameState state)
+        {
+            if (state == Properties.GameState.EndTurn) numTurnsElasped++;
         }
     }
 }
