@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pokemon_Simulator.Properties;
+using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
 
@@ -230,7 +231,7 @@ namespace Pokemon_Simulator
         public OutrageStatusEffect(Pokemon affectedPkmn) : base(affectedPkmn)
         {
             statusName = "Outrage";
-            numTurnsElasped = 1;
+            numTurnsElasped = 0;
             Random rand = new Random();
             turnDuration = rand.Next(2, 3);
         }
@@ -241,6 +242,9 @@ namespace Pokemon_Simulator
             {
                 pokemon.RemoveSubStatusEffect("Outrage");
                 pokemon.AddSubStatusEffect(new ConfusedStatusEffect(pokemon));
+                BattleEventHandler.instance.OnHitByStatus(pokemon, "Confusion");
+                BattleWindow.instance.EnableAllMoves();
+                Console.WriteLine(pokemon + " is no longer outraged");
                 return false;
             }
             return true;
@@ -248,7 +252,11 @@ namespace Pokemon_Simulator
 
         protected override void EndTurnEffect(Properties.GameState state)
         {
-            if (state == Properties.GameState.EndTurn) numTurnsElasped++;
+            if (state == Properties.GameState.EndTurn)
+            {
+                numTurnsElasped++;
+                BattleWindow.instance.DisableAllButOneMove("Outrage");
+            }
         }
     }
 }

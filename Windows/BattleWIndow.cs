@@ -19,9 +19,9 @@ namespace Pokemon_Simulator.Properties
 
         public GameState state;
 
-        Pokemon activePokemon;
+        public Pokemon activePokemon { get; private set; }
         int activePokemonIndex;
-        Pokemon activeEnemyPokemon;
+        public Pokemon activeEnemyPokemon { get; private set; }
         int activeEnemyPokemonIndex;
         int selectedMove;
         Move enemySelectedMove;
@@ -30,7 +30,6 @@ namespace Pokemon_Simulator.Properties
         Label lblMCY = new Label();
         List<Move> moves = new List<Move>();
 
-        int turnCounter = 0;
         int secs = 0;
         bool playerFirst;
         bool requireSwitchIn;
@@ -39,10 +38,10 @@ namespace Pokemon_Simulator.Properties
 
         Random rand = new Random();
 
-        // Weather
-        int weatherTurnsElasped;
-        int weatherMaxTurns;
         Image originalBackGroundPic;
+
+        // If 1, the player was skipped. If 2, the enemy was skipped. If 0, no one was skipped
+        int skippedTurn = 0;
 
         public BattleWindow()
         {
@@ -75,7 +74,6 @@ namespace Pokemon_Simulator.Properties
             LblPlayerStatus.Hide();
             LblEnemyStatus.Hide();
             Comment.Hide();
-
         }
 
         private void LoadPlayerPokemonIntoBattle(int pokemonIndex)
@@ -230,27 +228,46 @@ namespace Pokemon_Simulator.Properties
 
         private void StartTurn()
         {
-            turnCounter++; // We are in the "next" turn
-            playerFirst = activePokemon.currSpeed >= activeEnemyPokemon.currSpeed;
+            BattleData.turnCounter++; // We are in the "next" turn
+            skippedTurn = 0;
+
             enemySelectedMove = activeEnemyPokemon.AICPU(playerFirst);
 
-
+            // Speed calculations
+            playerFirst = activePokemon.currSpeed >= activeEnemyPokemon.currSpeed;
+            if (BattleData.HasSubWeather(ref BattleData.playerSubWeather, "Trick Room") != null || BattleData.HasSubWeather(ref BattleData.enemySubWeather, "Trick Room") != null)
+            {
+                playerFirst = activePokemon.currSpeed <= activeEnemyPokemon.currSpeed;
+            }
             if(selectedMove >= 0)
             {
                 if (enemySelectedMove.priority > moves[selectedMove].priority) playerFirst = false;
                 else if (enemySelectedMove.priority < moves[selectedMove].priority) playerFirst = true;
+                if (enemySelectedMove.actualAttack && moves[selectedMove].moveName == "Sucker Punch")
+                {
+                    playerFirst = true;
+                }
             }
 
-            Console.WriteLine(turnCounter + " " + playerFirst);
             Commentary_Battle();
             timer1.Start();
             coolDown = true;
+
+            Move1.Text = moves[0].moveName + '\n' + moves[0].pp.ToString() + "/" + moves[0].maxPP.ToString();
+            Move2.Text = moves[1].moveName + '\n' + moves[1].pp.ToString() + "/" + moves[1].maxPP.ToString();
+            Move3.Text = moves[2].moveName + '\n' + moves[2].pp.ToString() + "/" + moves[2].maxPP.ToString();
+            Move4.Text = moves[3].moveName + '\n' + moves[3].pp.ToString() + "/" + moves[3].maxPP.ToString();
         }
 
         private void PlayerTurn()
         {            
             if (selectedMove == -2) return;
             if (CheckStatus(activePokemon)) return;
+            if (skippedTurn == 1)
+            {
+                LblBattleText.Text = activePokemon.displayName + " was flinched!";
+                return;
+            }
 
             int damage = 0;
             if (selectedMove != -1)
@@ -294,10 +311,10 @@ namespace Pokemon_Simulator.Properties
             {
                 Comment.Text = activeEnemyPokemon.GetOnHitComment()[rand.Next(0, 4)];
             }
-            if (selectedMove >= 0 && activePokemon.GetDamage(moves[selectedMove], activeEnemyPokemon) < activeEnemyPokemon.GetHealth() * 20 / 100)
-            {
-                Comment.Text = activeEnemyPokemon.GetComment()[4];
-            }
+            //if (selectedMove >= 0 && activePokemon.GetDamage(moves[selectedMove], activeEnemyPokemon) < activeEnemyPokemon.GetHealth() * 20 / 100)
+            //{
+            //    Comment.Text = activeEnemyPokemon.GetComment()[4];
+            //}
         }
 
         private void EnemyTurn()
@@ -306,6 +323,12 @@ namespace Pokemon_Simulator.Properties
             {
                 // Now that selectedMove is global, we can put this here
                 if (CheckStatus(activeEnemyPokemon)) return;
+
+                if (skippedTurn == 2)
+                {
+                    LblBattleText.Text = activeEnemyPokemon.displayName + " was flinched!";
+                    return;
+                }
 
                 //AttackAnimation(playerPokemonImage, -1);h
                 if (!NoMoreMoves(activeEnemyPokemon))
@@ -336,7 +359,7 @@ namespace Pokemon_Simulator.Properties
             // This code can go either in the timer method, this method, or its own method.
             UpdateHealthBar(0);
             UpdateHealthBar(1);
-            LblBattleText.Text = "";
+            LblBattleText.Hide();
 
             // Update the move counter at the end incase it doesnt update earlier
             Move1.Text = moves[0].moveName + '\n' + moves[0].pp.ToString() + "/" + moves[0].maxPP.ToString();
@@ -355,10 +378,6 @@ namespace Pokemon_Simulator.Properties
 
         }
 
-        private bool NoMoreMoves(Pokemon pkmn)
-        {
-            return pkmn.moves[0].pp == 0 && pkmn.moves[1].pp == 0 && pkmn.moves[2].pp == 0 && pkmn.moves[3].pp == 0;
-        }
         void ResizeScreen(Object source, EventArgs e)
         {
             //enemyHealthBar.Location = new Point(this.Location.X+700, this.Location.Y+20);
@@ -421,7 +440,10 @@ namespace Pokemon_Simulator.Properties
             //Console.WriteLine(secs);
             if (secs == 10)
             {
-                if(playerFirst) UpdateGameState(GameState.StartPlayerTurn);
+                LblBattleText.Text = "";
+                LblBattleText.Show();
+
+                if (playerFirst) UpdateGameState(GameState.StartPlayerTurn);
                 else UpdateGameState(GameState.StartEnemyTurn);
             }
             else if (secs == 50)
@@ -633,6 +655,13 @@ namespace Pokemon_Simulator.Properties
 
         #endregion
 
+        #region Checking Status of Battle
+
+        private bool NoMoreMoves(Pokemon pkmn)
+        {
+            return pkmn.moves[0].pp == 0 && pkmn.moves[1].pp == 0 && pkmn.moves[2].pp == 0 && pkmn.moves[3].pp == 0;
+        }
+
         private int CheckFainted()
         {
             // if one of the pokemon has lost all of their HP, raise the event so other classes know a pokemon has fainted
@@ -652,6 +681,9 @@ namespace Pokemon_Simulator.Properties
                 LblBattleText.Text = activeEnemyPokemon.displayName + " has fainted!";
                 BattleEventHandler.instance.OnPlayerPokemonFainted(activeEnemyPokemon);
                 secs = 151;
+
+                // TODO: idk probs some method that lets the CPU switch out their pokemon
+
                 return 1; // 1 for the enemy
             }
             return -1; // no one has fainted yet
@@ -693,55 +725,66 @@ namespace Pokemon_Simulator.Properties
             return false;
         }
 
-        public void SetWeather(Weather weather, int turns)
-        {
-            weatherTurnsElasped = 0;
-            weatherMaxTurns = turns;
-            if(BattleData.currentWeather == Weather.None)
-            {
-                if (weather == Weather.Rain) TintBackgroundColor(0, 100, 220);
-                else if (weather == Weather.Hail) TintBackgroundColor(0, 200, 220);
-                else if (weather == Weather.Sunlight) TintBackgroundColor(230, 120, 0);
-                else if (weather == Weather.Sandstorm) TintBackgroundColor(191, 161, 77);
+        #endregion
 
-                BattleData.currentWeather = weather;
+        /// <summary>
+        /// Skips the pokemon's turn
+        /// </summary>
+        public void SkipTurn(string reason="")
+        {
+            // TODO: might skip turn for other reasons besides flinching
+            if (secs > 100) return;
+            skippedTurn = playerFirst ? 2 : 1; // If player first, set skippedTurn to 2, else, 1
+        }
+
+        #region Enabling or Disabling Moves
+
+        /// <summary>
+        /// Disables a specific move (or moves if you specify more than one)
+        /// </summary>
+        public void DisableMove(params string[] moves)
+        {
+            if (moves.Length > 4) return;
+            foreach(string moveName in moves)
+            {
+                if (Move1.Text.Contains(moveName)) Move1.Enabled = false;
+                else if (Move2.Text.Contains(moveName)) Move2.Enabled = false;
+                else if (Move3.Text.Contains(moveName)) Move3.Enabled = false;
+                else if (Move4.Text.Contains(moveName)) Move4.Enabled = false;
             }
         }
 
-        private void WeatherEffects(object sender, EventArgs e)
+        /// <summary>
+        /// Disables all the moves except the one specified in the parameter.
+        /// </summary>
+        public void DisableAllButOneMove(string moveName)
         {
-            weatherTurnsElasped++;
-            if(weatherTurnsElasped == weatherMaxTurns)
-            {
-                BattleData.currentWeather = Weather.None;
-                ResetBackground();
-                return;
-            }
-            if(BattleData.currentWeather == Weather.Hail)
-            {
-                if(activePokemon.type1 != Type.Ice && activePokemon.type2 != Type.Ice)
-                {
-                    activePokemon.currHealth -= activePokemon.currHealth / 16;
-                }
-                if (activeEnemyPokemon.type1 != Type.Ice && activeEnemyPokemon.type2 != Type.Ice)
-                {
-                    activeEnemyPokemon.currHealth -= activeEnemyPokemon.currHealth / 16;
-                }
-            }
-            else if (BattleData.currentWeather == Weather.Sandstorm)
-            {
-                if ((activePokemon.type1 != Type.Rock && activePokemon.type1 != Type.Ground && activePokemon.type1 != Type.Steel) &&
-                    (activePokemon.type2 != Type.Rock && activePokemon.type2 != Type.Ground && activePokemon.type2 != Type.Steel))
-                {
-                    activePokemon.currHealth -= activePokemon.currHealth / 16;
-                }
-                if ((activeEnemyPokemon.type1 != Type.Rock && activeEnemyPokemon.type1 != Type.Ground && activeEnemyPokemon.type1 != Type.Steel) &&
-                    (activeEnemyPokemon.type2 != Type.Rock && activeEnemyPokemon.type2 != Type.Ground && activeEnemyPokemon.type2 != Type.Steel))
-                {
-                    activeEnemyPokemon.currHealth -= activeEnemyPokemon.currHealth / 16;
-                }
-            }
+            if (!Move1.Text.Contains(moveName)) Move1.Enabled = false;
+            if (!Move2.Text.Contains(moveName)) Move2.Enabled = false;
+            if (!Move3.Text.Contains(moveName)) Move3.Enabled = false;
+            if (!Move4.Text.Contains(moveName)) Move4.Enabled = false;
         }
+
+        /// <summary>
+        /// Enables a specific move.
+        /// </summary>
+        public void EnableMove(string moveName)
+        {
+            if (Move1.Text.Contains(moveName)) Move1.Enabled = true;
+            if (Move2.Text.Contains(moveName)) Move2.Enabled = true;
+            if (Move3.Text.Contains(moveName)) Move3.Enabled = true;
+            if (Move4.Text.Contains(moveName)) Move4.Enabled = true;
+        }
+
+        /// <summary>
+        /// Enables all moves if they were disabled.
+        /// </summary>
+        public void EnableAllMoves()
+        {
+            Move1.Enabled = Move2.Enabled = Move3.Enabled = Move4.Enabled = true;
+        }
+
+        #endregion
 
         #region Party Picture Methods
 

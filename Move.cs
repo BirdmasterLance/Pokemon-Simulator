@@ -20,7 +20,7 @@ namespace Pokemon_Simulator
         public Type type;
         public int pp;
         public int maxPP;
-        public double criticalHitChance = 0.417;
+        public double criticalHitChance = 0.0417;
         public int priority = 0;
 
         // Info about what the move does
@@ -85,7 +85,7 @@ namespace Pokemon_Simulator
 
         public override void SpecialTargetEffects(Pokemon target)
         {
-            target.SetStatusEffect(new BurnStatusEffect(target));
+            BattleData.playerSubWeather.Add(new Reflect(4, user));
         }
     }
 
@@ -142,7 +142,7 @@ namespace Pokemon_Simulator
         public override void SpecialTargetEffects( Pokemon target)
         {
             target.ChangeStat(target.GetSpecialAttack(), ref target.currSpecialAttack, ref target.specialAttackStage, -1);
-
+            BattleEventHandler.instance.OnHitByStatLower(target, "Special Attack");
         }
     }
 
@@ -205,6 +205,8 @@ namespace Pokemon_Simulator
         {
             user.ChangeStat(user.GetDefense(), ref user.currDefense, ref user.defenseStage, -1);
             user.ChangeStat(user.GetSpecialDefense(), ref user.currSpecialDefense, ref user.specialDefenseStage, -1);
+            BattleEventHandler.instance.OnHitByStatLower(user, "Defense");
+            BattleEventHandler.instance.OnHitByStatLower(user, "Special Defense");
         }
     }
 
@@ -225,7 +227,12 @@ namespace Pokemon_Simulator
 
         public override void SpecialTargetEffects( Pokemon target)
         {
-            // TODO: add 30% to flinch
+            Random rand = new Random();
+            if (rand.Next() <= 0.3)
+            {
+                BattleWindow.instance.SkipTurn("flinch");
+                BattleEventHandler.instance.OnSkippedTurn(target, "Flinch");
+            }
         }
     }
 
@@ -250,6 +257,7 @@ namespace Pokemon_Simulator
             if (rand.Next() <= 0.3)
             {
                 target.SetStatusEffect(new PoisonStatusEffect(target));
+                BattleEventHandler.instance.OnHitByStatus(target, "Poison");
             }
         }
     }
@@ -272,6 +280,7 @@ namespace Pokemon_Simulator
         public override void SpecialEffects()
         {
             user.ChangeStat(user.GetSpecialAttack(), ref user.currSpecialAttack, ref user.specialAttackStage, -2);
+            BattleEventHandler.instance.OnHitByStatLower(user, "Special Attack");
         }
     }
 
@@ -290,13 +299,15 @@ namespace Pokemon_Simulator
         public override void SpecialEffects()
         {
             // TODO: it heals more in sun 2/3 and less in other weathers 1/4
-            if(BattleData.currentWeather == Weather.Sunlight)
+            if(BattleData.currentWeather?.weatherName == "Sunlight")
             {
                 user.HealPercent(0.66);
+                return;
             }
-            else if(BattleData.currentWeather != Weather.None)
+            else if(BattleData.currentWeather != null)
             {
                 user.HealPercent(0.25);
+                return;
             }
             user.HealPercent(0.5);
         }
@@ -338,6 +349,7 @@ namespace Pokemon_Simulator
             if (rand.Next() <= 0.1)
             {
                 target.SetStatusEffect(new BurnStatusEffect(target));
+                BattleEventHandler.instance.OnHitByStatus(target, "Burn");
             }
         }
     }
@@ -363,6 +375,7 @@ namespace Pokemon_Simulator
             if (randInt == 1)
             {
                 target.ChangeStat(user.GetSpecialDefense(), ref target.currSpecialDefense, ref target.specialDefenseStage, -1);
+                BattleEventHandler.instance.OnHitByStatLower(target, "Special Defense");
             }
         }
     }
@@ -406,6 +419,7 @@ namespace Pokemon_Simulator
             if (rand.Next() <= 0.3)
             {
                 target.SetStatusEffect(new BurnStatusEffect(target));
+                BattleEventHandler.instance.OnHitByStatus(target, "Burn");
             }
         }
     }
@@ -430,6 +444,7 @@ namespace Pokemon_Simulator
             if (rand.Next() <= 0.1)
             {
                 target.SetStatusEffect(new FreezeStatusEffect(target));
+                BattleEventHandler.instance.OnHitByStatus(target, "Freeze");
             }
         }
     }
@@ -450,6 +465,7 @@ namespace Pokemon_Simulator
         public override void SpecialTargetEffects( Pokemon target)
         {
             target.SetStatusEffect(new ToxicStatusEffect(target));
+            BattleEventHandler.instance.OnHitByStatus(target, "Toxic");
         }
     }
     internal class IronDefense : Move
@@ -466,6 +482,7 @@ namespace Pokemon_Simulator
         public override void SpecialEffects()
         {
             user.ChangeStat(user.GetDefense(), ref user.currDefense, ref user.defenseStage, 2);
+            BattleEventHandler.instance.OnHitByStatRaise(user, "Defense");
         }
     }
 
@@ -490,6 +507,7 @@ namespace Pokemon_Simulator
             if (rand.Next() <= 0.2)
             {
                 user.ChangeStat(user.GetAttack(), ref user.currAttack, ref user.attackStage, 1);
+                BattleEventHandler.instance.OnHitByStatRaise(user, "Attack");
             }
         }
     }
@@ -526,6 +544,8 @@ namespace Pokemon_Simulator
         {
             user.ChangeStat(user.GetAttack(), ref user.currAttack, ref user.attackStage, 1);
             user.ChangeStat(user.GetDefense(), ref user.currDefense, ref user.defenseStage, 1);
+            BattleEventHandler.instance.OnHitByStatRaise(user, "Attack");
+            BattleEventHandler.instance.OnHitByStatRaise(user, "Defense");
         }
     }
 
@@ -545,6 +565,8 @@ namespace Pokemon_Simulator
         {
             user.ChangeStat(user.GetAttack(), ref user.currAttack, ref user.attackStage, 1);
             user.ChangeStat(user.GetSpecialAttack(), ref user.currSpecialAttack, ref user.specialAttackStage, 1);
+            BattleEventHandler.instance.OnHitByStatRaise(user, "Attack");
+            BattleEventHandler.instance.OnHitByStatRaise(user, "Special Attack");
         }
     }
 
@@ -561,11 +583,6 @@ namespace Pokemon_Simulator
             type = Type.Dark;
             maxPP = pp = 8;
         }
-
-        public override void SpecialEffects()
-        {
-            // TODO: priority 1 if target is going to attack, fail if otherwise
-        }
     }
 
     internal class ExtremeSpeed : Move
@@ -581,11 +598,6 @@ namespace Pokemon_Simulator
             type = Type.Normal;
             maxPP = pp = 8;
             priority = 2;
-        }
-
-        public override void SpecialEffects()
-        {
-            // TODO: priority 2
         }
     }
 
@@ -647,6 +659,9 @@ namespace Pokemon_Simulator
             user.ChangeStat(user.GetSpecialAttack(), ref user.currSpecialAttack, ref user.specialAttackStage, 1);
             user.ChangeStat(user.GetSpecialDefense(), ref  user.currSpecialDefense, ref user.specialDefenseStage, 1);
             user.ChangeStat(user.GetSpeed(), ref user.currSpeed, ref user.speedStage, 1);
+            BattleEventHandler.instance.OnHitByStatRaise(user, "Speed");
+            BattleEventHandler.instance.OnHitByStatRaise(user, "Special Attack");
+            BattleEventHandler.instance.OnHitByStatRaise(user, "Special Defense");
         }
     }
 
@@ -664,9 +679,14 @@ namespace Pokemon_Simulator
             maxPP = pp = 24;
         }
 
-        public override void SpecialEffects()
+        public override void SpecialTargetEffects(Pokemon target)
         {
-            // TODO: flinch
+            Random rand = new Random();
+            if(rand.Next() <= 0.3)
+            {
+                BattleWindow.instance.SkipTurn("flinch");
+                BattleEventHandler.instance.OnSkippedTurn(target, "Flinch");
+            }
         }
     }
 
@@ -685,8 +705,7 @@ namespace Pokemon_Simulator
 
         public override void SpecialEffects()
         {
-            BattleWindow.instance.SetWeather(Weather.Rain, maxTurns);
-            BattleWindow.instance.TintBackgroundColor(0, 100, 220);
+            BattleData.SetMainWeather(new Rain(maxTurns));
         }
     }
 
@@ -706,7 +725,11 @@ namespace Pokemon_Simulator
 
         public override void SpecialEffects()
         {
-            user.AddSubStatusEffect(new OutrageStatusEffect(user));
+            if(user.HasVolatileStatusEffect("Outrage") == null)
+            {
+                user.AddVolatileStatusEffect(new OutrageStatusEffect(user));
+                Console.WriteLine("given " + user + " outrage status effect");
+            }
         }
     }
 }

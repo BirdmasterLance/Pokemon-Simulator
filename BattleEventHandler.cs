@@ -78,6 +78,31 @@ namespace Pokemon_Simulator
             HitByCritical.Invoke(pkmn);
         }
 
+        public event Action<Pokemon, string> HitByStatus;
+        public void OnHitByStatus(Pokemon pkmn, string statusName)
+        {
+            HitByStatus.Invoke(pkmn, statusName);
+        }
+
+        public event Action<Pokemon, string> HitByStatLower;
+        public void OnHitByStatLower(Pokemon pkmn, string statName)
+        {
+            HitByStatLower.Invoke(pkmn, statName);
+        }
+
+        public event Action<Pokemon, string> HitByStatRaise;
+        public void OnHitByStatRaise(Pokemon pkmn, string statName)
+        {
+            HitByStatRaise.Invoke(pkmn, statName);
+        }
+
+        // Might be unneeded
+        public event Action<Pokemon, string> SkippedTurn;
+        public void OnSkippedTurn(Pokemon pkmn, string reason)
+        {
+            SkippedTurn?.Invoke(pkmn, reason);
+        }
+
         #endregion
     }
 }

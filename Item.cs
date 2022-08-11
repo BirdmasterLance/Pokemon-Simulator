@@ -95,7 +95,11 @@ namespace Pokemon_Simulator
         protected override void SwitchInEffect(Pokemon pkmn) 
         {
             // Because of how items were written, copies of items from the ItemWindow exist and do things, despite not being in the battle
-            if(holder != null) pkmn.currSpeed *= 1.5;
+            if (pkmn.Equals(holder))
+            {
+                pkmn.currSpeed *= 1.5;
+                Console.WriteLine(holder.displayName + " now has choice scarf, current speed: " + pkmn.currSpeed);
+            }
         }
     }
 
@@ -109,7 +113,7 @@ namespace Pokemon_Simulator
 
         protected override void SwitchInEffect(Pokemon pkmn)
         {         
-            if (holder != null) pkmn.currAttack *= 1.5;
+            if (pkmn.Equals(holder)) pkmn.currAttack *= 1.5;
         }
     }
 
@@ -123,7 +127,7 @@ namespace Pokemon_Simulator
 
         protected override void SwitchInEffect(Pokemon pkmn)
         {
-            if (holder != null) pkmn.currSpecialAttack *= 1.5;
+            if (pkmn.Equals(holder)) pkmn.currSpecialAttack *= 1.5;
         }
     }
 

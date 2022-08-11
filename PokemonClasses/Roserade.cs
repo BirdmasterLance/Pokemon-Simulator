@@ -25,6 +25,8 @@ namespace Pokemon_Simulator.PokemonClasses
             moves.Add(new SludgeBomb(this));
             moves.Add(new LeafStorm(this));
             moves.Add(new HiddenPower(this, Type.Fire));
+
+            ability = new NaturalCure(this);
         }
 
         public override object Clone()
@@ -37,6 +39,7 @@ namespace Pokemon_Simulator.PokemonClasses
             moves.Add(new HiddenPower(clonedPokemon, Type.Fire));
             clonedPokemon.moves = moves;
             clonedPokemon.item = null;
+            clonedPokemon.ability = new NaturalCure(clonedPokemon);
             return clonedPokemon;
         }
     }

@@ -26,6 +26,8 @@ namespace Pokemon_Simulator.PokemonClasses
             moves.Add(new Toxic(this));
             moves.Add(new IceBeam(this));
             moves.Add(new RainDance(this));
+
+            ability = new MarvelScale(this);
         }
 
         public override object Clone()
@@ -35,10 +37,11 @@ namespace Pokemon_Simulator.PokemonClasses
             moves.Add(new Scald(clonedPokemon));
             moves.Add(new Recover(clonedPokemon));
             //moves.Add(new Toxic(clonedPokemon));
-            moves.Add(new TestMove(clonedPokemon));
+            moves.Add(new RainDance(clonedPokemon));
             moves.Add(new IceBeam(clonedPokemon));
             clonedPokemon.moves = moves;
             clonedPokemon.item = null;
+            clonedPokemon.ability = new MarvelScale(clonedPokemon);
             return clonedPokemon;
         }
     }

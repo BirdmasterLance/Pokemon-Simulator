@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pokemon_Simulator.Properties;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -80,8 +81,10 @@ namespace Pokemon_Simulator
 
         int moveCounter = 0;
 
-        public StatusEffect currentStatusEffect = null;
-        public List<StatusEffect> subStatusEffects = new List<StatusEffect>();
+        public StatusEffect currentStatusEffect = null; // According to Bulbepedia, this would be called a "Non-Volatile Status Effect"
+        public HashSet<StatusEffect> currentVolatileStatusEffects = new HashSet<StatusEffect>();
+
+        public Ability ability = null;
 
         protected Pokemon()
         {
@@ -107,8 +110,22 @@ namespace Pokemon_Simulator
 
         public string[] GetOnOtherComment() { return commentsOnOther; }
 
+        public virtual void HealPercent(double percent)
+        {
+            double healAmount = health * percent;
+            currHealth += healAmount;
+            if (currHealth > health)
+            {
+                currHealth = health;
+            }
+        }
 
+        #region Status Effects
 
+        /// <summary>
+        /// Sets the current status effect. <br/>
+        /// NOTE: A "Non Volatile" status effect refers to one such as burn, freeze, poison, etc.
+        /// </summary>
         public void SetStatusEffect(StatusEffect effect)
         {
             if (currentStatusEffect == null)
@@ -128,26 +145,26 @@ namespace Pokemon_Simulator
             currentStatusEffect = null;
         }
 
-        public void AddSubStatusEffect(StatusEffect effect)
+        public void AddVolatileStatusEffect(StatusEffect effect)
         {
-            if (FindSubStatusEffect(effect.statusName) == null)
-            {
-                subStatusEffects.Add(effect);
-            }
+            currentVolatileStatusEffects.Add(effect);
         }
 
-        public void RemoveSubStatusEffect(string effect)
+        public void RemoveVolatileStatusEffect(string effect)
         {
-            var effectToRemove = FindSubStatusEffect(effect);
+            var effectToRemove = HasVolatileStatusEffect(effect);
             if (effectToRemove != null)
             {
-                subStatusEffects.Remove(effectToRemove);
+                currentVolatileStatusEffects.Remove(effectToRemove);
             }
         }
 
-        private StatusEffect FindSubStatusEffect(string effect)
+        /// <summary>
+        /// Check if a pokemon has a specific SubStatusEffect. Returns said effect if it exists.
+        /// </summary>
+        public StatusEffect HasVolatileStatusEffect(string effect)
         {
-            foreach (StatusEffect currentStatusEffect in subStatusEffects)
+            foreach (StatusEffect currentStatusEffect in currentVolatileStatusEffects)
             {
                 if (currentStatusEffect.statusName == effect)
                 {
@@ -157,7 +174,17 @@ namespace Pokemon_Simulator
             return null;
         }
 
+        #endregion
 
+        #region Stat Changes
+
+        /// <summary>
+        /// Handles raising or lowering stat calculation. <br/>
+        /// stat: The stat to change (EX: GetAttack()) <br/>
+        /// statToChange: The current version of the above stat (EX: currAttack) <br/>
+        /// statStage: The current stage of the above stat (EX: attackStage) <br/>
+        /// stageIncrease: The amount of stages to increase it by (EX: 1) <br/>
+        /// </summary>
         public virtual int ChangeStat(double stat, ref double statToChange, ref int statStage, int stageIncrease)
         {
             if (statStage >= 6 || statStage <= -6) return statStage;
@@ -211,16 +238,11 @@ namespace Pokemon_Simulator
             attackStage = defenseStage = specialAttackStage = specialDefenseStage = speedStage = accuracyStage = evasionStage = 0;
         }
 
-        public virtual void HealPercent(double percent)
-        {
-            double healAmount = health * percent;
-            currHealth += healAmount;
-            if (currHealth > health)
-            {
-                currHealth = health;
-            }
-        }
+        #endregion
 
+        #region Damage and Moves
+
+        private bool debugMove = true;
         public virtual double GetDamage(Move move, Pokemon target)
         {
             double levelModifier = (2 * level / 5) + 2;
@@ -243,10 +265,25 @@ namespace Pokemon_Simulator
             }
 
             double weatherModifier = 1;
-            if (move.type == Type.Fire && BattleData.currentWeather == Weather.Rain) weatherModifier = 0.5;
-            if (move.type == Type.Fire && BattleData.currentWeather == Weather.Sunlight) weatherModifier = 1.5;
-            if (move.type == Type.Water && BattleData.currentWeather == Weather.Sunlight) weatherModifier = 0.5;
-            if (move.type == Type.Water && BattleData.currentWeather == Weather.Rain) weatherModifier = 1.5;
+            if (move.type == Type.Fire && BattleData.currentWeather?.weatherName == "Rain") weatherModifier = 0.5;
+            if (move.type == Type.Fire && BattleData.currentWeather?.weatherName == "Sunlight") weatherModifier = 1.5;
+            if (move.type == Type.Water && BattleData.currentWeather?.weatherName == "Sunlight") weatherModifier = 0.5;
+            if (move.type == Type.Water && BattleData.currentWeather?.weatherName == "Rain") weatherModifier = 1.5;
+
+            if(debugMove) Console.Write($"{move.moveName} data: " +
+                $"\n  Base Damage: {move.damage}" +
+                $"\n  Level Modifier: {levelModifier}" +
+                $"\n  Defense Modifier (Physical Move? {move.physical}): " +
+                $"\n    If physical: Current Attack ({currAttack}) / Target's Defense ({target.currDefense})" +
+                $"\n    If special: Current Sp. Attack ({currSpecialAttack}) / Target's Sp. Defense ({target.currSpecialDefense})" +
+                $"\n    = {defenseModifier}" +
+                $"\n  (levelModifier * baseDamage * defenseModifier / 50) + 2 = {(levelModifier * move.damage * defenseModifier / 50) + 2}" +
+                $"\n  Random Modifier: x{randomModifier}" +
+                $"\n  Stab Modifier: x{stabModifier}" +
+                $"\n  Super Effective Modifier: x{typeModifier}" +
+                $"\n  Critical Modifier: x{criticalModifier}" +
+                $"\n  Weather Modifier: x{weatherModifier}" +
+                $"\nDamage before reductions/boosts to final damage: ");
 
             return ((levelModifier * move.damage * defenseModifier / 50) + 2)
                 * weatherModifier * criticalModifier * randomModifier * stabModifier * typeModifier;
@@ -272,17 +309,41 @@ namespace Pokemon_Simulator
             
             double damage = GetDamage(move, target);
 
+            if (debugMove) Console.WriteLine($"{damage}");
+
             if (item != null && item.itemName == "Life Orb")
             {
                 damage *= 1.3;
                 currHealth -= health / 10;
+                if (debugMove) Console.WriteLine($"  Damage boosted by Life Orb (1.3x): {damage}");
             }
+
+            if (((target.Equals(BattleWindow.instance.activeEnemyPokemon) && BattleData.HasSubWeather(ref BattleData.enemySubWeather, "Reflect") != null)
+                || (target.Equals(BattleWindow.instance.activePokemon) && BattleData.HasSubWeather(ref BattleData.playerSubWeather, "Reflect") != null)) && move.physical)
+            {
+                damage /= 2;
+                if (debugMove) Console.WriteLine($"  Damage reduced by Reflect (by 1/2): {damage}");
+            }
+            if (((target.Equals(BattleWindow.instance.activeEnemyPokemon) && BattleData.HasSubWeather(ref BattleData.enemySubWeather, "Light Screen") != null)
+                || (target.Equals(BattleWindow.instance.activePokemon) && BattleData.HasSubWeather(ref BattleData.playerSubWeather, "Light Screen") != null)) && !move.physical)
+            {
+                damage /= 2;
+                if (debugMove) Console.WriteLine($"  Damage reduced by Light Screen (by 1/2): {damage}");
+            }
+            if ((target.Equals(BattleWindow.instance.activeEnemyPokemon) && BattleData.HasSubWeather(ref BattleData.enemySubWeather, "Aurora Veil") != null)
+                || (target.Equals(BattleWindow.instance.activePokemon) && BattleData.HasSubWeather(ref BattleData.playerSubWeather, "Aurora Veil") != null))
+            {
+                damage /= 2;
+                if (debugMove) Console.WriteLine($"  Damage reduced by Aurora Veil (by 1/2): {damage}");
+            }
+
 
             target.currHealth -= damage;
 
             if (move.recoil)
             {
                 currHealth -= damage / 2;
+                if (debugMove) Console.WriteLine($"  Damage taken by recoil (by 1/2): {damage/2}");
             }
 
             move.SpecialEffects();
@@ -291,6 +352,9 @@ namespace Pokemon_Simulator
             // TODO: different moves have different info that needs to be passed into the battle window, do something about it
             return (int)damage;
         }
+
+        #endregion
+
         public /*override*/ Move AICPU(bool PlayerFirstw)
         {
 
@@ -408,7 +472,7 @@ namespace Pokemon_Simulator
 
                 }
             }
-            return null;
+            return lastUsedMove;
         }
         void CommentModifier()
         {

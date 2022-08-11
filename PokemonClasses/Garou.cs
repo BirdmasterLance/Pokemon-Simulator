@@ -28,7 +28,7 @@ namespace Pokemon_Simulator.PokemonClasses
             moves.Add(new CloseCombat(this));
             moves.Add(new BulkUp(this));
             moves.Add(new ExtremeSpeed(this));
-            moves.Add(new SuckerPunch(this));
+            moves.Add(new Outrage(this));
         }
 
         public override object Clone()
